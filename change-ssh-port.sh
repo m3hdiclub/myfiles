@@ -1,6 +1,6 @@
 #!binbash
 
-apt install net-tools
+apt install net-tools -y
 
 nano /etc/ssh/sshd_config
 
