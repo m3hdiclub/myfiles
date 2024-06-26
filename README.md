@@ -56,6 +56,10 @@ bash <(curl -sL https://bit.ly/realityez)
 ```
 
 
+**h-ui jonssonyan**
+https://github.com/jonssonyan/h-ui
+
+
 **Install MTProto**
 https://github.com/seriyps/mtproto_proxy
 ```
