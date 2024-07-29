@@ -63,6 +63,10 @@ bash <(curl -sL https://bit.ly/realityez)
 https://github.com/jonssonyan/h-ui
 
 
+**XPanel-SSH-User-Management**
+https://github.com/xpanel-cp/XPanel-SSH-User-Management
+
+
 **Install MTProto**
 https://github.com/seriyps/mtproto_proxy
 ```
