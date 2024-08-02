@@ -64,20 +64,11 @@ https://github.com/hiddify/Hiddify-Manager
 bash <(curl i.hiddify.com/release)
 ```
 
-
-
-
 **h-ui jonssonyan**
 https://github.com/jonssonyan/h-ui
 
-
-
-
 **XPanel-SSH-User-Management**
 https://github.com/xpanel-cp/XPanel-SSH-User-Management
-
-
-
 
 **Install MTProto**
 https://github.com/seriyps/mtproto_proxy
