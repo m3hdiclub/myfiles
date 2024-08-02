@@ -61,7 +61,7 @@ bash <(curl -sL https://bit.ly/realityez)
 **Hiddify**
 https://github.com/hiddify/Hiddify-Manager
 ```
-[bash <(curl -sL https://bit.ly/realityez)](https://hiddify.com/manager/installation-and-setup/guide/)
+bash <(curl i.hiddify.com/release)
 ```
 
 
