@@ -145,36 +145,62 @@ change_ssh() {
 }
 
 ufw() {
-    echo "$(green "Installing UFW...")"
-    
-    # نصب بسته ufw
-    sudo apt install ufw -y
-    
-    # بررسی موفقیت نصب ufw
-    if [ $? -eq 0 ]; then
-        echo "$(green "UFW installed successfully.")"
+    while true; do
+        echo "$(green "Installing UFW...")"
         
-        echo "$(green "Configuring UFW...")"
+        # نصب بسته ufw
+        sudo apt install ufw -y
         
-        # باز کردن پورت‌های مورد نظر
-        sudo ufw allow 7710
-        sudo ufw allow 9877
-        sudo ufw allow 443
-        sudo ufw allow 8443
-        
-        # فعال کردن ufw
-        sudo ufw enable -y
-        
-        # بررسی موفقیت فعال‌سازی ufw
+        # بررسی موفقیت نصب ufw
         if [ $? -eq 0 ]; then
-            echo "$(green "UFW has been enabled successfully.")"
+            echo "$(green "UFW installed successfully.")"
+            
+            echo "$(green "Configuring UFW...")"
+            
+            # باز کردن پورت‌های مورد نظر
+            sudo ufw allow 7710
+            sudo ufw allow 9877
+            sudo ufw allow 443
+            sudo ufw allow 8443
+            
+            # بررسی موفقیت باز کردن پورت‌ها
+            if [ $? -eq 0 ]; then
+                echo "$(green "Ports configured successfully.")"
+                
+                echo "$(green "Enabling UFW...")"
+                
+                # فعال کردن ufw
+                sudo ufw enable -y
+                
+                # بررسی موفقیت فعال‌سازی ufw
+                if [ $? -eq 0 ]; then
+                    echo "$(green "UFW has been enabled successfully.")"
+                else
+                    echo "$(red "Failed to enable UFW.")"
+                fi
+            else
+                echo "$(red "Failed to configure ports.")"
+            fi
         else
-            echo "$(red "Failed to enable UFW.")"
+            echo "$(red "Failed to install UFW.")"
         fi
-    else
-        echo "$(red "Failed to install UFW.")"
-    fi
+
+        # بررسی وضعیت نصب
+        read -p "$(yellow "Is UFW setup correct? (y/n): ")" answer
+        case $answer in
+            y|Y)
+                echo "$(green "Returning to the menu...")"
+                break ;;
+            n|N)
+                echo "$(red "Reinstalling...")"
+                ;;
+            *)
+                echo "$(red "Invalid input. Please type y or n.")"
+                ;;
+        esac
+    done
 }
+
 
 s_ui() {
     echo "Executing S-UI..."
