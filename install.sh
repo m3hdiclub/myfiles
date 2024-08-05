@@ -47,7 +47,10 @@ display_main_menu() {
     echo
 	green "9. reality-ezpz          10. Hiddify"
     echo
+	green "11. XPanel				12. SSH [vfarid]"
+    echo
     echo "------------------------------------------------------"
+	echo
 	rred  "0. Exit"
 	echo
 }
@@ -378,6 +381,48 @@ hiddify() {
     done
 }
 
+xpanel() {
+    while true; do
+        echo "Executing XPanel..."
+        bash <(curl -Ls https://raw.githubusercontent.com/xpanel-cp/XPanel-SSH-User-Management/master/install.sh --ipv4)
+
+        # بررسی وضعیت نصب
+        read -p "$(yellow "Is the XPanel installed correctly? (y/n): ")" answer
+        case $answer in
+            y|Y)
+                echo "$(green "XPanel installation confirmed. Returning to the menu...")"
+                break ;;
+            n|N)
+                echo "$(red "Re-running XPanel installation...")"
+                ;;
+            *)
+                echo "$(red "Invalid input. Please type y or n.")"
+                ;;
+        esac
+    done
+}
+
+ssh_vfarid() {
+    while true; do
+        echo "Executing SSH vfarid..."
+        wget -O ssh-panel-install.sh https://raw.githubusercontent.com/vfarid/ssh-panel/main/install.sh && sudo sh ssh-panel-install.sh
+
+        # بررسی وضعیت نصب
+        read -p "$(yellow "Is the SSH vfarid installed correctly? (y/n): ")" answer
+        case $answer in
+            y|Y)
+                echo "$(green "SSH vfarid installation confirmed. Returning to the menu...")"
+                break ;;
+            n|N)
+                echo "$(red "Re-running SSH vfarid installation...")"
+                ;;
+            *)
+                echo "$(red "Invalid input. Please type y or n.")"
+                ;;
+        esac
+    done
+}
+
 exit_script() {
     echo "Exiting..."
     exit 0
@@ -398,6 +443,8 @@ while true; do
         8) x_ui_3x ;;
 		9) ezpz ;;
 		10) hiddify ;;
+		11) xpanel ;;
+		12) ssh_vfarid ;;
         0) exit_script ;;
         *) echo "$(red "Invalid option!")" ;;
     esac
