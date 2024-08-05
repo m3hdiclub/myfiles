@@ -35,15 +35,15 @@ display_main_menu() {
     echo
     yellow "-----------------INSTALL----------------------------"
     echo
-    green "1. UPDATE"
+    green "1. UPDATE                2. Change SSH  "
     echo
-    green "2. Change SSH            3. UFW"
+    green "3. Firewall              4. UFW [ ADD ]"
     echo
     yellow "--------------------Panels-----------------------------"
     echo
-    green "4. S-UI                  5. H-UI"
+    green "5. S-UI                  6. H-UI"
     echo
-    green "6. X-UI [3x]             7. X-UI [alireza]"
+    green "7. X-UI [3x]             8. X-UI [alireza]"
     echo
     rred  "0. Exit"
     echo "------------------------------------------------------"
@@ -201,6 +201,29 @@ ufw() {
     done
 }
 
+ufw_add() {
+    # درخواست ورودی برای پورت
+    read -p "$(yellow "Enter the port number to allow: ")" port
+    
+    # بررسی اینکه ورودی عددی است
+    if [[ $port =~ ^[0-9]+$ ]]; then
+        # اضافه کردن پورت به ufw
+        sudo ufw allow $port
+        
+        # بررسی موفقیت اجرای دستور
+        if [ $? -eq 0 ]; then
+            echo "$(green "Port $port has been added successfully.")"
+        else
+            echo "$(red "Failed to add port $port.")"
+        fi
+
+        # نمایش وضعیت فعلی ufw
+        echo "$(green "Current UFW status:")"
+        sudo ufw status
+    else
+        echo "$(red "Invalid port number. Please enter a valid number.")"
+    fi
+}
 
 s_ui() {
     echo "Executing S-UI..."
@@ -235,10 +258,11 @@ while true; do
         1) update ;;
         2) change_ssh ;;
         3) ufw ;;
-        4) s_ui ;;
-        5) h_ui ;;
-        6) x_ui_3x ;;
-        7) x_ui_alireza ;;
+		4) ufw_add ;;
+        5) s_ui ;;
+        6) h_ui ;;
+        7) x_ui_3x ;;
+        8) x_ui_alireza ;;
         0) exit_script ;;
         *) echo "$(red "Invalid option!")" ;;
     esac
