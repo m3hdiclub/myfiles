@@ -170,7 +170,7 @@ ufw() {
                 echo "$(green "Enabling UFW...")"
                 
                 # فعال کردن ufw
-                sudo ufw enable -y
+                sudo ufw enable
                 
                 # بررسی موفقیت فعال‌سازی ufw
                 if [ $? -eq 0 ]; then
