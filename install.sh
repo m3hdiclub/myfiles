@@ -43,10 +43,13 @@ display_main_menu() {
     echo
     green "5. S-UI                  6. H-UI"
     echo
-    green "7. X-UI [3x]             8. X-UI [alireza]"
+    green "7. X-UI [alireza]        8. X-UI [3x]"
     echo
-    rred  "0. Exit"
+	green "9. reality-ezpz          10. Hiddify"
+    echo
     echo "------------------------------------------------------"
+	rred  "0. Exit"
+	echo
 }
 
 # توابع برای اجرای دستورات مربوط به هر گزینه
@@ -333,6 +336,48 @@ x_ui_alireza() {
     done
 }
 
+ezpz() {
+    while true; do
+        echo "Executing reality-ezpz..."
+        bash <(curl -sL https://bit.ly/realityez)
+
+        # بررسی وضعیت نصب
+        read -p "$(yellow "Is the reality-ezpz installed correctly? (y/n): ")" answer
+        case $answer in
+            y|Y)
+                echo "$(green "reality-ezpz installation confirmed. Returning to the menu...")"
+                break ;;
+            n|N)
+                echo "$(red "Re-running reality-ezpz installation...")"
+                ;;
+            *)
+                echo "$(red "Invalid input. Please type y or n.")"
+                ;;
+        esac
+    done
+}
+
+hiddify() {
+    while true; do
+        echo "Executing Hiddify..."
+        bash <(curl i.hiddify.com/release)
+
+        # بررسی وضعیت نصب
+        read -p "$(yellow "Is the Hiddify installed correctly? (y/n): ")" answer
+        case $answer in
+            y|Y)
+                echo "$(green "Hiddify installation confirmed. Returning to the menu...")"
+                break ;;
+            n|N)
+                echo "$(red "Re-running Hiddify installation...")"
+                ;;
+            *)
+                echo "$(red "Invalid input. Please type y or n.")"
+                ;;
+        esac
+    done
+}
+
 exit_script() {
     echo "Exiting..."
     exit 0
@@ -349,8 +394,10 @@ while true; do
 		4) ufw_add ;;
         5) s_ui ;;
         6) h_ui ;;
-        7) x_ui_3x ;;
-        8) x_ui_alireza ;;
+        7) x_ui_alireza ;;
+        8) x_ui_3x ;;
+		9) ezpz ;;
+		10) hiddify ;;
         0) exit_script ;;
         *) echo "$(red "Invalid option!")" ;;
     esac
