@@ -202,40 +202,49 @@ ufw() {
 }
 
 ufw_add() {
-    # درخواست ورودی برای پورت
-    read -p "$(yellow "Enter the port number to allow: ")" port
-    
-    # بررسی اینکه ورودی عددی است
-    if [[ $port =~ ^[0-9]+$ ]]; then
-        # اضافه کردن پورت به ufw
-        sudo ufw allow $port
+    while true; do
+        # درخواست ورودی برای پورت
+        read -p "$(yellow "Enter the port number to allow: ")" port
         
-        # بررسی موفقیت اجرای دستور
-        if [ $? -eq 0 ]; then
-            echo "$(green "Port $port has been added successfully.")"
-        else
-            echo "$(red "Failed to add port $port.")"
-            # بازگشت به منو اصلی در صورت شکست
-            return
-        fi
+        # بررسی اینکه ورودی عددی است
+        if [[ $port =~ ^[0-9]+$ ]]; then
+            # اضافه کردن پورت به ufw
+            sudo ufw allow $port
+            
+            # بررسی موفقیت اجرای دستور
+            if [ $? -eq 0 ]; then
+                echo "$(green "Port $port has been added successfully.")"
+            else
+                echo "$(red "Failed to add port $port.")"
+                # ادامه یافتن در حلقه برای دریافت پورت جدید
+                continue
+            fi
 
-        # نمایش وضعیت فعلی ufw
-        echo "$(green "Current UFW status:")"
-        sudo ufw status
-        
-        # بررسی وضعیت نصب
-        read -p "$(yellow "Is the port addition correct? (y/n): ")" answer
-        case $answer in
-            y|Y)
-                echo "$(green "Port addition confirmed. Returning to the menu...")" ;;
-            n|N)
-                echo "$(red "Please recheck the configuration.")" ;;
-            *)
-                echo "$(red "Invalid input. Please type y or n.")" ;;
-        esac
-    else
-        echo "$(red "Invalid port number. Please enter a valid number.")"
-    fi
+            # نمایش وضعیت فعلی ufw
+            echo "$(green "Current UFW status:")"
+            sudo ufw status
+            
+            # بررسی وضعیت نصب
+            read -p "$(yellow "Is the port addition correct? (y/n): ")" answer
+            case $answer in
+                y|Y)
+                    echo "$(green "Port addition confirmed. Returning to the menu...")"
+                    break ;;
+                n|N)
+                    echo "$(yellow "Let's try adding another port.")"
+                    # ادامه یافتن در حلقه برای دریافت پورت جدید
+                    continue ;;
+                *)
+                    echo "$(red "Invalid input. Please type y or n.")"
+                    # ادامه یافتن در حلقه برای دریافت پورت جدید
+                    continue ;;
+            esac
+        else
+            echo "$(red "Invalid port number. Please enter a valid number.")"
+            # ادامه یافتن در حلقه برای دریافت پورت جدید
+            continue
+        fi
+    done
 }
 
 
