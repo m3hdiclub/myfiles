@@ -49,8 +49,24 @@ display_main_menu() {
 
 # توابع برای اجرای دستورات مربوط به هر گزینه
 update() {
-    echo "$(green "Updating system...")"
-    sudo apt update -y && sudo apt upgrade -y
+    while true; do
+        echo "$(green "Updating system...")"
+        sudo apt update -y && sudo apt upgrade -y
+
+        # بررسی وضعیت نصب
+        read -p "$(yellow "Is the script installed correctly? (y/n): ")" answer
+        case $answer in
+            y|Y)
+                echo "$(green "Returning to the menu...")"
+                break ;;
+            n|N)
+                echo "$(red "Reinstalling...")"
+                ;;
+            *)
+                echo "$(red "Invalid input. Please type y or n.")"
+                ;;
+        esac
+    done
 }
 
 update2() {
