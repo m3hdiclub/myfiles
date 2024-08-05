@@ -52,6 +52,7 @@ display_main_menu() {
 	yellow "--------------------Another-----------------------------"
 	echo
 	green "13. MTProxy"
+	echo
     echo "------------------------------------------------------"
 	echo
 	rred  "0. Exit"
