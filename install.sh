@@ -215,15 +215,29 @@ ufw_add() {
             echo "$(green "Port $port has been added successfully.")"
         else
             echo "$(red "Failed to add port $port.")"
+            # بازگشت به منو اصلی در صورت شکست
+            return
         fi
 
         # نمایش وضعیت فعلی ufw
         echo "$(green "Current UFW status:")"
         sudo ufw status
+        
+        # بررسی وضعیت نصب
+        read -p "$(yellow "Is the port addition correct? (y/n): ")" answer
+        case $answer in
+            y|Y)
+                echo "$(green "Port addition confirmed. Returning to the menu...")" ;;
+            n|N)
+                echo "$(red "Please recheck the configuration.")" ;;
+            *)
+                echo "$(red "Invalid input. Please type y or n.")" ;;
+        esac
     else
         echo "$(red "Invalid port number. Please enter a valid number.")"
     fi
 }
+
 
 s_ui() {
     echo "Executing S-UI..."
