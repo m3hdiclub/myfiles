@@ -1,5 +1,10 @@
 **Setup Server**
 
+**Mine**
+```
+bash <(curl -Ls https://raw.githubusercontent.com/m3hdiclub/myfiles/master/install.sh)
+```
+
 
 **Update**
 ```
