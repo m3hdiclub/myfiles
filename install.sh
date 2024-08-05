@@ -249,25 +249,88 @@ ufw_add() {
     done
 }
 
-
 s_ui() {
-    echo "Executing S-UI..."
-    # دستوراتی که مربوط به گزینه 4 هستند
+    while true; do
+        echo "Executing S-UI..."
+        bash <(curl -Ls https://raw.githubusercontent.com/alireza0/s-ui/master/install.sh)
+
+        # بررسی وضعیت نصب
+        read -p "$(yellow "Is the S-UI installed correctly? (y/n): ")" answer
+        case $answer in
+            y|Y)
+                echo "$(green "S-UI installation confirmed. Returning to the menu...")"
+                break ;;
+            n|N)
+                echo "$(red "Re-running S-UI installation...")"
+                ;;
+            *)
+                echo "$(red "Invalid input. Please type y or n.")"
+                ;;
+        esac
+    done
 }
 
 h_ui() {
-    echo "Executing H-UI..."
-    # دستوراتی که مربوط به گزینه 5 هستند
+    while true; do
+        echo "Executing H-UI..."
+        bash <(curl -fsSL https://raw.githubusercontent.com/jonssonyan/h-ui/main/install.sh)
+
+        # بررسی وضعیت نصب
+        read -p "$(yellow "Is the H-UI installed correctly? (y/n): ")" answer
+        case $answer in
+            y|Y)
+                echo "$(green "H-UI installation confirmed. Returning to the menu...")"
+                break ;;
+            n|N)
+                echo "$(red "Re-running H-UI installation...")"
+                ;;
+            *)
+                echo "$(red "Invalid input. Please type y or n.")"
+                ;;
+        esac
+    done
 }
 
 x_ui_3x() {
-    echo "Executing X-UI [3x]..."
-    # دستوراتی که مربوط به گزینه 6 هستند
+    while true; do
+        echo "Executing x-ui 3x..."
+        bash <(curl -Ls https://raw.githubusercontent.com/mhsanaei/3x-ui/master/install.sh)
+
+        # بررسی وضعیت نصب
+        read -p "$(yellow "Is the x-ui 3x installed correctly? (y/n): ")" answer
+        case $answer in
+            y|Y)
+                echo "$(green "x-ui 3x installation confirmed. Returning to the menu...")"
+                break ;;
+            n|N)
+                echo "$(red "Re-running x-ui 3x installation...")"
+                ;;
+            *)
+                echo "$(red "Invalid input. Please type y or n.")"
+                ;;
+        esac
+    done
 }
 
 x_ui_alireza() {
-    echo "Executing X-UI [alireza]..."
-    # دستوراتی که مربوط به گزینه 7 هستند
+    while true; do
+        echo "Executing x-ui alireza..."
+        bash <(curl -Ls https://raw.githubusercontent.com/alireza0/x-ui/master/install.sh)
+
+        # بررسی وضعیت نصب
+        read -p "$(yellow "Is the x-ui alireza installed correctly? (y/n): ")" answer
+        case $answer in
+            y|Y)
+                echo "$(green "x-ui alireza installation confirmed. Returning to the menu...")"
+                break ;;
+            n|N)
+                echo "$(red "Re-running x-ui alireza installation...")"
+                ;;
+            *)
+                echo "$(red "Invalid input. Please type y or n.")"
+                ;;
+        esac
+    done
 }
 
 exit_script() {
@@ -283,7 +346,7 @@ while true; do
         1) update ;;
         2) change_ssh ;;
         3) ufw ;;
-	4) ufw_add ;;
+		4) ufw_add ;;
         5) s_ui ;;
         6) h_ui ;;
         7) x_ui_3x ;;
