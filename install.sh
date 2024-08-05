@@ -469,7 +469,7 @@ while true; do
 		10) hiddify ;;
 		11) xpanel ;;
 		12) ssh_vfarid ;;
-		13) mtproxy
+		13) mtproxy ;;
         0) exit_script ;;
         *) echo "$(red "Invalid option!")" ;;
     esac
