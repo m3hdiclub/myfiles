@@ -70,8 +70,24 @@ update() {
 }
 
 update2() {
-    echo "Executing UPDATE2..."
-    # دستوراتی که مربوط به گزینه 2 هستند
+    while true; do
+        echo "$(green "Updating system...")"
+        sudo sh -c 'apt-get update; apt-get upgrade -y; apt-get dist-upgrade -y; apt-get autoremove -y; apt-get autoclean -y'
+
+        # بررسی وضعیت نصب
+        read -p "$(yellow "Is the script installed correctly? (y/n): ")" answer
+        case $answer in
+            y|Y)
+                echo "$(green "Returning to the menu...")"
+                break ;;
+            n|N)
+                echo "$(red "Reinstalling...")"
+                ;;
+            *)
+                echo "$(red "Invalid input. Please type y or n.")"
+                ;;
+        esac
+    done
 }
 
 s_ui() {
