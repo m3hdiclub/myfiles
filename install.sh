@@ -283,7 +283,7 @@ while true; do
         1) update ;;
         2) change_ssh ;;
         3) ufw ;;
-		4) ufw_add ;;
+	4) ufw_add ;;
         5) s_ui ;;
         6) h_ui ;;
         7) x_ui_3x ;;
