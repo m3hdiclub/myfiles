@@ -208,14 +208,16 @@ ufw_add() {
         
         # بررسی اینکه ورودی عددی است
         if [[ $port =~ ^[0-9]+$ ]]; then
-            # اضافه کردن پورت به ufw
-            sudo ufw allow $port
+            # اضافه کردن پورت به ufw و ذخیره خروجی در متغیر
+            output=$(sudo ufw allow $port 2>&1)
             
             # بررسی موفقیت اجرای دستور
-            if [ $? -eq 0 ]; then
+            if [[ $output == *"Rule added"* ]]; then
                 echo "$(green "Port $port has been added successfully.")"
+            elif [[ $output == *"Skipping adding existing rule"* ]]; then
+                echo "$(yellow "Port $port is already in the list.")"
             else
-                echo "$(red "Failed to add port $port.")"
+                echo "$(red "Failed to add port $port. Output: $output")"
                 # ادامه یافتن در حلقه برای دریافت پورت جدید
                 continue
             fi
