@@ -47,5 +47,54 @@ display_main_menu() {
     echo "------------------------------------------------------"
 }
 
-# فراخوانی تابع نمایش منو اصلی
-display_main_menu
+# توابع برای اجرای دستورات مربوط به هر گزینه
+update() {
+    echo "Executing UPDATE..."
+    # دستوراتی که مربوط به گزینه 1 هستند
+}
+
+update2() {
+    echo "Executing UPDATE2..."
+    # دستوراتی که مربوط به گزینه 2 هستند
+}
+
+s_ui() {
+    echo "Executing S-UI..."
+    # دستوراتی که مربوط به گزینه 3 هستند
+}
+
+h_ui() {
+    echo "Executing H-UI..."
+    # دستوراتی که مربوط به گزینه 4 هستند
+}
+
+x_ui_3x() {
+    echo "Executing X-UI [3x]..."
+    # دستوراتی که مربوط به گزینه 5 هستند
+}
+
+x_ui_alireza() {
+    echo "Executing X-UI [alireza]..."
+    # دستوراتی که مربوط به گزینه 6 هستند
+}
+
+exit_script() {
+    echo "Exiting..."
+    exit 0
+}
+
+# حلقه برای نمایش منو و دریافت ورودی از کاربر
+while true; do
+    display_main_menu
+    read -p "$(yellow "Select an option: ")" option
+    case $option in
+        1) update ;;
+        2) update2 ;;
+        3) s_ui ;;
+        4) h_ui ;;
+        5) x_ui_3x ;;
+        6) x_ui_alireza ;;
+        0) exit_script ;;
+        *) echo "$(red "Invalid option!")" ;;
+    esac
+done
