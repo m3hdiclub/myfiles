@@ -145,8 +145,35 @@ change_ssh() {
 }
 
 ufw() {
-    echo "Executing UFW..."
-    # دستوراتی که مربوط به گزینه 3 هستند
+    echo "$(green "Installing UFW...")"
+    
+    # نصب بسته ufw
+    sudo apt install ufw -y
+    
+    # بررسی موفقیت نصب ufw
+    if [ $? -eq 0 ]; then
+        echo "$(green "UFW installed successfully.")"
+        
+        echo "$(green "Configuring UFW...")"
+        
+        # باز کردن پورت‌های مورد نظر
+        sudo ufw allow 7710
+        sudo ufw allow 9877
+        sudo ufw allow 443
+        sudo ufw allow 8443
+        
+        # فعال کردن ufw
+        sudo ufw enable -y
+        
+        # بررسی موفقیت فعال‌سازی ufw
+        if [ $? -eq 0 ]; then
+            echo "$(green "UFW has been enabled successfully.")"
+        else
+            echo "$(red "Failed to enable UFW.")"
+        fi
+    else
+        echo "$(red "Failed to install UFW.")"
+    fi
 }
 
 s_ui() {
