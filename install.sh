@@ -49,8 +49,8 @@ display_main_menu() {
 
 # توابع برای اجرای دستورات مربوط به هر گزینه
 update() {
-    echo "Executing UPDATE..."
-    # دستوراتی که مربوط به گزینه 1 هستند
+    echo "$(green "Updating system...")"
+    sudo apt update -y && sudo apt upgrade -y
 }
 
 update2() {
