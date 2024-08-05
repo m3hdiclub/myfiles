@@ -33,7 +33,7 @@ display_main_menu() {
     white " Telegram: https://t.me/m3hdiclubsupport"
     echo
     echo
-    yellow "-----------------INSTALL----------------------------"
+    yellow "--------------------INSTALL----------------------------"
     echo
     green "1. UPDATE                2. Change SSH  "
     echo
@@ -49,6 +49,9 @@ display_main_menu() {
     echo
 	green "11. XPanel				12. SSH [vfarid]"
     echo
+	yellow "--------------------Another-----------------------------"
+	echo
+	green "13. MTProxy"
     echo "------------------------------------------------------"
 	echo
 	rred  "0. Exit"
@@ -257,7 +260,7 @@ ufw_add() {
 
 s_ui() {
     while true; do
-        echo "Executing S-UI..."
+        echo "Installing S-UI..."
         bash <(curl -Ls https://raw.githubusercontent.com/alireza0/s-ui/master/install.sh)
 
         # بررسی وضعیت نصب
@@ -278,7 +281,7 @@ s_ui() {
 
 h_ui() {
     while true; do
-        echo "Executing H-UI..."
+        echo "Installing H-UI..."
         bash <(curl -fsSL https://raw.githubusercontent.com/jonssonyan/h-ui/main/install.sh)
 
         # بررسی وضعیت نصب
@@ -299,7 +302,7 @@ h_ui() {
 
 x_ui_3x() {
     while true; do
-        echo "Executing x-ui 3x..."
+        echo "Installing x-ui 3x..."
         bash <(curl -Ls https://raw.githubusercontent.com/mhsanaei/3x-ui/master/install.sh)
 
         # بررسی وضعیت نصب
@@ -320,7 +323,7 @@ x_ui_3x() {
 
 x_ui_alireza() {
     while true; do
-        echo "Executing x-ui alireza..."
+        echo "Installing x-ui alireza..."
         bash <(curl -Ls https://raw.githubusercontent.com/alireza0/x-ui/master/install.sh)
 
         # بررسی وضعیت نصب
@@ -341,7 +344,7 @@ x_ui_alireza() {
 
 ezpz() {
     while true; do
-        echo "Executing reality-ezpz..."
+        echo "Installing reality-ezpz..."
         bash <(curl -sL https://bit.ly/realityez)
 
         # بررسی وضعیت نصب
@@ -362,7 +365,7 @@ ezpz() {
 
 hiddify() {
     while true; do
-        echo "Executing Hiddify..."
+        echo "Installing Hiddify..."
         bash <(curl i.hiddify.com/release)
 
         # بررسی وضعیت نصب
@@ -383,7 +386,7 @@ hiddify() {
 
 xpanel() {
     while true; do
-        echo "Executing XPanel..."
+        echo "Installing XPanel..."
         bash <(curl -Ls https://raw.githubusercontent.com/xpanel-cp/XPanel-SSH-User-Management/master/install.sh --ipv4)
 
         # بررسی وضعیت نصب
@@ -404,7 +407,7 @@ xpanel() {
 
 ssh_vfarid() {
     while true; do
-        echo "Executing SSH vfarid..."
+        echo "Installing SSH vfarid..."
         wget -O ssh-panel-install.sh https://raw.githubusercontent.com/vfarid/ssh-panel/main/install.sh && sudo sh ssh-panel-install.sh
 
         # بررسی وضعیت نصب
@@ -415,6 +418,27 @@ ssh_vfarid() {
                 break ;;
             n|N)
                 echo "$(red "Re-running SSH vfarid installation...")"
+                ;;
+            *)
+                echo "$(red "Invalid input. Please type y or n.")"
+                ;;
+        esac
+    done
+}
+
+mtproxy() {
+    while true; do
+        echo "Installing MTproto..."
+        curl -L -o mtp_install.sh https://git.io/fj5ru && bash mtp_install.sh
+
+        # بررسی وضعیت نصب
+        read -p "$(yellow "Is the MTproto installed correctly? (y/n): ")" answer
+        case $answer in
+            y|Y)
+                echo "$(green "MTproto installation confirmed. Returning to the menu...")"
+                break ;;
+            n|N)
+                echo "$(red "Re-running MTproto installation...")"
                 ;;
             *)
                 echo "$(red "Invalid input. Please type y or n.")"
@@ -445,6 +469,7 @@ while true; do
 		10) hiddify ;;
 		11) xpanel ;;
 		12) ssh_vfarid ;;
+		13) mtproxy
         0) exit_script ;;
         *) echo "$(red "Invalid option!")" ;;
     esac
