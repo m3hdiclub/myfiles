@@ -35,7 +35,7 @@ display_main_menu() {
     echo
     yellow "--------------------INSTALL----------------------------"
     echo
-    green "1. UPDATE                2. Change SSH  "
+    green "1. UPDATE                2. Change SSH Port"
     echo
     green "3. Firewall              4. UFW [ ADD ]"
     echo
@@ -51,7 +51,7 @@ display_main_menu() {
     echo
 	yellow "--------------------Another-----------------------------"
 	echo
-	green "13. MTProxy"
+	green "13. MTProxy				14. Add SSH"
 	echo
     echo "------------------------------------------------------"
 	echo
@@ -100,7 +100,7 @@ update() {
     done
 }
 
-change_ssh() {
+change_ssh_port() {
     while true; do
         echo "$(green "Installing net-tools...")"
         
@@ -448,6 +448,53 @@ mtproxy() {
     done
 }
 
+add_ssh() {
+    while true; do
+        clear
+        echo "$(yellow "SSH User Management")"
+        echo
+        echo "$(green "1. Add SSH User")"
+        echo "$(green "2. Remove SSH User")"
+        echo "$(green "3. List SSH Users")"
+        echo "$(rred "0. Back to Main Menu")"
+        echo
+        read -p "$(yellow "Select an option: ")" option
+        case $option in
+            1) add_ssh_user ;;
+            2) remove_ssh_user ;;
+            3) list_ssh_users ;;
+            0) break ;;
+            *) echo "$(red "Invalid option. Please try again.")" ;;
+        esac
+    done
+}
+
+add_ssh_user() {
+    read -p "$(yellow "Enter new SSH username: ")" username
+    if id "$username" &>/dev/null; then
+        echo "$(red "User '$username' already exists.")"
+    else
+        sudo adduser "$username"
+        echo "$(green "User '$username' added successfully.")"
+    fi
+}
+
+remove_ssh_user() {
+    read -p "$(yellow "Enter SSH username to remove: ")" username
+    if id "$username" &>/dev/null; then
+        sudo deluser "$username"
+        sudo rm -rf /home/"$username"
+        echo "$(green "User '$username' removed successfully.")"
+    else
+        echo "$(red "User '$username' does not exist.")"
+    fi
+}
+
+list_ssh_users() {
+    echo "$(green "Listing SSH users:")"
+    awk -F: '{ print $1}' /etc/passwd
+}
+
 exit_script() {
     echo "Exiting..."
     exit 0
@@ -459,7 +506,7 @@ while true; do
     read -p "$(yellow "Select an option: ")" option
     case $option in
         1) update ;;
-        2) change_ssh ;;
+        2) change_ssh_port ;;
         3) ufw ;;
 		4) ufw_add ;;
         5) s_ui ;;
@@ -471,6 +518,7 @@ while true; do
 		11) xpanel ;;
 		12) ssh_vfarid ;;
 		13) mtproxy ;;
+		14) add_ssh ;;
         0) exit_script ;;
         *) echo "$(red "Invalid option!")" ;;
     esac
