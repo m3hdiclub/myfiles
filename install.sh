@@ -47,11 +47,11 @@ display_main_menu() {
     echo
 	green "9. reality-ezpz          10. Hiddify"
     echo
-	green "11. XPanel				12. SSH [vfarid]"
+	green "11. XPanel			12. SSH [vfarid]"
     echo
 	yellow "--------------------Another-----------------------------"
 	echo
-	green "13. MTProxy				14. Add SSH"
+	green "13. MTProxy			14. Add SSH"
 	echo
     echo "------------------------------------------------------"
 	echo
