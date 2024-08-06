@@ -479,6 +479,9 @@ add_ssh_user() {
             sudo adduser --shell /usr/sbin/nologin "$username"
             echo "$(green "User '$username' added successfully with nologin shell.")"
 
+            # ذخیره نام کاربر در فایل
+            echo "$username" >> /etc/ssh_custom_users
+
             # درخواست برای بازگشت به منو یا اضافه کردن کاربر دیگر
             read -p "$(yellow "User '$username' added. Do you want to return to the menu? (y/n): ")" choice
             case $choice in
@@ -491,16 +494,57 @@ add_ssh_user() {
 }
 
 
-
 remove_ssh_user() {
-    read -p "$(yellow "Enter SSH username to remove: ")" username
-    if id "$username" &>/dev/null; then
-        sudo deluser "$username"
-        sudo rm -rf /home/"$username"
-        echo "$(green "User '$username' removed successfully.")"
-    else
-        echo "$(red "User '$username' does not exist.")"
-    fi
+    while true; do
+        echo "$(green "Listing SSH users created with add_ssh_user:")"
+
+        # چک کردن وجود فایل و لیست کردن کاربران
+        if [ ! -f /etc/ssh_custom_users ]; then
+            echo "$(yellow "No custom SSH users found.")"
+            break
+        fi
+
+        users=$(cat /etc/ssh_custom_users)
+
+        if [ -z "$users" ]; then
+            echo "$(yellow "No custom SSH users found.")"
+            break
+        else
+            echo "0) Return to previous menu"
+            i=1
+            for user in $users; do
+                echo "$i) $user"
+                ((i++))
+            done
+
+            # انتخاب کاربر برای حذف یا بازگشت به منو
+            read -p "$(yellow "Select a user to remove or '0' to return: ")" selection
+            if [ "$selection" -eq 0 ]; then
+                break
+            elif [ "$selection" -ge 1 ] && [ "$selection" -lt "$i" ]; then
+                username=$(echo "$users" | sed -n "${selection}p")
+                # درخواست تایید حذف کاربر
+                read -p "$(yellow "Do you want to remove user '$username'? (y/n): ")" choice
+                case $choice in
+                    y|Y)
+                        sudo deluser "$username"
+                        sudo rm -rf /home/"$username"
+                        echo "$(green "User '$username' removed successfully.")"
+                        # حذف نام کاربر از فایل
+                        sed -i "/^$username$/d" /etc/ssh_custom_users
+                        ;;
+                    n|N)
+                        echo "$(green "User '$username' was not removed.")"
+                        ;;
+                    *)
+                        echo "$(red "Invalid input. Please type y or n.")"
+                        ;;
+                esac
+            else
+                echo "$(red "Invalid selection. Please choose a valid option.")"
+            fi
+        fi
+    done
 }
 
 list_ssh_users() {
