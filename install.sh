@@ -45,18 +45,18 @@ display_main_menu() {
     echo
     green "7. X-UI [alireza]        8. X-UI [3x]"
     echo
-	green "9. reality-ezpz          10. Hiddify"
+    green "9. reality-ezpz          10. Hiddify"
     echo
-	green "11. XPanel			12. SSH [vfarid]"
+    green "11. XPanel            12. SSH [vfarid]"
     echo
-	yellow "--------------------Another-----------------------------"
-	echo
-	green "13. MTProxy			14. Add SSH"
-	echo
+    yellow "--------------------Another-----------------------------"
+    echo
+    green "13. MTProxy           14. Add SSH"
+    echo
     echo "------------------------------------------------------"
-	echo
-	rred  "0. Exit"
-	echo
+    echo
+    rred  "0. Exit"
+    echo
 }
 
 # توابع برای اجرای دستورات مربوط به هر گزینه
