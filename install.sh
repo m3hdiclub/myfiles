@@ -474,10 +474,12 @@ add_ssh_user() {
     if id "$username" &>/dev/null; then
         echo "$(red "User '$username' already exists.")"
     else
-        sudo adduser "$username"
-        echo "$(green "User '$username' added successfully.")"
+        # اضافه کردن کاربر جدید با شل nologin
+        sudo adduser --shell /usr/sbin/nologin "$username"
+        echo "$(green "User '$username' added successfully with nologin shell.")"
     fi
 }
+
 
 remove_ssh_user() {
     read -p "$(yellow "Enter SSH username to remove: ")" username
