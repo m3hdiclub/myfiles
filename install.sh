@@ -475,12 +475,14 @@ add_ssh_user() {
         if id "$username" &>/dev/null; then
             echo "$(red "User '$username' already exists.")"
         else
-            # اضافه کردن کاربر جدید با شل nologin
-            sudo adduser --shell /usr/sbin/nologin "$username"
+            read -p "$(yellow "Enter full name for '$username': ")" fullname
+            read -p "$(yellow "Enter password for '$username': ")" password
+            # اضافه کردن کاربر جدید با شل nologin و نام کامل
+            sudo adduser --shell /usr/sbin/nologin --gecos "$fullname" "$username"
             echo "$(green "User '$username' added successfully with nologin shell.")"
 
-            # ذخیره نام کاربر در فایل
-            echo "$username" >> /etc/ssh_custom_users
+            # ذخیره نام کاربر و اطلاعات در فایل
+            echo "$username:$fullname:$password" >> /etc/ssh_custom_users_info
 
             # درخواست برای بازگشت به منو یا اضافه کردن کاربر دیگر
             read -p "$(yellow "User '$username' added. Do you want to return to the menu? (y/n): ")" choice
@@ -494,6 +496,7 @@ add_ssh_user() {
 }
 
 
+
 remove_ssh_user() {
     while true; do
         echo "$(green "Listing SSH users created with add_ssh_user:")"
@@ -501,7 +504,7 @@ remove_ssh_user() {
         # چک کردن وجود فایل و لیست کردن کاربران
         if [ ! -f /etc/ssh_custom_users ] || [ ! -s /etc/ssh_custom_users ]; then
             echo "$(yellow "No custom SSH users found.")"
-            read -p "$(yellow "Press any key to return to the menu...")"
+            read -p "$(yellow "Press Enter to return to the menu...")"
             break
         fi
 
@@ -544,9 +547,43 @@ remove_ssh_user() {
 }
 
 list_ssh_users() {
-    echo "$(green "Listing SSH users:")"
-    awk -F: '{ print $1}' /etc/passwd
+    while true; do
+        echo "$(green "Listing SSH users created with add_ssh_user:")"
+
+        # چک کردن وجود فایل و لیست کردن کاربران
+        if [ ! -f /etc/ssh_custom_users_info ] || [ ! -s /etc/ssh_custom_users_info ]; then
+            echo "$(yellow "No custom SSH users found.")"
+            read -p "$(yellow "Press Enter to return to the menu...")"
+            break
+        fi
+
+        users=$(awk -F: '{print $1}' /etc/ssh_custom_users_info)
+        echo "0) Return to previous menu"
+        i=1
+        for user in $users; do
+            echo "$i) $user"
+            ((i++))
+        done
+
+        # انتخاب کاربر برای مشاهده اطلاعات یا بازگشت به منو
+        read -p "$(yellow "Select a user to view details or '0' to return: ")" selection
+        if [ "$selection" -eq 0 ]; then
+            break
+        elif [ "$selection" -ge 1 ] && [ "$selection" -lt "$i" ]; then
+            user_info=$(sed -n "${selection}p" /etc/ssh_custom_users_info)
+            username=$(echo "$user_info" | cut -d: -f1)
+            fullname=$(echo "$user_info" | cut -d: -f2)
+            password=$(echo "$user_info" | cut -d: -f3)
+            echo "$(green "Details for user '$username':")"
+            echo "Full Name: $fullname"
+            echo "Password: $password"
+            read -p "$(yellow "Press Enter to return to the list...")"
+        else
+            echo "$(red "Invalid selection. Please choose a valid option.")"
+        fi
+    done
 }
+
 
 exit_script() {
     echo "Exiting..."
