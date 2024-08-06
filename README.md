@@ -4,6 +4,10 @@
 ```
 bash <(curl -Ls https://raw.githubusercontent.com/m3hdiclub/myfiles/master/install.sh)
 ```
+or
+```
+bash <(curl -Ls https://bit.ly/m3hdiclub-install)
+```
 
 
 **Update**
