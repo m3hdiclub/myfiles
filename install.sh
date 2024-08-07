@@ -453,34 +453,15 @@ mtproxy() {
 }
 
 marzban() {
-    # تعریف تابع برای اجرای دستور ایجاد کاربر مدیر پس از دریافت سیگنال SIGINT
-    cleanup() {
-        echo "$(green "CTRL + C detected. Executing next script...")"
-        # ایجاد کاربر مدیر با استفاده از CLI
-        echo "$(green "Creating admin user for Marzban...")"
-        marzban cli admin create --sudo
-        exit 0
-    }
-
-    # تنظیم trap برای دریافت سیگنال SIGINT
-    trap cleanup SIGINT
-
     while true; do
-        # اجرای اسکریپت نصب Marzban
-        echo "$(green "Installing Marzban...")"
+        echo "Installing Marzban"
         sudo bash -c "$(curl -sL https://github.com/Gozargah/Marzban-scripts/raw/master/marzban.sh)" @ install
 
-        # توقف برای اجرای دستور بعدی
-        echo "$(yellow "Installation process running. Press CTRL + C to continue to the next step.")"
-
-        # این خط به اجرای مداوم سرور اجازه می‌دهد تا زمانی که CTRL + C فشرده شود
-        sleep infinity
-
         # بررسی وضعیت نصب
-        read -p "$(yellow "Is Marzban installed and configured correctly? (y/n): ")" answer
+        read -p "$(yellow "Is the Marzban installed correctly? (y/n): ")" answer
         case $answer in
             y|Y)
-                echo "$(green "Marzban installation and configuration confirmed. Returning to the menu...")"
+                echo "$(yellow "Marzban installation is complete. Type marzban cli admin create --sudo to continue to the next step.")"
                 break ;;
             n|N)
                 echo "$(red "Re-running Marzban installation...")"
@@ -491,7 +472,6 @@ marzban() {
         esac
     done
 }
-
 
 
 add_ssh() {
