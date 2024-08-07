@@ -293,8 +293,11 @@ h_ui() {
         read -p "$(yellow "Is the H-UI installed correctly? (y/n): ")" answer
         case $answer in
             y|Y)
-                echo "$(green "H-UI installation confirmed. Returning to the menu...")"
-                break ;;
+				echo "$(green "Please visit http://$server_ip:8081/")"
+				echo "$(green "User & Pass = sysadmin")"
+				read -p "$(yellow "Press Enter to return to the menu...")"
+				echo "$(green "Returning to the menu...")"
+				;;
             n|N)
                 echo "$(red "Re-running H-UI installation...")"
                 ;;
