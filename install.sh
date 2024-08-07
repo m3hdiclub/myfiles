@@ -455,47 +455,61 @@ mtproxy() {
 marzban() {
     while true; do
         clear
-        echo "$(bblue "Marzban Menu")"
-        echo
-        echo "$(green "1. Install")"
+        echo "$(yellow "Marzban Management Menu")"
+        echo "$(green "1. Install Marzban")"
         echo "$(green "2. Add Admin")"
-        echo "$(green "3. Delete")"
+        echo "$(green "3. Delete Marzban")"
         echo "$(rred "0. Back to Main Menu")"
-        echo
-        
         read -p "$(yellow "Select an option: ")" marzban_option
+
         case $marzban_option in
-            1) 
+            1)
                 echo "Installing Marzban..."
                 sudo bash -c "$(curl -sL https://github.com/Gozargah/Marzban-scripts/raw/master/marzban.sh)" @ install
+                if [ $? -eq 0 ]; then
+                    echo "$(green "Marzban installed successfully.")"
+                else
+                    echo "$(red "Failed to install Marzban.")"
+                fi
                 ;;
-            2) 
-                echo "Adding Admin..."
-                marzban cli admin create --sudo
+            2)
+                add_admin
                 ;;
             3)
-                echo "Deleting Marzban..."
-                marzban uninstall
+                delete_marzban
                 ;;
-            0) 
-                break ;;
-            *) 
-                echo "$(red "Invalid option. Please try again.")" ;;
-        esac
-        
-        # بررسی وضعیت نصب یا تغییرات
-        read -p "$(yellow "Do you want to perform another action? (y/n): ")" answer
-        case $answer in
-            y|Y)
-                continue ;;
-            n|N)
-                echo "$(green "Returning to the main menu...")"
-                break ;;
+            0)
+                break
+                ;;
             *)
-                echo "$(red "Invalid input. Please type y or n.")" ;;
+                echo "$(red "Invalid option. Please try again.")"
+                ;;
         esac
     done
 }
+
+
+add_admin() {
+    echo "Adding admin..."
+    marzban cli admin create --sudo
+    if [ $? -eq 0 ]; then
+        echo "$(green "Admin added successfully.")"
+    else
+        echo "$(red "Failed to add admin.")"
+    fi
+}
+
+
+delete_marzban() {
+    echo "Uninstalling Marzban..."
+    marzban uninstall
+    if [ $? -eq 0 ]; then
+        echo "$(green "Marzban uninstalled successfully.")"
+    else
+        echo "$(red "Failed to uninstall Marzban.")"
+    fi
+}
+
 
 
 
