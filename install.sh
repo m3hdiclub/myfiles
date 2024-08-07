@@ -454,24 +454,49 @@ mtproxy() {
 
 marzban() {
     while true; do
-        echo "Installing Marzban"
-        sudo bash -c "$(curl -sL https://github.com/Gozargah/Marzban-scripts/raw/master/marzban.sh)" @ install
-
-        # بررسی وضعیت نصب
-        read -p "$(yellow "Is the Marzban installed correctly? (y/n): ")" answer
+        clear
+        echo "$(bblue "Marzban Menu")"
+        echo
+        echo "$(green "1. Install")"
+        echo "$(green "2. Add Admin")"
+        echo "$(green "3. Delete")"
+        echo "$(rred "0. Back to Main Menu")"
+        echo
+        
+        read -p "$(yellow "Select an option: ")" marzban_option
+        case $marzban_option in
+            1) 
+                echo "Installing Marzban..."
+                sudo bash -c "$(curl -sL https://github.com/Gozargah/Marzban-scripts/raw/master/marzban.sh)" @ install
+                ;;
+            2) 
+                echo "Adding Admin..."
+                marzban cli admin create --sudo
+                ;;
+            3)
+                echo "Deleting Marzban..."
+                marzban uninstall
+                ;;
+            0) 
+                break ;;
+            *) 
+                echo "$(red "Invalid option. Please try again.")" ;;
+        esac
+        
+        # بررسی وضعیت نصب یا تغییرات
+        read -p "$(yellow "Do you want to perform another action? (y/n): ")" answer
         case $answer in
             y|Y)
-                echo "$(yellow "Marzban installation is complete. Type marzban cli admin create --sudo to continue to the next step.")"
-                break ;;
+                continue ;;
             n|N)
-                echo "$(red "Re-running Marzban installation...")"
-                ;;
+                echo "$(green "Returning to the main menu...")"
+                break ;;
             *)
-                echo "$(red "Invalid input. Please type y or n.")"
-                ;;
+                echo "$(red "Invalid input. Please type y or n.")" ;;
         esac
     done
 }
+
 
 
 add_ssh() {
