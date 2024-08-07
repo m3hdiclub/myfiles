@@ -500,17 +500,25 @@ add_admin() {
 
     marzban cli admin create --sudo
 
+    # دریافت IP سرور
+    server_ip=$(hostname -I | awk '{print $1}')
+
     read -p "$(yellow "Was the Add Admin successful? (y/n): ")" answer
     case $answer in
         y|Y)
-            echo "$(green "Returning to the Add Admin menu...")" ;;
+            echo "$(green "Please visit http://$server_ip:8000/dashboard/")"
+            read -p "$(yellow "Press Enter to return to the Add Admin menu...")"
+            echo "$(green "Returning to the Add Admin menu...")"
+            ;;
         n|N)
             echo "$(red "Re-running Add Admin...")"
             add_admin ;;
         *)
-            echo "$(red "Invalid input. Please type y or n.")" ;;
+            echo "$(red "Invalid input. Please type y or n.")"
+            add_admin ;;
     esac
 }
+
 
 delete_marzban() {
     while true; do
