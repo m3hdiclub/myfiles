@@ -53,6 +53,8 @@ display_main_menu() {
     echo
     green "13. MTProxy              14. Add SSH"
     echo
+    green "15. SpeedTest"
+    echo
     echo "------------------------------------------------------"
     echo
     rred  "0. Exit"
@@ -583,6 +585,49 @@ list_ssh_users() {
     done
 }
 
+speedtest() {
+    while true; do
+        echo "$(green "Installing Speedtest CLI...")"
+
+        # اضافه کردن کلید GPG و مخزن Speedtest CLI
+        curl -s https://packagecloud.io/install/repositories/ookla/speedtest-cli/script.deb.sh | sudo bash
+
+        # بررسی موفقیت اضافه کردن مخزن
+        if [ $? -eq 0 ]; then
+            echo "$(green "Repository added successfully. Installing Speedtest CLI...")"
+            
+            # نصب Speedtest CLI
+            sudo apt install speedtest -y
+
+            # بررسی موفقیت نصب Speedtest CLI
+            if [ $? -eq 0 ]; then
+                echo "$(green "Speedtest CLI installed successfully.")"
+                echo "$(green "Running Speedtest...")"
+                
+                # اجرای Speedtest
+                speedtest
+                
+                # بررسی وضعیت نصب
+                read -p "$(yellow "Was the Speedtest successful? (y/n): ")" answer
+                case $answer in
+                    y|Y)
+                        echo "$(green "Speedtest successful. Returning to the menu...")"
+                        break ;;
+                    n|N)
+                        echo "$(red "Re-running Speedtest...")"
+                        ;;
+                    *)
+                        echo "$(red "Invalid input. Please type y or n.")"
+                        ;;
+                esac
+            else
+                echo "$(red "Failed to install Speedtest CLI.")"
+            fi
+        else
+            echo "$(red "Failed to add repository.")"
+        fi
+    done
+}
 
 
 exit_script() {
@@ -609,6 +654,7 @@ while true; do
 		12) ssh_vfarid ;;
 		13) mtproxy ;;
 		14) add_ssh ;;
+		15) speedtest ;;
         0) exit_script ;;
         *) echo "$(red "Invalid option!")" ;;
     esac
