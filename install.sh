@@ -49,11 +49,13 @@ display_main_menu() {
     echo
     green "11. XPanel               12. SSH [vfarid]"
     echo
+    green "13. Marzban"
+    echo
     yellow "--------------------Another-----------------------------"
     echo
-    green "13. MTProxy              14. Add SSH"
+    green "14. MTProxy              15. Add SSH"
     echo
-    green "15. SpeedTest"
+    green "16. SpeedTest"
     echo
     echo "------------------------------------------------------"
     echo
@@ -450,6 +452,37 @@ mtproxy() {
     done
 }
 
+marzban() {
+    while true; do
+        # اجرای اسکریپت نصب Marzban
+        echo "$(green "Installing Marzban...")"
+        sudo bash -c "$(curl -sL https://github.com/Gozargah/Marzban-scripts/raw/master/marzban.sh)" @ install
+
+        # توقف برای اجرای دستور بعدی
+        echo "$(yellow "Please press CTRL + C to exit the installation process when prompted.")"
+        read -p "$(yellow "Press Enter to continue...")"
+
+        # ایجاد کاربر مدیر با استفاده از CLI
+        echo "$(green "Creating admin user for Marzban...")"
+        marzban cli admin create --sudo
+
+        # بررسی وضعیت نصب
+        read -p "$(yellow "Is Marzban installed and configured correctly? (y/n): ")" answer
+        case $answer in
+            y|Y)
+                echo "$(green "Marzban installation and configuration confirmed. Returning to the menu...")"
+                break ;;
+            n|N)
+                echo "$(red "Re-running Marzban installation...")"
+                ;;
+            *)
+                echo "$(red "Invalid input. Please type y or n.")"
+                ;;
+        esac
+    done
+}
+
+
 add_ssh() {
     while true; do
         clear
@@ -719,9 +752,10 @@ while true; do
 		10) hiddify ;;
 		11) xpanel ;;
 		12) ssh_vfarid ;;
-		13) mtproxy ;;
-		14) add_ssh ;;
-		15) speedtest_menu ;;
+		13) marzban ;;
+		14) mtproxy ;;
+		15) add_ssh ;;
+		16) speedtest_menu ;;
         0) exit_script ;;
         *) echo "$(red "Invalid option!")" ;;
     esac
