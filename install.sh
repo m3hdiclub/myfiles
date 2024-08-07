@@ -452,66 +452,92 @@ mtproxy() {
     done
 }
 
-marzban() {
+marzban_menu() {
     while true; do
         clear
-        echo "$(yellow "Marzban Management Menu")"
+        echo "$(bblue "Marzban Menu")"
+        echo
         echo "$(green "1. Install Marzban")"
         echo "$(green "2. Add Admin")"
         echo "$(green "3. Delete Marzban")"
-        echo "$(rred "0. Back to Main Menu")"
-        read -p "$(yellow "Select an option: ")" marzban_option
+        echo "$(red "0. Back to Main Menu")"
+        echo
 
+        read -p "$(yellow "Select an option: ")" marzban_option
         case $marzban_option in
-            1)
-                echo "Installing Marzban..."
-                sudo bash -c "$(curl -sL https://github.com/Gozargah/Marzban-scripts/raw/master/marzban.sh)" @ install
-                if [ $? -eq 0 ]; then
-                    echo "$(green "Marzban installed successfully.")"
-                else
-                    echo "$(red "Failed to install Marzban.")"
-                fi
-                ;;
-            2)
-                add_admin
-                ;;
-            3)
-                delete_marzban
-                ;;
-            0)
-                break
+            1) install_marzban ;;
+            2) add_admin ;;
+            3) delete_marzban ;;
+            0) break ;;
+            *) echo "$(red "Invalid option. Please select a valid option.")" ;;
+        esac
+    done
+}
+
+install_marzban() {
+    while true; do
+        echo "Installing Marzban..."
+        sudo bash -c "$(curl -sL https://github.com/Gozargah/Marzban-scripts/raw/master/marzban.sh)" @ install
+
+        # بررسی وضعیت نصب
+        read -p "$(yellow "Is the Marzban installed correctly? (y/n): ")" answer
+        case $answer in
+            y|Y)
+                echo "$(green "Marzban installation confirmed. Returning to the menu...")"
+                break ;;
+            n|N)
+                echo "$(red "Re-running Marzban installation...")"
                 ;;
             *)
-                echo "$(red "Invalid option. Please try again.")"
+                echo "$(red "Invalid input. Please type y or n.")"
                 ;;
         esac
     done
 }
 
-
 add_admin() {
-    echo "Adding admin..."
-    marzban cli admin create --sudo
-    if [ $? -eq 0 ]; then
-        echo "$(green "Admin added successfully.")"
-    else
-        echo "$(red "Failed to add admin.")"
-    fi
-}
+    echo "$(green "Add Admin...")"
 
+    marzban cli admin create --sudo
+
+    read -p "$(yellow "Was the Add Admin successful? (y/n): ")" answer
+    case $answer in
+        y|Y)
+            echo "$(green "Returning to the Add Admin menu...")" ;;
+        n|N)
+            echo "$(red "Re-running Add Admin...")"
+            add_admin ;;
+        *)
+            echo "$(red "Invalid input. Please type y or n.")" ;;
+    esac
+}
 
 delete_marzban() {
-    echo "Uninstalling Marzban..."
-    marzban uninstall
-    if [ $? -eq 0 ]; then
-        echo "$(green "Marzban uninstalled successfully.")"
-    else
-        echo "$(red "Failed to uninstall Marzban.")"
-    fi
+    while true; do
+        echo "$(red "Uninstalling Marzban...")"
+        
+        marzban uninstall
+
+        if [ $? -eq 0 ]; then
+            echo "$(green "Marzban removed successfully.")"
+        else
+            echo "$(red "Failed to remove Marzban")"
+        fi
+
+        read -p "$(yellow "Was the removal successful? (y/n): ")" answer
+        case $answer in
+            y|Y)
+                echo "$(green "Returning to the Marzban menu...")"
+                break ;;
+            n|N)
+                echo "$(red "Re-running removal process...")"
+                ;;
+            *)
+                echo "$(red "Invalid input. Please type y or n.")"
+                ;;
+        esac
+    done
 }
-
-
-
 
 add_ssh() {
     while true; do
@@ -782,7 +808,7 @@ while true; do
 		10) hiddify ;;
 		11) xpanel ;;
 		12) ssh_vfarid ;;
-		13) marzban ;;
+		13) marzban_menu ;;
 		14) mtproxy ;;
 		15) add_ssh ;;
 		16) speedtest_menu ;;
