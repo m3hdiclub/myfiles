@@ -585,7 +585,29 @@ list_ssh_users() {
     done
 }
 
-speedtest() {
+speedtest_menu() {
+    while true; do
+        clear
+        echo "$(bblue "SpeedTest Menu")"
+        echo
+        echo "$(green "1. Install SpeedTest CLI")"
+        echo "$(green "2. Run SpeedTest")"
+        echo "$(green "3. Delete SpeedTest CLI")"
+        echo "$(red "0. Back to Main Menu")"
+        echo
+
+        read -p "$(yellow "Select an option: ")" speedtest_option
+        case $speedtest_option in
+            1) install_speedtest ;;
+            2) run_speedtest ;;
+            3) delete_speedtest ;;
+            0) break ;;
+            *) echo "$(red "Invalid option. Please select a valid option.")" ;;
+        esac
+    done
+}
+
+install_speedtest() {
     while true; do
         echo "$(green "Installing Speedtest CLI...")"
 
@@ -602,30 +624,75 @@ speedtest() {
             # بررسی موفقیت نصب Speedtest CLI
             if [ $? -eq 0 ]; then
                 echo "$(green "Speedtest CLI installed successfully.")"
-                echo "$(green "Running Speedtest...")"
-                
-                # اجرای Speedtest
-                speedtest
-                
-                # بررسی وضعیت نصب
-                read -p "$(yellow "Was the Speedtest successful? (y/n): ")" answer
-                case $answer in
-                    y|Y)
-                        echo "$(green "Speedtest successful. Returning to the menu...")"
-                        break ;;
-                    n|N)
-                        echo "$(red "Re-running Speedtest...")"
-                        ;;
-                    *)
-                        echo "$(red "Invalid input. Please type y or n.")"
-                        ;;
-                esac
             else
                 echo "$(red "Failed to install Speedtest CLI.")"
             fi
         else
             echo "$(red "Failed to add repository.")"
         fi
+
+        # بررسی وضعیت نصب
+        read -p "$(yellow "Was the installation successful? (y/n): ")" answer
+        case $answer in
+            y|Y)
+                echo "$(green "Returning to the SpeedTest menu...")"
+                break ;;
+            n|N)
+                echo "$(red "Reinstalling Speedtest CLI...")"
+                ;;
+            *)
+                echo "$(red "Invalid input. Please type y or n.")"
+                ;;
+        esac
+    done
+}
+
+run_speedtest() {
+    echo "$(green "Running Speedtest...")"
+
+    # اجرای Speedtest
+    speedtest
+
+    # بررسی وضعیت اجرای تست سرعت
+    read -p "$(yellow "Was the Speedtest successful? (y/n): ")" answer
+    case $answer in
+        y|Y)
+            echo "$(green "Returning to the SpeedTest menu...")" ;;
+        n|N)
+            echo "$(red "Re-running Speedtest...")"
+            run_speedtest ;;
+        *)
+            echo "$(red "Invalid input. Please type y or n.")" ;;
+    esac
+}
+
+delete_speedtest() {
+    while true; do
+        echo "$(red "Removing Speedtest CLI...")"
+        
+        # حذف Speedtest CLI
+        sudo apt remove --purge speedtest -y
+
+        # بررسی موفقیت حذف Speedtest CLI
+        if [ $? -eq 0 ]; then
+            echo "$(green "Speedtest CLI removed successfully.")"
+        else
+            echo "$(red "Failed to remove Speedtest CLI.")"
+        fi
+
+        # بررسی وضعیت حذف
+        read -p "$(yellow "Was the removal successful? (y/n): ")" answer
+        case $answer in
+            y|Y)
+                echo "$(green "Returning to the SpeedTest menu...")"
+                break ;;
+            n|N)
+                echo "$(red "Re-running removal process...")"
+                ;;
+            *)
+                echo "$(red "Invalid input. Please type y or n.")"
+                ;;
+        esac
     done
 }
 
@@ -654,7 +721,7 @@ while true; do
 		12) ssh_vfarid ;;
 		13) mtproxy ;;
 		14) add_ssh ;;
-		15) speedtest ;;
+		15) speedtest_menu ;;
         0) exit_script ;;
         *) echo "$(red "Invalid option!")" ;;
     esac
