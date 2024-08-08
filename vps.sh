@@ -908,6 +908,11 @@ delete_speedtest() {
     done
 }
 
+exit_script() {
+    echo "Exiting..."
+    exit 0
+}
+
 menu() {
     while true; do
         # نمایش منو با استفاده از whiptail
