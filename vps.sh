@@ -633,10 +633,10 @@ marzban_menu() {
         # Use whiptail to display the Marzban menu
         marzban_option=$(whiptail --title "Marzban Menu" \
             --menu "Select an option:" 15 60 4 \
-            "1" "Install Marzban" \
+            "1" "Install" \
             "2" "Add Admin" \
-            "3" "Delete Marzban" \
-            "0" "Back to Main Menu" 3>&1 1>&2 2>&3)
+            "3" "Delete" \
+            "0" "Back" 3>&1 1>&2 2>&3)
 
         # Check the exit status of whiptail to determine user choice
         if [ $? -eq 0 ]; then
