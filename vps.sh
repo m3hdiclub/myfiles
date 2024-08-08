@@ -175,7 +175,6 @@ ufw() {
             "4" "Disable UFW" \
             "5" "Delete Port" \
             "6" "Status" \
-            "0" "Back" 3>&1 1>&2 2>&3)
 
         # Check the exit status of whiptail to determine user choice
         if [ $? -eq 0 ]; then
@@ -267,10 +266,6 @@ ufw() {
                     ufw_status=$(sudo ufw status)
                     whiptail --title "UFW Status" --msgbox "$ufw_status" 20 70
                     ;;
-                0)
-                    echo "$(green "Returning to the main menu...")"
-                    break
-                    ;;
                 *)
                     whiptail --title "Invalid Option" --msgbox "Please select a valid option." 8 45
                     ;;
@@ -290,7 +285,6 @@ s_ui() {
             "1" "Install" \
             "2" "Custom Install" \
             "3" "Delete" \
-            "0" "Back" 3>&1 1>&2 2>&3)
 
         # Check the exit status of whiptail to determine user choice
         if [ $? -eq 0 ]; then
@@ -334,10 +328,6 @@ s_ui() {
                     else
                         whiptail --title "Try Again" --msgbox "Please try uninstalling again." 8 60
                     fi
-                    ;;
-                0)
-                    whiptail --title "Return to Main Menu" 8 60
-                    break
                     ;;
                 *)
                     whiptail --title "Invalid Option" --msgbox "Please select a valid option." 8 45
@@ -385,7 +375,6 @@ x_ui_3x() {
             "1" "Install" \
             "2" "Custom Install" \
             "3" "Delete" \
-            "0" "Back" 3>&1 1>&2 2>&3)
 
         # Check the exit status of whiptail to determine user choice
         if [ $? -eq 0 ]; then
@@ -430,10 +419,6 @@ x_ui_3x() {
                         whiptail --title "Try Again" --msgbox "Please try uninstalling again." 8 60
                     fi
                     ;;
-                0)
-                    whiptail --title "Return to Main Menu" 8 60
-                    break
-                    ;;
                 *)
                     whiptail --title "Invalid Option" --msgbox "Please select a valid option." 8 45
                     ;;
@@ -453,7 +438,6 @@ x_ui_alireza() {
             "1" "Install" \
             "2" "Custom Install" \
             "3" "Delete" \
-            "0" "Back" 3>&1 1>&2 2>&3)
 
         # Check the exit status of whiptail to determine user choice
         if [ $? -eq 0 ]; then
@@ -497,10 +481,6 @@ x_ui_alireza() {
                     else
                         whiptail --title "Try Again" --msgbox "Please try uninstalling again." 8 60
                     fi
-                    ;;
-                0)
-                    whiptail --title "Return to Main Menu" 8 60
-                    break
                     ;;
                 *)
                     whiptail --title "Invalid Option" --msgbox "Please select a valid option." 8 45
@@ -636,7 +616,6 @@ marzban_menu() {
             "1" "Install" \
             "2" "Add Admin" \
             "3" "Delete" \
-            "0" "Back" 3>&1 1>&2 2>&3)
 
         # Check the exit status of whiptail to determine user choice
         if [ $? -eq 0 ]; then
@@ -644,7 +623,6 @@ marzban_menu() {
                 1) install_marzban ;;
                 2) add_admin ;;
                 3) delete_marzban ;;
-                0) break ;;
                 *) whiptail --title "Invalid Option" --msgbox "Invalid option. Please select a valid option." 8 60 ;;
             esac
         else
@@ -719,14 +697,12 @@ add_ssh() {
             "1" "Add" \
             "2" "Remove" \
             "3" "List" \
-            "0" "Back" 3>&1 1>&2 2>&3)
 
         if [ $? -eq 0 ]; then
             case $option in
                 1) add_ssh_user ;;
                 2) remove_ssh_user ;;
                 3) list_ssh_users ;;
-                0) break ;;
                 *) whiptail --title "Invalid Option" --msgbox "Invalid option. Please try again." 8 60 ;;
             esac
         else
@@ -845,14 +821,12 @@ speedtest_menu() {
             "1" "Install" \
             "2" "Run" \
             "3" "Delete" \
-            "0" "Back" 3>&1 1>&2 2>&3)
 
         if [ $? -eq 0 ]; then
             case $option in
                 1) install_speedtest ;;
                 2) run_speedtest ;;
                 3) delete_speedtest ;;
-                0) break ;;
                 *) whiptail --title "Invalid Option" --msgbox "Invalid option. Please select a valid option." 8 60 ;;
             esac
         else
@@ -934,13 +908,6 @@ delete_speedtest() {
     done
 }
 
-
-
-exit_script() {
-    echo "Exiting..."
-    exit 0
-}
-
 menu() {
     while true; do
         # نمایش منو با استفاده از whiptail
@@ -962,7 +929,6 @@ menu() {
             "13" "MTProxy" \
             "14" "Add SSH" \
             "15" "SpeedTest" \
-            "0" "Exit" 3>&1 1>&2 2>&3)
 
         # بررسی نتیجه فرمان whiptail
         if [ $? -eq 0 ]; then
@@ -1012,9 +978,6 @@ menu() {
                     ;;
                 15)
                     speedtest_menu
-                    ;;
-                0)
-                    exit_script
                     ;;
                 *)
                     whiptail --title "Invalid Option" --msgbox "Please select a valid option." 8 60
