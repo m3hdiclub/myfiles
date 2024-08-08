@@ -90,6 +90,7 @@ update() {
 
         # بررسی وضعیت نصب
         read -p "$(yellow "Is the script installed correctly? (y/n): ")" answer
+		answer=${answer:-Y}
         case $answer in
             y|Y)
                 echo "$(green "Returning to the menu...")"
@@ -144,6 +145,7 @@ change_ssh_port() {
 
         # بررسی وضعیت نصب
         read -p "$(yellow "Is the SSH configuration correct? (y/n): ")" answer
+		answer=${answer:-Y}
         case $answer in
             y|Y)
                 echo "$(green "Returning to the menu...")"
@@ -201,6 +203,7 @@ ufw() {
 
         # بررسی وضعیت نصب
         read -p "$(yellow "Is UFW setup correct? (y/n): ")" answer
+		answer=${answer:-Y}
         case $answer in
             y|Y)
                 echo "$(green "Returning to the menu...")"
@@ -242,6 +245,7 @@ ufw_add() {
             
             # بررسی وضعیت نصب
             read -p "$(yellow "Is the port addition correct? (y/n): ")" answer
+			answer=${answer:-Y}
             case $answer in
                 y|Y)
                     echo "$(green "Port addition confirmed. Returning to the menu...")"
@@ -270,6 +274,7 @@ s_ui() {
 
         # بررسی وضعیت نصب
         read -p "$(yellow "Is the S-UI installed correctly? (y/n): ")" answer
+		answer=${answer:-Y}
         case $answer in
             y|Y)
                 echo "$(green "S-UI installation confirmed. Returning to the menu...")"
@@ -291,6 +296,7 @@ h_ui() {
 
         # بررسی وضعیت نصب
         read -p "$(yellow "Is the H-UI installed correctly? (y/n): ")" answer
+		answer=${answer:-Y}
         case $answer in
             y|Y)
 				echo "$(green "Please visit http://$server_ip:8081/")"
@@ -315,6 +321,7 @@ x_ui_3x() {
 
         # بررسی وضعیت نصب
         read -p "$(yellow "Is the x-ui 3x installed correctly? (y/n): ")" answer
+		answer=${answer:-Y}
         case $answer in
             y|Y)
                 echo "$(green "x-ui 3x installation confirmed. Returning to the menu...")"
@@ -336,6 +343,7 @@ x_ui_alireza() {
 
         # بررسی وضعیت نصب
         read -p "$(yellow "Is the x-ui alireza installed correctly? (y/n): ")" answer
+		answer=${answer:-Y}
         case $answer in
             y|Y)
                 echo "$(green "x-ui alireza installation confirmed. Returning to the menu...")"
@@ -357,6 +365,7 @@ ezpz() {
 
         # بررسی وضعیت نصب
         read -p "$(yellow "Is the reality-ezpz installed correctly? (y/n): ")" answer
+		answer=${answer:-Y}
         case $answer in
             y|Y)
                 echo "$(green "reality-ezpz installation confirmed. Returning to the menu...")"
@@ -378,6 +387,7 @@ hiddify() {
 
         # بررسی وضعیت نصب
         read -p "$(yellow "Is the Hiddify installed correctly? (y/n): ")" answer
+		answer=${answer:-Y}
         case $answer in
             y|Y)
                 echo "$(green "Hiddify installation confirmed. Returning to the menu...")"
@@ -399,6 +409,7 @@ xpanel() {
 
         # بررسی وضعیت نصب
         read -p "$(yellow "Is the XPanel installed correctly? (y/n): ")" answer
+		answer=${answer:-Y}
         case $answer in
             y|Y)
                 echo "$(green "XPanel installation confirmed. Returning to the menu...")"
@@ -420,6 +431,7 @@ ssh_vfarid() {
 
         # بررسی وضعیت نصب
         read -p "$(yellow "Is the SSH vfarid installed correctly? (y/n): ")" answer
+		answer=${answer:-Y}
         case $answer in
             y|Y)
                 echo "$(green "SSH vfarid installation confirmed. Returning to the menu...")"
@@ -441,6 +453,7 @@ mtproxy() {
 
         # بررسی وضعیت نصب
         read -p "$(yellow "Is the MTproto installed correctly? (y/n): ")" answer
+		answer=${answer:-Y}
         case $answer in
             y|Y)
                 echo "$(green "MTproto installation confirmed. Returning to the menu...")"
@@ -484,6 +497,7 @@ install_marzban() {
 
         # بررسی وضعیت نصب
         read -p "$(yellow "Is the Marzban installed correctly? (y/n): ")" answer
+		answer=${answer:-Y}
         case $answer in
             y|Y)
                 echo "$(green "Marzban installation confirmed. Returning to the menu...")"
@@ -507,6 +521,7 @@ add_admin() {
     server_ip=$(hostname -I | awk '{print $1}')
 
     read -p "$(yellow "Was the Add Admin successful? (y/n): ")" answer
+	answer=${answer:-Y}
     case $answer in
         y|Y)
             echo "$(green "Please visit http://$server_ip:8000/dashboard/")"
@@ -536,6 +551,7 @@ delete_marzban() {
         fi
 
         read -p "$(yellow "Was the removal successful? (y/n): ")" answer
+		answer=${answer:-Y}
         case $answer in
             y|Y)
                 echo "$(green "Returning to the Marzban menu...")"
@@ -733,6 +749,7 @@ install_speedtest() {
 
         # بررسی وضعیت نصب
         read -p "$(yellow "Was the installation successful? (y/n): ")" answer
+		answer=${answer:-Y}
         case $answer in
             y|Y)
                 echo "$(green "Returning to the SpeedTest menu...")"
@@ -755,6 +772,7 @@ run_speedtest() {
 
     # بررسی وضعیت اجرای تست سرعت
     read -p "$(yellow "Was the Speedtest successful? (y/n): ")" answer
+	answer=${answer:-Y}
     case $answer in
         y|Y)
             echo "$(green "Returning to the SpeedTest menu...")" ;;
@@ -782,6 +800,7 @@ delete_speedtest() {
 
         # بررسی وضعیت حذف
         read -p "$(yellow "Was the removal successful? (y/n): ")" answer
+		answer=${answer:-Y}
         case $answer in
             y|Y)
                 echo "$(green "Returning to the SpeedTest menu...")"
