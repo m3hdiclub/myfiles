@@ -173,28 +173,32 @@ ufw() {
             
             echo "$(green "Configuring UFW...")"
             
-            # باز کردن پورت‌های مورد نظر
-            sudo ufw allow 7710
-            sudo ufw allow 443
-            sudo ufw allow 8443
-            
-            # بررسی موفقیت باز کردن پورت‌ها
-            if [ $? -eq 0 ]; then
-                echo "$(green "Ports configured successfully.")"
-                
-                echo "$(green "Enabling UFW...")"
-                
-                # فعال کردن ufw
-                sudo ufw enable
-                
-                # بررسی موفقیت فعال‌سازی ufw
-                if [ $? -eq 0 ]; then
-                    echo "$(green "UFW has been enabled successfully.")"
+            # باز کردن پورت‌های مورد نظر و نمایش پیام برای هر کدام
+            PORTS=(7710 443 8443)
+            for PORT in "${PORTS[@]}"; do
+                # بررسی اینکه آیا پورت قبلاً اجازه داده شده است
+                if sudo ufw status | grep -q "$PORT.*ALLOW"; then
+                    echo "$(yellow "Port $PORT is already allowed.")"
                 else
-                    echo "$(red "Failed to enable UFW.")"
+                    sudo ufw allow $PORT
+                    if [ $? -eq 0 ]; then
+                        echo "$(green "Port $PORT has been allowed successfully.")"
+                    else
+                        echo "$(red "Failed to allow port $PORT.")"
+                    fi
                 fi
+            done
+            
+            echo "$(green "Enabling UFW...")"
+            
+            # فعال کردن ufw
+            sudo ufw enable
+            
+            # بررسی موفقیت فعال‌سازی ufw
+            if [ $? -eq 0 ]; then
+                echo "$(green "UFW has been enabled successfully.")"
             else
-                echo "$(red "Failed to configure ports.")"
+                echo "$(red "Failed to enable UFW.")"
             fi
         else
             echo "$(red "Failed to install UFW.")"
@@ -202,7 +206,7 @@ ufw() {
 
         # بررسی وضعیت نصب
         read -p "$(yellow "Is UFW setup correct? (y/n): ")" answer
-		answer=${answer:-Y}
+        answer=${answer:-Y}
         case $answer in
             y|Y)
                 echo "$(green "Returning to the menu...")"
@@ -216,6 +220,8 @@ ufw() {
         esac
     done
 }
+
+
 
 ufw_add() {
     while true; do
