@@ -657,7 +657,8 @@ marzban_menu() {
 install_marzban() {
     while true; do
         whiptail --title "Installing Marzban" --msgbox "Installing Marzban..." 8 45
-        sudo bash -c "$(curl -sL https://github.com/Gozargah/Marzban-scripts/raw/master/marzban.sh)" @ install
+        clear
+		sudo bash -c "$(curl -sL https://github.com/Gozargah/Marzban-scripts/raw/master/marzban.sh)" @ install
 
         # Check installation status
         install_status=$(whiptail --title "Installation Status" --yesno "Is the Marzban installed correctly?" 8 60 3>&1 1>&2 2>&3)
@@ -672,7 +673,7 @@ install_marzban() {
 
 add_admin() {
     whiptail --title "Add Admin" --msgbox "Adding Admin..." 8 45
-
+	clear
     marzban cli admin create --sudo
 
     # Get server IP
@@ -691,7 +692,7 @@ add_admin() {
 delete_marzban() {
     while true; do
         whiptail --title "Uninstalling Marzban" --msgbox "Uninstalling Marzban..." 8 60
-        
+        clear
         marzban uninstall
 
         if [ $? -eq 0 ]; then
@@ -866,7 +867,8 @@ install_speedtest() {
         whiptail --title "Installing Speedtest CLI" --msgbox "Installing Speedtest CLI..." 8 45
 
         # Add GPG key and Speedtest repository
-        curl -s https://packagecloud.io/install/repositories/ookla/speedtest-cli/script.deb.sh | sudo bash
+        clear
+		curl -s https://packagecloud.io/install/repositories/ookla/speedtest-cli/script.deb.sh | sudo bash
 
         if [ $? -eq 0 ]; then
             whiptail --title "Repository Added" --msgbox "Repository added successfully. Installing Speedtest CLI..." 8 60
@@ -895,7 +897,8 @@ install_speedtest() {
 
 run_speedtest() {
     whiptail --title "Running Speedtest" --msgbox "Running Speedtest..." 8 45
-    speedtest
+    clear
+	speedtest
 
     # Check test status
     answer=$(whiptail --yesno "Was the Speedtest successful?" 8 60 3>&1 1>&2 2>&3)
@@ -911,7 +914,7 @@ run_speedtest() {
 delete_speedtest() {
     while true; do
         whiptail --title "Removing Speedtest CLI" --msgbox "Removing Speedtest CLI..." 8 60
-        
+        clear
         sudo apt remove --purge speedtest -y
 
         if [ $? -eq 0 ]; then
