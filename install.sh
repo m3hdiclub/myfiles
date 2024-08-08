@@ -170,6 +170,7 @@ ufw() {
         echo "$(green "3. Enable")"
         echo "$(green "4. Disable")"
         echo "$(green "5. Delete Port")"
+		echo "$(green "6. Status")"
         echo "$(red "0. Back to Main Menu")"
 		echo
 		
@@ -239,6 +240,15 @@ ufw() {
                     fi
                 done
                 ;;
+			6)  # status
+                echo "$(green "status...")"
+                sudo ufw status
+                if [ $? -eq 0 ]; then
+                    echo "$(green "UFW port Enable: ")"
+                else
+                    echo "$(red "Failed to show")"
+                fi
+                ;;	
             0)
                 echo "$(green "Returning to the main menu...")"
                 break
