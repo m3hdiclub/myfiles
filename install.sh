@@ -175,7 +175,6 @@ ufw() {
             
             # باز کردن پورت‌های مورد نظر
             sudo ufw allow 7710
-            sudo ufw allow 9877
             sudo ufw allow 443
             sudo ufw allow 8443
             
