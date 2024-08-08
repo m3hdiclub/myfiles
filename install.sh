@@ -260,7 +260,7 @@ s_ui() {
         echo "1. Install"
         echo "2. Custom Install"
         echo "3. Delete"
-		echo "$(red "0. Back to Main Menu")"
+        echo "$(red "0. Back to Main Menu")"
 
         # خواندن گزینه کاربر
         read -p "Enter your choice: " choice
@@ -278,7 +278,7 @@ s_ui() {
             3)
                 echo "Uninstalling S-UI..."
                 s-ui uninstall
-                
+
                 # بررسی وضعیت حذف
                 read -p "Was the S-UI uninstalled correctly? (y/n): " answer
                 answer=${answer:-Y}
@@ -290,12 +290,15 @@ s_ui() {
                     n|N)
                         echo "Please try uninstalling again."
                         ;;
-			
-			0)
+                    *)
+                        echo "Invalid input. Please type y or n."
+                        ;;
+                esac
+                ;;
+            0)
                 echo "$(green "Returning to the main menu...")"
                 break
                 ;;
-				
             *)
                 echo "Invalid choice. Please select 1, 2, 3 or 0."
                 continue
@@ -324,6 +327,7 @@ s_ui() {
         fi
     done
 }
+
 
 h_ui() {
     while true; do
@@ -356,7 +360,7 @@ x_ui_3x() {
         echo "1. Install"
         echo "2. Custom Install"
         echo "3. Delete"
-		echo "$(red "0. Back to Main Menu")"
+        echo "$(red "0. Back to Main Menu")"
 
         # خواندن گزینه کاربر
         read -p "Enter your choice: " choice
@@ -374,7 +378,7 @@ x_ui_3x() {
             3)
                 echo "Uninstalling x-ui 3x..."
                 x-ui uninstall
-                
+
                 # بررسی وضعیت حذف
                 read -p "Was the x-ui 3x uninstalled correctly? (y/n): " answer
                 answer=${answer:-Y}
@@ -386,12 +390,15 @@ x_ui_3x() {
                     n|N)
                         echo "Please try uninstalling again."
                         ;;
-			
-			0)
+                    *)
+                        echo "Invalid input. Please type y or n."
+                        ;;
+                esac
+                ;;
+            0)
                 echo "$(green "Returning to the main menu...")"
                 break
                 ;;
-				
             *)
                 echo "Invalid choice. Please select 1, 2, 3 or 0."
                 continue
@@ -421,13 +428,14 @@ x_ui_3x() {
     done
 }
 
+
 x_ui_alireza() {
     while true; do
         echo "Please select an option:"
         echo "1. Install"
         echo "2. Custom Install"
         echo "3. Delete"
-		echo "$(red "0. Back to Main Menu")"
+        echo "$(red "0. Back to Main Menu")"
 
         # خواندن گزینه کاربر
         read -p "Enter your choice: " choice
@@ -445,7 +453,7 @@ x_ui_alireza() {
             3)
                 echo "Uninstalling x-ui alireza..."
                 x-ui uninstall
-                
+
                 # بررسی وضعیت حذف
                 read -p "Was the x-ui alireza uninstalled correctly? (y/n): " answer
                 answer=${answer:-Y}
@@ -457,12 +465,15 @@ x_ui_alireza() {
                     n|N)
                         echo "Please try uninstalling again."
                         ;;
-			
-			0)
+                    *)
+                        echo "Invalid input. Please type y or n."
+                        ;;
+                esac
+                ;;
+            0)
                 echo "$(green "Returning to the main menu...")"
                 break
                 ;;
-				
             *)
                 echo "Invalid choice. Please select 1, 2, 3 or 0."
                 continue
@@ -491,6 +502,7 @@ x_ui_alireza() {
         fi
     done
 }
+
 
 ezpz() {
     while true; do
