@@ -165,11 +165,11 @@ ufw() {
 		clear
         echo "$(bblue "UFW Menu")"
         echo
-        echo "1. Install"
-        echo "2. Add Port"
-        echo "3. Enable"
-        echo "4. Disable"
-        echo "5. Delete Port"
+        echo "$(green "1. Install")"
+        echo "$(green "2. Add Port")"
+        echo "$(green "3. Enable")"
+        echo "$(green "4. Disable")"
+        echo "$(green "5. Delete Port")"
         echo "$(red "0. Back to Main Menu")"
 		echo
 		
