@@ -256,23 +256,72 @@ ufw() {
 
 s_ui() {
     while true; do
-        echo "Installing S-UI..."
-        bash <(curl -Ls https://raw.githubusercontent.com/alireza0/s-ui/master/install.sh)
+        echo "Please select an option:"
+        echo "1. Install"
+        echo "2. Custom Install"
+        echo "3. Delete"
+		echo "$(red "0. Back to Main Menu")"
 
-        # بررسی وضعیت نصب
-        read -p "$(yellow "Is the S-UI installed correctly? (y/n): ")" answer
-		answer=${answer:-Y}
-        case $answer in
-            y|Y)
-                echo "$(green "S-UI installation confirmed. Returning to the menu...")"
-                break ;;
-            n|N)
-                echo "$(red "Re-running S-UI installation...")"
+        # خواندن گزینه کاربر
+        read -p "Enter your choice: " choice
+
+        case $choice in
+            1)
+                echo "Installing S-UI..."
+                bash <(curl -Ls https://raw.githubusercontent.com/alireza0/s-ui/master/install.sh)
                 ;;
+            2)
+                read -p "Enter a number for custom installation: " number
+                echo "Performing custom installation with number $number..."
+                bash <(curl -Ls https://raw.githubusercontent.com/alireza0/s-ui/master/install.sh) $number
+                ;;
+            3)
+                echo "Uninstalling S-UI..."
+                s-ui uninstall
+                
+                # بررسی وضعیت حذف
+                read -p "Was the S-UI uninstalled correctly? (y/n): " answer
+                answer=${answer:-Y}
+                case $answer in
+                    y|Y)
+                        echo "S-UI uninstallation confirmed. Returning to the menu..."
+                        continue
+                        ;;
+                    n|N)
+                        echo "Please try uninstalling again."
+                        ;;
+			
+			0)
+                echo "$(green "Returning to the main menu...")"
+                break
+                ;;
+				
             *)
-                echo "$(red "Invalid input. Please type y or n.")"
+                echo "Invalid choice. Please select 1, 2, 3 or 0."
+                continue
                 ;;
         esac
+
+        # بررسی وضعیت نصب پس از اجرای دستور اول یا دوم
+        if [[ $choice -eq 1 || $choice -eq 2 ]]; then
+            read -p "Is the S-UI installed correctly? (y/n): " answer
+            answer=${answer:-Y}
+            case $answer in
+                y|Y)
+                    echo "S-UI installation confirmed. Exiting..."
+                    break
+                    ;;
+                n|N)
+                    echo "Re-running the installation..."
+                    ;;
+                *)
+                    echo "Invalid input. Please type y or n."
+                    ;;
+            esac
+        else
+            # در صورت انتخاب گزینه سوم، از حلقه خارج شویم
+            break
+        fi
     done
 }
 
@@ -303,45 +352,143 @@ h_ui() {
 
 x_ui_3x() {
     while true; do
-        echo "Installing x-ui 3x..."
-        bash <(curl -Ls https://raw.githubusercontent.com/mhsanaei/3x-ui/master/install.sh)
+        echo "Please select an option:"
+        echo "1. Install"
+        echo "2. Custom Install"
+        echo "3. Delete"
+		echo "$(red "0. Back to Main Menu")"
 
-        # بررسی وضعیت نصب
-        read -p "$(yellow "Is the x-ui 3x installed correctly? (y/n): ")" answer
-		answer=${answer:-Y}
-        case $answer in
-            y|Y)
-                echo "$(green "x-ui 3x installation confirmed. Returning to the menu...")"
-                break ;;
-            n|N)
-                echo "$(red "Re-running x-ui 3x installation...")"
+        # خواندن گزینه کاربر
+        read -p "Enter your choice: " choice
+
+        case $choice in
+            1)
+                echo "Installing x-ui 3x..."
+                bash <(curl -Ls https://raw.githubusercontent.com/mhsanaei/3x-ui/master/install.sh)
                 ;;
+            2)
+                read -p "Enter a number for custom installation: " number
+                echo "Performing custom installation with number $number..."
+                bash <(curl -Ls https://raw.githubusercontent.com/mhsanaei/3x-ui/master/install.sh) $number
+                ;;
+            3)
+                echo "Uninstalling x-ui 3x..."
+                x-ui uninstall
+                
+                # بررسی وضعیت حذف
+                read -p "Was the x-ui 3x uninstalled correctly? (y/n): " answer
+                answer=${answer:-Y}
+                case $answer in
+                    y|Y)
+                        echo "x-ui 3x uninstallation confirmed. Returning to the menu..."
+                        continue
+                        ;;
+                    n|N)
+                        echo "Please try uninstalling again."
+                        ;;
+			
+			0)
+                echo "$(green "Returning to the main menu...")"
+                break
+                ;;
+				
             *)
-                echo "$(red "Invalid input. Please type y or n.")"
+                echo "Invalid choice. Please select 1, 2, 3 or 0."
+                continue
                 ;;
         esac
+
+        # بررسی وضعیت نصب پس از اجرای دستور اول یا دوم
+        if [[ $choice -eq 1 || $choice -eq 2 ]]; then
+            read -p "Is the x-ui 3x installed correctly? (y/n): " answer
+            answer=${answer:-Y}
+            case $answer in
+                y|Y)
+                    echo "x-ui 3x installation confirmed. Exiting..."
+                    break
+                    ;;
+                n|N)
+                    echo "Re-running the installation..."
+                    ;;
+                *)
+                    echo "Invalid input. Please type y or n."
+                    ;;
+            esac
+        else
+            # در صورت انتخاب گزینه سوم، از حلقه خارج شویم
+            break
+        fi
     done
 }
 
 x_ui_alireza() {
     while true; do
-        echo "Installing x-ui alireza..."
-        bash <(curl -Ls https://raw.githubusercontent.com/alireza0/x-ui/master/install.sh)
+        echo "Please select an option:"
+        echo "1. Install"
+        echo "2. Custom Install"
+        echo "3. Delete"
+		echo "$(red "0. Back to Main Menu")"
 
-        # بررسی وضعیت نصب
-        read -p "$(yellow "Is the x-ui alireza installed correctly? (y/n): ")" answer
-		answer=${answer:-Y}
-        case $answer in
-            y|Y)
-                echo "$(green "x-ui alireza installation confirmed. Returning to the menu...")"
-                break ;;
-            n|N)
-                echo "$(red "Re-running x-ui alireza installation...")"
+        # خواندن گزینه کاربر
+        read -p "Enter your choice: " choice
+
+        case $choice in
+            1)
+                echo "Installing x-ui alireza..."
+                bash <(curl -Ls https://raw.githubusercontent.com/alireza0/x-ui/master/install.sh)
                 ;;
+            2)
+                read -p "Enter a number for custom installation: " number
+                echo "Performing custom installation with number $number..."
+                bash <(curl -Ls https://raw.githubusercontent.com/alireza0/x-ui/master/install.sh) $number
+                ;;
+            3)
+                echo "Uninstalling x-ui alireza..."
+                x-ui uninstall
+                
+                # بررسی وضعیت حذف
+                read -p "Was the x-ui alireza uninstalled correctly? (y/n): " answer
+                answer=${answer:-Y}
+                case $answer in
+                    y|Y)
+                        echo "x-ui alireza uninstallation confirmed. Returning to the menu..."
+                        continue
+                        ;;
+                    n|N)
+                        echo "Please try uninstalling again."
+                        ;;
+			
+			0)
+                echo "$(green "Returning to the main menu...")"
+                break
+                ;;
+				
             *)
-                echo "$(red "Invalid input. Please type y or n.")"
+                echo "Invalid choice. Please select 1, 2, 3 or 0."
+                continue
                 ;;
         esac
+
+        # بررسی وضعیت نصب پس از اجرای دستور اول یا دوم
+        if [[ $choice -eq 1 || $choice -eq 2 ]]; then
+            read -p "Is the x-ui alireza installed correctly? (y/n): " answer
+            answer=${answer:-Y}
+            case $answer in
+                y|Y)
+                    echo "x-ui alireza installation confirmed. Exiting..."
+                    break
+                    ;;
+                n|N)
+                    echo "Re-running the installation..."
+                    ;;
+                *)
+                    echo "Invalid input. Please type y or n."
+                    ;;
+            esac
+        else
+            # در صورت انتخاب گزینه سوم، از حلقه خارج شویم
+            break
+        fi
     done
 }
 
