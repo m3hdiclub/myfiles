@@ -30,7 +30,7 @@ display_main_menu() {
     bblue "                 ██║ ╚═╝ ██║███████╗██║  ██║██████ ║ ██║            "
     bblue "                 ╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝ ╚═════╝ ╚═╝             "
     white "------------------------------------------------------------------"
-    white " Telegram: https://t.me/m3hdiclubsupport"
+    red " Telegram: https://t.me/m3hdiclubsupport"
     echo
     echo
     yellow "--------------------INSTALL----------------------------"
@@ -162,16 +162,19 @@ change_ssh_port() {
 
 ufw() {
     while true; do
-        echo "Select an option:"
+		clear
+        echo "$(bblue "UFW Menu")"
+        echo
         echo "1. Install"
         echo "2. Add Port"
         echo "3. Enable"
         echo "4. Disable"
         echo "5. Delete Port"
         echo "$(red "0. Back to Main Menu")"
-        read -p "Enter your choice: " choice
-
-        case $choice in
+		echo
+		
+        read -p "$(yellow "Select an option: ")" ufw_option
+        case $ufw_option in
             1)  # نصب UFW
                 echo "$(green "Installing UFW...")"
                 sudo apt install ufw -y
@@ -256,16 +259,17 @@ ufw() {
 
 s_ui() {
     while true; do
-        echo "Please select an option:"
-        echo "1. Install"
-        echo "2. Custom Install"
-        echo "3. Delete"
+        clear
+		echo "$(bblue "S-UI Menu")"
+        echo
+        echo "$(green "1. Install")"
+        echo "$(green "2. Custom Install")"
+        echo "$(green "3. Delete")"
         echo "$(red "0. Back to Main Menu")"
+		echo
 
-        # خواندن گزینه کاربر
-        read -p "Enter your choice: " choice
-
-        case $choice in
+		read -p "$(yellow "Select an option: ")" s_ui_option
+		case $s_ui_option in
             1)
                 echo "Installing S-UI..."
                 bash <(curl -Ls https://raw.githubusercontent.com/alireza0/s-ui/master/install.sh)
@@ -335,8 +339,6 @@ s_ui() {
     done
 }
 
-
-
 h_ui() {
     while true; do
         echo "Installing H-UI..."
@@ -364,16 +366,17 @@ h_ui() {
 
 x_ui_3x() {
     while true; do
-        echo "Please select an option:"
-        echo "1. Install"
-        echo "2. Custom Install"
-        echo "3. Delete"
+		clear
+		echo "$(bblue "Sanaei X-UI Menu")"
+        echo
+        echo "$(green "1. Install")"
+        echo "$(green "2. Custom Install")"
+        echo "$(green "3. Delete")"
         echo "$(red "0. Back to Main Menu")"
+		echo
 
-        # خواندن گزینه کاربر
-        read -p "Enter your choice: " choice
-
-        case $choice in
+		read -p "$(yellow "Select an option: ")" x_ui_3x_option
+		case $x_ui_3x_option in
             1)
                 echo "Installing x-ui 3x..."
                 bash <(curl -Ls https://raw.githubusercontent.com/mhsanaei/3x-ui/master/install.sh)
@@ -446,16 +449,17 @@ x_ui_3x() {
 
 x_ui_alireza() {
     while true; do
-        echo "Please select an option:"
-        echo "1. Install"
-        echo "2. Custom Install"
-        echo "3. Delete"
+        clear
+		echo "$(bblue "Alireza X-UI Menu")"
+        echo
+        echo "$(green "1. Install")"
+        echo "$(green "2. Custom Install")"
+        echo "$(green "3. Delete")"
         echo "$(red "0. Back to Main Menu")"
+		echo
 
-        # خواندن گزینه کاربر
-        read -p "Enter your choice: " choice
-
-        case $choice in
+		read -p "$(yellow "Select an option: ")" x_ui_alireza_option
+		case $x_ui_alireza_option in
             1)
                 echo "Installing x-ui alireza..."
                 bash <(curl -Ls https://raw.githubusercontent.com/alireza0/x-ui/master/install.sh)
@@ -524,8 +528,6 @@ x_ui_alireza() {
         esac
     done
 }
-
-
 
 ezpz() {
     while true; do
