@@ -37,25 +37,25 @@ display_main_menu() {
     echo
     green "1. UPDATE                2. Change SSH Port"
     echo
-    green "3. Firewall              4. UFW [ ADD ]"
+    green "3. Firewall"
     echo
     yellow "--------------------Panels-----------------------------"
     echo
-    green "5. S-UI                  6. H-UI"
+    green "4. S-UI                  5. H-UI"
     echo
-    green "7. X-UI [alireza]        8. X-UI [3x]"
+    green "6. X-UI [alireza]        7. X-UI [3x]"
     echo
-    green "9. reality-ezpz          10. Hiddify"
+    green "8. reality-ezpz          9. Hiddify"
     echo
-    green "11. XPanel               12. SSH [vfarid]"
+    green "10. XPanel               11. SSH [vfarid]"
     echo
-    green "13. Marzban"
+    green "12. Marzban"
     echo
     yellow "--------------------Another-----------------------------"
     echo
-    green "14. MTProxy              15. Add SSH"
+    green "13. MTProxy              14. Add SSH"
     echo
-    green "16. SpeedTest"
+    green "15. SpeedTest"
     echo
     echo "------------------------------------------------------"
     echo
@@ -162,112 +162,94 @@ change_ssh_port() {
 
 ufw() {
     while true; do
-        echo "$(green "Installing UFW...")"
-        
-        # نصب بسته ufw
-        sudo apt install ufw -y
-        
-        # بررسی موفقیت نصب ufw
-        if [ $? -eq 0 ]; then
-            echo "$(green "UFW installed successfully.")"
-            
-            echo "$(green "Configuring UFW...")"
-            
-            # باز کردن پورت‌های مورد نظر و نمایش پیام برای هر کدام
-            PORTS=(7710 443 8443)
-            for PORT in "${PORTS[@]}"; do
-                # بررسی اینکه آیا پورت قبلاً اجازه داده شده است
-                if sudo ufw status | grep -q "$PORT.*ALLOW"; then
-                    echo "$(yellow "Port $PORT is already allowed.")"
-                else
-                    sudo ufw allow $PORT
-                    if [ $? -eq 0 ]; then
-                        echo "$(green "Port $PORT has been allowed successfully.")"
-                    else
-                        echo "$(red "Failed to allow port $PORT.")"
-                    fi
-                fi
-            done
-            
-            echo "$(green "Enabling UFW...")"
-            
-            # فعال کردن ufw
-            sudo ufw enable
-            
-            # بررسی موفقیت فعال‌سازی ufw
-            if [ $? -eq 0 ]; then
-                echo "$(green "UFW has been enabled successfully.")"
-            else
-                echo "$(red "Failed to enable UFW.")"
-            fi
-        else
-            echo "$(red "Failed to install UFW.")"
-        fi
+        echo "Select an option:"
+        echo "1. Install"
+        echo "2. Add Port"
+        echo "3. Enable"
+        echo "4. Disable"
+        echo "5. Delete Port"
+        echo "$(red "0. Back to Main Menu")"
+        read -p "Enter your choice: " choice
 
-        # بررسی وضعیت نصب
-        read -p "$(yellow "Is UFW setup correct? (y/n): ")" answer
-        answer=${answer:-Y}
-        case $answer in
-            y|Y)
-                echo "$(green "Returning to the menu...")"
-                break ;;
-            n|N)
-                echo "$(red "Reinstalling...")"
+        case $choice in
+            1)  # نصب UFW
+                echo "$(green "Installing UFW...")"
+                sudo apt install ufw -y
+                if [ $? -eq 0 ]; then
+                    echo "$(green "UFW installed successfully.")"
+                else
+                    echo "$(red "Failed to install UFW.")"
+                fi
+                ;;
+            2)  # اضافه کردن پورت
+                while true; do
+                    read -p "Enter the port you want to allow: " port
+                    if sudo ufw status | grep -q "$port.*ALLOW"; then
+                        echo "$(yellow "Port $port is already allowed.")"
+                    else
+                        sudo ufw allow "$port"
+                        if [ $? -eq 0 ]; then
+                            echo "$(green "Port $port has been allowed successfully.")"
+                        else
+                            echo "$(red "Failed to allow port $port.")"
+                        fi
+                    fi
+                    read -p "Do you want to add another port? (y/n): " add_another
+                    add_another=${add_another:-Y}
+                    if [[ $add_another =~ ^(n|N)$ ]]; then
+                        break
+                    fi
+                done
+                ;;
+            3)  # فعال کردن UFW
+                echo "$(green "Enabling UFW...")"
+                sudo ufw enable
+                if [ $? -eq 0 ]; then
+                    echo "$(green "UFW has been enabled successfully.")"
+                else
+                    echo "$(red "Failed to enable UFW.")"
+                fi
+                ;;
+            4)  # غیرفعال کردن UFW
+                echo "$(green "Disabling UFW...")"
+                sudo ufw disable
+                if [ $? -eq 0 ]; then
+                    echo "$(green "UFW has been disabled successfully.")"
+                else
+                    echo "$(red "Failed to disable UFW.")"
+                fi
+                ;;
+            5)  # حذف پورت
+                while true; do
+                    sudo ufw status numbered
+                    read -p "Enter the number of the rule you want to delete: " rule_number
+                    sudo ufw delete "$rule_number"
+                    if [ $? -eq 0 ]; then
+                        echo "$(green "Rule number $rule_number has been deleted successfully.")"
+                    else
+                        echo "$(red "Failed to delete rule number $rule_number.")"
+                    fi
+                    read -p "Do you want to delete another rule? (y/n): " delete_another
+                    delete_another=${delete_another:-Y}
+                    if [[ $delete_another =~ ^(n|N)$ ]]; then
+                        break
+                    fi
+                done
+                ;;
+            0)
+                echo "$(green "Returning to the main menu...")"
+                break
                 ;;
             *)
-                echo "$(red "Invalid input. Please type y or n.")"
+                echo "$(red "Invalid choice. Please enter a number between 1 and 6.")"
                 ;;
         esac
-    done
-}
 
-
-
-ufw_add() {
-    while true; do
-        # درخواست ورودی برای پورت
-        read -p "$(yellow "Enter the port number to allow: ")" port
-        
-        # بررسی اینکه ورودی عددی است
-        if [[ $port =~ ^[0-9]+$ ]]; then
-            # اضافه کردن پورت به ufw و ذخیره خروجی در متغیر
-            output=$(sudo ufw allow $port 2>&1)
-            
-            # بررسی موفقیت اجرای دستور
-            if [[ $output == *"Rule added"* ]]; then
-                echo "$(green "Port $port has been added successfully.")"
-            elif [[ $output == *"Skipping adding existing rule"* ]]; then
-                echo "$(yellow "Port $port is already in the list.")"
-            else
-                echo "$(red "Failed to add port $port. Output: $output")"
-                # ادامه یافتن در حلقه برای دریافت پورت جدید
-                continue
-            fi
-
-            # نمایش وضعیت فعلی ufw
-            echo "$(green "Current UFW status:")"
-            sudo ufw status
-            
-            # بررسی وضعیت نصب
-            read -p "$(yellow "Is the port addition correct? (y/n): ")" answer
-			answer=${answer:-Y}
-            case $answer in
-                y|Y)
-                    echo "$(green "Port addition confirmed. Returning to the menu...")"
-                    break ;;
-                n|N)
-                    echo "$(yellow "Let's try adding another port.")"
-                    # ادامه یافتن در حلقه برای دریافت پورت جدید
-                    continue ;;
-                *)
-                    echo "$(red "Invalid input. Please type y or n.")"
-                    # ادامه یافتن در حلقه برای دریافت پورت جدید
-                    continue ;;
-            esac
-        else
-            echo "$(red "Invalid port number. Please enter a valid number.")"
-            # ادامه یافتن در حلقه برای دریافت پورت جدید
-            continue
+        read -p "$(yellow "Do you want to return to the menu? (y/n): ")" return_to_menu
+        return_to_menu=${return_to_menu:-Y}
+        if [[ $return_to_menu =~ ^(n|N)$ ]]; then
+            echo "$(green "Exiting...")"
+            break
         fi
     done
 }
@@ -834,19 +816,18 @@ while true; do
         1) update ;;
         2) change_ssh_port ;;
         3) ufw ;;
-		4) ufw_add ;;
-        5) s_ui ;;
-        6) h_ui ;;
-        7) x_ui_alireza ;;
-        8) x_ui_3x ;;
-		9) ezpz ;;
-		10) hiddify ;;
-		11) xpanel ;;
-		12) ssh_vfarid ;;
-		13) marzban_menu ;;
-		14) mtproxy ;;
-		15) add_ssh ;;
-		16) speedtest_menu ;;
+        4) s_ui ;;
+        5) h_ui ;;
+        6) x_ui_alireza ;;
+        7) x_ui_3x ;;
+		8) ezpz ;;
+		9) hiddify ;;
+		10) xpanel ;;
+		11) ssh_vfarid ;;
+		12) marzban_menu ;;
+		13) mtproxy ;;
+		14) add_ssh ;;
+		15) speedtest_menu ;;
         0) exit_script ;;
         *) echo "$(red "Invalid option!")" ;;
     esac
