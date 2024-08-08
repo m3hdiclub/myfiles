@@ -175,7 +175,7 @@ ufw() {
             "4" "Disable UFW" \
             "5" "Delete Port" \
             "6" "Status" \
-            "0" "Back to Main Menu" 3>&1 1>&2 2>&3)
+            "0" "Back" 3>&1 1>&2 2>&3)
 
         # Check the exit status of whiptail to determine user choice
         if [ $? -eq 0 ]; then
@@ -290,7 +290,7 @@ s_ui() {
             "1" "Install" \
             "2" "Custom Install" \
             "3" "Delete" \
-            "0" "Back to Main Menu" 3>&1 1>&2 2>&3)
+            "0" "Back" 3>&1 1>&2 2>&3)
 
         # Check the exit status of whiptail to determine user choice
         if [ $? -eq 0 ]; then
@@ -385,7 +385,7 @@ x_ui_3x() {
             "1" "Install" \
             "2" "Custom Install" \
             "3" "Delete" \
-            "0" "Back to Main Menu" 3>&1 1>&2 2>&3)
+            "0" "Back" 3>&1 1>&2 2>&3)
 
         # Check the exit status of whiptail to determine user choice
         if [ $? -eq 0 ]; then
@@ -453,7 +453,7 @@ x_ui_alireza() {
             "1" "Install" \
             "2" "Custom Install" \
             "3" "Delete" \
-            "0" "Back to Main Menu" 3>&1 1>&2 2>&3)
+            "0" "Back" 3>&1 1>&2 2>&3)
 
         # Check the exit status of whiptail to determine user choice
         if [ $? -eq 0 ]; then
@@ -716,10 +716,10 @@ add_ssh() {
     while true; do
         option=$(whiptail --title "SSH User Management" \
             --menu "Select an option:" 15 60 4 \
-            "1" "Add SSH User" \
-            "2" "Remove SSH User" \
-            "3" "List SSH Users" \
-            "0" "Back to Main Menu" 3>&1 1>&2 2>&3)
+            "1" "Add" \
+            "2" "Remove" \
+            "3" "List" \
+            "0" "Back" 3>&1 1>&2 2>&3)
 
         if [ $? -eq 0 ]; then
             case $option in
@@ -842,10 +842,10 @@ speedtest_menu() {
     while true; do
         option=$(whiptail --title "SpeedTest Menu" \
             --menu "Select an option:" 15 60 4 \
-            "1" "Install SpeedTest CLI" \
-            "2" "Run SpeedTest" \
-            "3" "Delete SpeedTest CLI" \
-            "0" "Back to Main Menu" 3>&1 1>&2 2>&3)
+            "1" "Install" \
+            "2" "Run" \
+            "3" "Delete" \
+            "0" "Back" 3>&1 1>&2 2>&3)
 
         if [ $? -eq 0 ]; then
             case $option in
