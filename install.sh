@@ -112,6 +112,7 @@ change_ssh_port() {
         
         # نصب بسته net-tools
 	clear
+ 	sudo apt install nano
         sudo apt install net-tools -y
         
         # بررسی موفقیت نصب net-tools
