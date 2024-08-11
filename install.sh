@@ -69,6 +69,7 @@ update() {
         echo "$(green "Updating system...")"
         
         # اجرای دستور apt update
+	clear
         sudo apt update -y
         
         # بررسی موفقیت دستور apt update
@@ -110,6 +111,7 @@ change_ssh_port() {
         echo "$(green "Installing net-tools...")"
         
         # نصب بسته net-tools
+	clear
         sudo apt install net-tools -y
         
         # بررسی موفقیت نصب net-tools
