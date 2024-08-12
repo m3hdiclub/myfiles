@@ -181,7 +181,8 @@ ufw() {
         echo "$(green "3. Enable")"
         echo "$(green "4. Disable")"
         echo "$(green "5. Delete Port")"
-		echo "$(green "6. Status")"
+	echo "$(green "6. Status")"
+ 	echo "$(green "7. Stop Port")"
         echo "$(red "0. Back to Main Menu")"
 		echo
 		
@@ -260,7 +261,27 @@ ufw() {
                     echo "$(red "Failed to show")"
                 fi
                 ;;	
-            0)
+	    7)  # Stop Port
+		    while true; do
+			read -p "Enter the port you want to stop: " port
+			if sudo ufw status | grep -q "$port.*DENY"; then
+			    echo "$(yellow "Port $port is already denied.")"
+			else
+			    sudo ufw deny "$port"
+			    if [ $? -eq 0 ]; then
+				echo "$(green "Port $port has been stopped successfully.")"
+			    else
+				echo "$(red "Failed to stop port $port.")"
+			    fi
+			fi
+			read -p "Do you want to stop another port? (y/n): " stop_another
+			stop_another=${stop_another:-Y}
+			if [[ $stop_another =~ ^(n|N)$ ]]; then
+			    break
+			fi
+		    done
+		    ;;
+	    0)
                 echo "$(green "Returning to the main menu...")"
                 break
                 ;;
