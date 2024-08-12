@@ -173,7 +173,7 @@ change_ssh_port() {
 
 ufw() {
     while true; do
-		clear
+        clear
         echo "$(bblue "UFW Menu")"
         echo
         echo "$(green "1. Install")"
@@ -181,11 +181,11 @@ ufw() {
         echo "$(green "3. Enable")"
         echo "$(green "4. Disable")"
         echo "$(green "5. Delete Port")"
-	echo "$(green "6. Status")"
- 	echo "$(green "7. Stop Port")"
+        echo "$(green "6. Status")"
+        echo "$(green "7. Stop Port")"
         echo "$(red "0. Back to Main Menu")"
-		echo
-		
+        echo
+        
         read -p "$(yellow "Select an option: ")" ufw_option
         case $ufw_option in
             1)  # نصب UFW
@@ -252,41 +252,46 @@ ufw() {
                     fi
                 done
                 ;;
-			6)  # status
-                echo "$(green "status...")"
+            6)  # وضعیت
+                echo "$(green "Status...")"
                 sudo ufw status
                 if [ $? -eq 0 ]; then
-                    echo "$(green "UFW port Enable: ")"
+                    echo "$(green "UFW status displayed.")"
                 else
-                    echo "$(red "Failed to show")"
+                    echo "$(red "Failed to display status.")"
                 fi
-                ;;	
-	    7)  # Stop Port
-		    while true; do
-			read -p "Enter the port you want to stop: " port
-			if sudo ufw status | grep -q "$port.*DENY"; then
-			    echo "$(yellow "Port $port is already denied.")"
-			else
-			    sudo ufw deny "$port"
-			    if [ $? -eq 0 ]; then
-				echo "$(green "Port $port has been stopped successfully.")"
-			    else
-				echo "$(red "Failed to stop port $port.")"
-			    fi
-			fi
-			read -p "Do you want to stop another port? (y/n): " stop_another
-			stop_another=${stop_another:-Y}
-			if [[ $stop_another =~ ^(n|N)$ ]]; then
-			    break
-			fi
-		    done
-		    ;;
-	    0)
+                ;;  
+            7)  # Stop Port
+                while true; do
+                    read -p "Enter the port you want to stop: " port
+                    # پیدا کردن PID پروسه‌ای که از پورت استفاده می‌کند
+                    pid=$(sudo lsof -t -i:$port)
+                    
+                    if [ -z "$pid" ]; then
+                        echo "$(yellow "No process is using port $port.")"
+                    else
+                        # متوقف کردن پروسه
+                        sudo kill -9 "$pid"
+                        if [ $? -eq 0 ]; then
+                            echo "$(green "Process using port $port has been stopped successfully.")"
+                        else
+                            echo "$(red "Failed to stop the process using port $port.")"
+                        fi
+                    fi
+
+                    read -p "Do you want to stop another port? (y/n): " stop_another
+                    stop_another=${stop_another:-Y}
+                    if [[ $stop_another =~ ^(n|N)$ ]]; then
+                        break
+                    fi
+                done
+                ;;
+            0)
                 echo "$(green "Returning to the main menu...")"
                 break
                 ;;
             *)
-                echo "$(red "Invalid choice. Please enter a number between 1 and 6.")"
+                echo "$(red "Invalid choice. Please enter a number between 1 and 7.")"
                 ;;
         esac
 
