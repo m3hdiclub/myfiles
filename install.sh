@@ -5,6 +5,7 @@ if ! command -v curl &> /dev/null; then
     echo "curl is not installed. Installing curl..."
     sudo apt update -y
     sudo apt install curl -y
+    clear
 fi
 
 # تعریف رنگ‌ها
