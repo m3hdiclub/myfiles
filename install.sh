@@ -1,5 +1,12 @@
 #!/bin/bash
 
+# بررسی نصب بودن curl و نصب در صورت نیاز
+if ! command -v curl &> /dev/null; then
+    echo "curl is not installed. Installing curl..."
+    sudo apt update -y
+    sudo apt install curl -y
+fi
+
 # تعریف رنگ‌ها
 red='\033[0;31m'
 bblue='\033[0;34m'
