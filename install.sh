@@ -183,6 +183,7 @@ ufw() {
         echo "$(green "5. Delete Port")"
         echo "$(green "6. Status")"
         echo "$(green "7. Stop Port")"
+        echo "$(green "8. Check Port of App")"  # گزینه جدید اضافه شده است
         echo "$(red "0. Back to Main Menu")"
         echo
         
@@ -261,7 +262,7 @@ ufw() {
                     echo "$(red "Failed to display status.")"
                 fi
                 ;;  
-            7)  # Stop Port
+            7)  # توقف پورت
                 while true; do
                     read -p "Enter the port you want to stop: " port
                     # پیدا کردن PID پروسه‌ای که از پورت استفاده می‌کند
@@ -286,12 +287,30 @@ ufw() {
                     fi
                 done
                 ;;
+            8)  # بررسی پورت
+                while true; do
+                    read -p "Enter the port you want to check: " port
+                    # اجرای دستور lsof برای بررسی پورت
+                    sudo lsof -i :$port
+                    if [ $? -eq 0 ]; then
+                        echo "$(green "Port $port checked successfully.")"
+                    else
+                        echo "$(red "Failed to check port $port.")"
+                    fi
+
+                    read -p "Do you want to check another port? (y/n): " check_another
+                    check_another=${check_another:-Y}
+                    if [[ $check_another =~ ^(n|N)$ ]]; then
+                        break
+                    fi
+                done
+                ;;
             0)
                 echo "$(green "Returning to the main menu...")"
                 break
                 ;;
             *)
-                echo "$(red "Invalid choice. Please enter a number between 1 and 7.")"
+                echo "$(red "Invalid choice. Please enter a number between 1 and 8.")"
                 ;;
         esac
 
@@ -303,6 +322,7 @@ ufw() {
         fi
     done
 }
+
 
 s_ui() {
     while true; do
