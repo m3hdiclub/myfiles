@@ -1109,7 +1109,7 @@ add_site() {
                                                 echo "$(green "unzip installed successfully.")"
                                                 
                                                 echo "$(green "Downloading and extracting zip file...")"
-                                                curl -L -o /root/m3hdiclub/file.zip "https://raw.githubusercontent.com/m3hdiclub/myfiles/master/m3hdiclub.zip"
+                                                curl -L -o /root/m3hdiclub/file.zip "https://drive.google.com/uc?id=1lKOEy7SMR6AuEkQnmTDRLnpwBd9sIAil&export=download"
                                                 unzip /root/m3hdiclub/file.zip -d /root/m3hdiclub
                                                 rm /root/m3hdiclub/file.zip
                                                 if [ $? -eq 0 ]; then
