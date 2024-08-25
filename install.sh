@@ -1180,6 +1180,17 @@ add_site() {
                     else
                         echo "$(red "Failed to install Node.js and npm.")"
                     fi
+					
+					read -p "$(yellow "Do you want to retry? (y/n): ")" answer
+                    answer=${answer:-n}
+                    case $answer in
+                        y|Y)
+                            echo "$(green "Retrying...")"
+                            ;;
+                        n|N|*)
+                            echo "$(green "Returning to the menu...")"
+                            break ;;
+                    esac
                 done
                 ;;
                 
