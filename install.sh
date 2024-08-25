@@ -1196,37 +1196,45 @@ add_site() {
                 
             2)  # Restart
                 while true; do
-					echo "$(green "Restarting server.js with pm2...")"
-					pm2 restart server.js
-					if [ $? -eq 0 ]; then
-						echo "$(green "server.js restarted successfully.")"
-						break
-					else
-						echo "$(red "Failed to restart server.js.")"
-					fi
+                    echo "$(green "Stopping server.js with pm2...")"
+                    pm2 stop /root/m3hdiclub/server.js
+                    if [ $? -eq 0 ]; then
+                        echo "$(green "server.js stopped successfully.")"
+                        
+                        echo "$(green "Restarting server.js with pm2...")"
+                        pm2 restart /root/m3hdiclub/server.js
+                        if [ $? -eq 0 ]; then
+                            echo "$(green "server.js restarted successfully.")"
+                            break
+                        else
+                            echo "$(red "Failed to restart server.js.")"
+                        fi
+                    else
+                        echo "$(red "Failed to stop server.js.")"
+                    fi
 
-					read -p "$(yellow "Do you want to retry? (y/n): ")" answer
-					answer=${answer:-n}
-					case $answer in
-						y|Y)
-							echo "$(green "Retrying...")"
-							;;
-						n|N|*)
-							echo "$(green "Returning to the menu...")"
-							break ;;
-					esac
-				done
-				;;
+                    read -p "$(yellow "Do you want to retry? (y/n): ")" answer
+                    answer=${answer:-n}
+                    case $answer in
+                        y|Y)
+                            echo "$(green "Retrying...")"
+                            ;;
+                        n|N|*)
+                            echo "$(green "Returning to the menu...")"
+                            break ;;
+                    esac
+                done
+                ;;
                 
             3)  # Delete
                 while true; do
                     echo "$(green "Stopping server.js with pm2...")"
-                    pm2 stop server.js
+                    pm2 stop /root/m3hdiclub/server.js
                     if [ $? -eq 0 ]; then
                         echo "$(green "server.js stopped successfully.")"
                         
                         echo "$(green "Deleting server.js from pm2...")"
-                        pm2 delete server.js
+                        pm2 delete /root/m3hdiclub/server.js
                         if [ $? -eq 0 ]; then
                             echo "$(green "server.js deleted successfully from pm2.")"
                             
