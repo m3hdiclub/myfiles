@@ -65,6 +65,8 @@ display_main_menu() {
     echo
     green "15. SpeedTest		 16. Create Site"
     echo
+    green "17. Make Bot"
+    echo
     echo "------------------------------------------------------"
     echo
     rred  "0. Exit"
@@ -1407,6 +1409,351 @@ add_site() {
     done
 }
 
+make_bot() {
+    while true; do
+        clear
+        echo "$(bblue "Bot Installation Menu")"
+		echo
+        echo "$(green "00. Install Python")"
+        echo "$(green "1. Drive")"
+		echo "$(green "2. QR")"
+        echo "$(red "0. Exit")"
+        read -p "$(yellow "Select an option (00/1/2/0): ")" bot_option
+        
+        case $bot_option in
+            00)  # Install Python
+                while true; do
+                    echo "$(green "Installing unzip...")"
+                    sudo apt install unzip -y
+                    if [ $? -eq 0 ]; then
+                        echo "$(green "Unzip installed successfully.")"
+                        
+                        echo "$(green "Installing Python...")"
+                        sudo apt install python3 python3-pip -y
+                        if [ $? -eq 0 ]; then
+                            echo "$(green "Python installed successfully.")"
+                            
+                            echo "$(green "Installing Python virtual environment...")"
+                            sudo apt install python3-venv -y
+                            if [ $? -eq 0 ]; then
+                                python3 -m venv myenv
+                                source myenv/bin/activate
+                                echo "$(green "Python virtual environment set up successfully.")"
+                                
+                                echo "$(green "Downloading requirements file...")"
+                                curl -o /root/requirements.txt "https://raw.githubusercontent.com/m3hdiclub/myfiles/master/requirements.txt"
+                                if [ $? -eq 0 ]; then
+                                    echo "$(green "Requirements file downloaded successfully.")"
+                                    
+                                    echo "$(green "Installing requirements...")"
+                                    pip install -r /root/requirements.txt
+                                    if [ $? -eq 0 ]; then
+                                        echo "$(green "Requirements installed successfully.")"
+                                    else
+                                        echo "$(red "Failed to install requirements.")"
+                                    fi
+                                else
+                                    echo "$(red "Failed to download requirements file.")"
+                                fi
+                            else
+                                echo "$(red "Failed to set up Python virtual environment.")"
+                            fi
+                        else
+                            echo "$(red "Failed to install Python.")"
+                        fi
+                    else
+                        echo "$(red "Failed to install unzip.")"
+                    fi
+                    
+                    read -p "$(yellow "Was the script installed correctly? (y/n): ")" answer
+                    answer=${answer:-Y}
+                    case $answer in
+                        y|Y)
+                            echo "$(green "Returning to the menu...")"
+                            break ;;
+                        n|N)
+                            echo "$(red "Reinstalling...")"
+                            ;;
+                        *)
+                            echo "$(red "Invalid input. Please type y or n.")"
+                            ;;
+                    esac
+                done
+                ;;
+            1)  # Drive Menu
+                drive_menu
+                ;;
+			2)  # QR Menu
+                qr_menu
+                ;;
+            0)
+                echo "$(green "Returning to the main menu...")"
+                break
+                ;;
+            *)
+                echo "$(red "Invalid option! Please select 00, 1, or 0.")"
+                ;;
+        esac
+    done
+}
+
+
+drive_menu() {
+    while true; do
+        clear
+        echo "$(bblue "Drive Management Menu")"
+        echo "$(green "1. Install")"
+        echo "$(green "2. Reset")"
+        echo "$(green "3. Delete")"
+        echo "$(red "0. Exit")"
+        read -p "$(yellow "Select an option (1/2/3/0): ")" drive_option
+        
+        case $drive_option in
+            1)  # Install
+                while true; do
+                    echo "$(green "Downloading service file...")"
+                    curl -o /etc/systemd/system/gd.service "https://raw.githubusercontent.com/m3hdiclub/myfiles/master/gd.service"
+                    if [ $? -eq 0 ]; then
+                        echo "$(green "Service file downloaded successfully.")"
+                        
+                        echo "$(green "Downloading and extracting zip file...")"
+						curl -L -o /root/m3hdiclub/bot/file.zip "https://drive.google.com/uc?id=1mE6whbfc3CuNQrxFNkQAjh57qzbiifMu&export=download"
+						unzip /root/m3hdiclub/bot/file.zip -d /root/m3hdiclub/bot
+						rm /root/m3hdiclub/bot/file.zip
+                        if [ $? -eq 0 ]; then
+                            echo "$(green "Additional file downloaded successfully.")"
+                            
+                            echo "$(green "Enabling service...")"
+                            systemctl enable gd.service
+                            if [ $? -eq 0 ]; then
+                                echo "$(green "Service enabled successfully.")"
+                                
+                                echo "$(green "Starting service...")"
+                                systemctl start gd.service
+                                if [ $? -eq 0 ]; then
+                                    echo "$(green "Service started successfully.")"
+                                else
+                                    echo "$(red "Failed to start service.")"
+                                fi
+                            else
+                                echo "$(red "Failed to enable service.")"
+                            fi
+                        else
+                            echo "$(red "Failed to download additional file.")"
+                        fi
+                    else
+                        echo "$(red "Failed to download service file.")"
+                    fi
+                    
+                    read -p "$(yellow "Was the script installed correctly? (y/n): ")" answer
+                    answer=${answer:-Y}
+                    case $answer in
+                        y|Y)
+                            echo "$(green "Returning to the menu...")"
+                            break ;;
+                        n|N)
+                            echo "$(red "Reinstalling...")"
+                            ;;
+                        *)
+                            echo "$(red "Invalid input. Please type y or n.")"
+                            ;;
+                    esac
+                done
+                ;;
+            2)  # Reset
+                echo "$(green "Restarting service...")"
+                systemctl restart gd.service
+                if [ $? -eq 0 ]; then
+                    echo "$(green "Service restarted successfully.")"
+                else
+                    echo "$(red "Failed to restart service.")"
+                fi
+                
+                read -p "$(yellow "Was the service restarted correctly? (y/n): ")" answer
+                answer=${answer:-Y}
+                case $answer in
+                    y|Y)
+                        echo "$(green "Returning to the menu...")"
+                        break ;;
+                    n|N)
+                        echo "$(red "Retrying...")"
+                        ;;
+                    *)
+                        echo "$(red "Invalid input. Please type y or n.")"
+                        ;;
+                esac
+                ;;
+            3)  # Delete
+                echo "$(green "Stopping service...")"
+                systemctl stop gd.service
+                if [ $? -eq 0 ]; then
+                    echo "$(green "Service stopped successfully.")"
+                    
+                    echo "$(green "Deleting service file...")"
+                    rm /etc/systemd/system/gd.service
+					rm /root/m3hdiclub/bot/gd.py
+                    if [ $? -eq 0 ]; then
+                        echo "$(green "Service file deleted successfully.")"
+                    else
+                        echo "$(red "Failed to delete service file.")"
+                    fi
+                else
+                    echo "$(red "Failed to stop service.")"
+                fi
+                
+                read -p "$(yellow "Was the service deleted correctly? (y/n): ")" answer
+                answer=${answer:-Y}
+                case $answer in
+                    y|Y)
+                        echo "$(green "Returning to the menu...")"
+                        break ;;
+                    n|N)
+                        echo "$(red "Retrying...")"
+                        ;;
+                    *)
+                        echo "$(red "Invalid input. Please type y or n.")"
+                        ;;
+                esac
+                ;;
+            0)
+                echo "$(green "Returning to the previous menu...")"
+                break
+                ;;
+            *)
+                echo "$(red "Invalid option! Please select 1, 2, 3, or 0.")"
+                ;;
+        esac
+    done
+}
+
+qr_menu() {
+    while true; do
+        clear
+        echo "$(bblue "QR Management Menu")"
+        echo "$(green "1. Install")"
+        echo "$(green "2. Reset")"
+        echo "$(green "3. Delete")"
+        echo "$(red "0. Exit")"
+        read -p "$(yellow "Select an option (1/2/3/0): ")" qr_option
+        
+        case $qr_option in
+            1)  # Install
+                while true; do
+                    echo "$(green "Downloading service file...")"
+                    curl -o /etc/systemd/system/qr.service "https://raw.githubusercontent.com/m3hdiclub/myfiles/master/qr.service"
+                    if [ $? -eq 0 ]; then
+                        echo "$(green "Service file downloaded successfully.")"
+                        
+                        echo "$(green "Downloading and extracting zip file...")"
+						curl -L -o /root/m3hdiclub/bot/file.zip "https://drive.google.com/uc?id=1LHYrxDtTqDOrM4SptXrKgK35Nw8-a-2H&export=download"
+						unzip /root/m3hdiclub/bot/file.zip -d /root/m3hdiclub/bot
+						rm /root/m3hdiclub/bot/file.zip
+                        if [ $? -eq 0 ]; then
+                            echo "$(green "Additional file downloaded successfully.")"
+                            
+                            echo "$(green "Enabling service...")"
+                            systemctl enable qr.service
+                            if [ $? -eq 0 ]; then
+                                echo "$(green "Service enabled successfully.")"
+                                
+                                echo "$(green "Starting service...")"
+                                systemctl start qr.service
+                                if [ $? -eq 0 ]; then
+                                    echo "$(green "Service started successfully.")"
+                                else
+                                    echo "$(red "Failed to start service.")"
+                                fi
+                            else
+                                echo "$(red "Failed to enable service.")"
+                            fi
+                        else
+                            echo "$(red "Failed to download additional file.")"
+                        fi
+                    else
+                        echo "$(red "Failed to download service file.")"
+                    fi
+                    
+                    read -p "$(yellow "Was the script installed correctly? (y/n): ")" answer
+                    answer=${answer:-Y}
+                    case $answer in
+                        y|Y)
+                            echo "$(green "Returning to the menu...")"
+                            break ;;
+                        n|N)
+                            echo "$(red "Reinstalling...")"
+                            ;;
+                        *)
+                            echo "$(red "Invalid input. Please type y or n.")"
+                            ;;
+                    esac
+                done
+                ;;
+            2)  # Reset
+                echo "$(green "Restarting service...")"
+                systemctl restart qr.service
+                if [ $? -eq 0 ]; then
+                    echo "$(green "Service restarted successfully.")"
+                else
+                    echo "$(red "Failed to restart service.")"
+                fi
+                
+                read -p "$(yellow "Was the service restarted correctly? (y/n): ")" answer
+                answer=${answer:-Y}
+                case $answer in
+                    y|Y)
+                        echo "$(green "Returning to the menu...")"
+                        break ;;
+                    n|N)
+                        echo "$(red "Retrying...")"
+                        ;;
+                    *)
+                        echo "$(red "Invalid input. Please type y or n.")"
+                        ;;
+                esac
+                ;;
+            3)  # Delete
+                echo "$(green "Stopping service...")"
+                systemctl stop qr.service
+                if [ $? -eq 0 ]; then
+                    echo "$(green "Service stopped successfully.")"
+                    
+                    echo "$(green "Deleting service file...")"
+                    rm /etc/systemd/system/qr.service
+					rm /root/m3hdiclub/bot/qr.py
+                    if [ $? -eq 0 ]; then
+                        echo "$(green "Service file deleted successfully.")"
+                    else
+                        echo "$(red "Failed to delete service file.")"
+                    fi
+                else
+                    echo "$(red "Failed to stop service.")"
+                fi
+                
+                read -p "$(yellow "Was the service deleted correctly? (y/n): ")" answer
+                answer=${answer:-Y}
+                case $answer in
+                    y|Y)
+                        echo "$(green "Returning to the menu...")"
+                        break ;;
+                    n|N)
+                        echo "$(red "Retrying...")"
+                        ;;
+                    *)
+                        echo "$(red "Invalid input. Please type y or n.")"
+                        ;;
+                esac
+                ;;
+            0)
+                echo "$(green "Returning to the previous menu...")"
+                break
+                ;;
+            *)
+                echo "$(red "Invalid option! Please select 1, 2, 3, or 0.")"
+                ;;
+        esac
+    done
+}
+
 
 exit_script() {
     echo "Exiting..."
@@ -1434,6 +1781,7 @@ while true; do
 		14) add_ssh ;;
 		15) speedtest_menu ;;
 		16) add_site ;;
+		17) make_bot ;;
         0) exit_script ;;
         *) echo "$(red "Invalid option!")" ;;
     esac
