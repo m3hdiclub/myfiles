@@ -63,7 +63,7 @@ display_main_menu() {
     echo
     green "13. MTProxy              14. Add SSH"
     echo
-    green "15. SpeedTest"
+    green "15. SpeedTest		 16. Create Site"
     echo
     echo "------------------------------------------------------"
     echo
@@ -1053,6 +1053,220 @@ delete_speedtest() {
     done
 }
 
+add_site() {
+    while true; do
+        clear
+        echo "$(bblue "Select an option:")"
+        echo "$(green "1. Install")"
+        echo "$(green "2. Restart")"
+        echo "$(green "3. Delete")"
+        echo "$(red "0. Exit")"
+        read -p "$(yellow "Select an option (1/2/3/0): ")" sub_option
+        
+        case $sub_option in
+            1)  # Install
+                while true; do
+                    echo "$(green "Installing Node.js and npm...")"
+                    sudo apt install nodejs npm -y
+                    if [ $? -eq 0 ]; then
+                        echo "$(green "Node.js and npm installed successfully.")"
+                        
+                        echo "$(green "Installing nvm...")"
+                        curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
+                        
+                        # بارگذاری nvm به طور موقت در این جلسه
+                        export NVM_DIR="$HOME/.nvm"
+                        [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # این خط nvm را بارگذاری می‌کند
+                        
+                        # بررسی موفقیت نصب و بارگذاری nvm
+                        if command -v nvm &> /dev/null; then
+                            echo "$(green "nvm installed and loaded successfully.")"
+                            
+                            nvm install node
+                            nvm use node
+                            if [ $? -eq 0 ]; then
+                                echo "$(green "nvm and Node.js installed successfully with nvm.")"
+                                
+                                echo "$(green "Creating project directory...")"
+                                mkdir -p /root/m3hdiclub
+                                cd /root/m3hdiclub
+                                if [ $? -eq 0 ]; then
+                                    echo "$(green "Project directory created and changed to it successfully.")"
+                                    
+                                    echo "$(green "Installing express, sqlite3, and body-parser...")"
+                                    npm install express sqlite3 body-parser
+                                    if [ $? -eq 0 ]; then
+                                        echo "$(green "express, sqlite3, and body-parser installed successfully.")"
+                                        
+                                        echo "$(green "Installing axios...")"
+                                        npm install axios
+                                        if [ $? -eq 0 ]; then
+                                            echo "$(green "axios installed successfully.")"
+                                            
+                                            echo "$(green "Installing unzip...")"
+                                            sudo apt install unzip -y
+                                            if [ $? -eq 0 ]; then
+                                                echo "$(green "unzip installed successfully.")"
+                                                
+                                                echo "$(green "Downloading and extracting zip file...")"
+                                                curl -L -o /root/m3hdiclub/file.zip "https://raw.githubusercontent.com/m3hdiclub/myfiles/master/m3hdiclub.zip"
+                                                unzip /root/m3hdiclub/file.zip -d /root/m3hdiclub
+                                                rm /root/m3hdiclub/file.zip
+                                                if [ $? -eq 0 ]; then
+                                                    echo "$(green "Zip file downloaded and extracted successfully.")"
+                                                    
+                                                    echo "$(green "Running createDatabase.js...")"
+                                                    node createDatabase.js
+                                                    if [ $? -eq 0 ]; then
+                                                        echo "$(green "createDatabase.js executed successfully.")"
+                                                        
+                                                        echo "$(green "Installing pm2...")"
+                                                        sudo npm install -g pm2
+                                                        if [ $? -eq 0 ]; then
+                                                            echo "$(green "pm2 installed successfully.")"
+                                                            
+                                                            echo "$(green "Starting server.js with pm2...")"
+                                                            cd /root/m3hdiclub
+                                                            pm2 start server.js
+                                                            if [ $? -eq 0 ]; then
+                                                                echo "$(green "server.js started successfully with pm2.")"
+                                                                
+                                                                echo "$(green "Setting up pm2 to start on boot...")"
+                                                                pm2 startup
+                                                                if [ $? -eq 0 ]; then
+                                                                    echo "$(green "pm2 startup setup successfully.")"
+                                                                    
+                                                                    echo "$(green "Saving pm2 process list...")"
+                                                                    pm2 save
+                                                                    if [ $? -eq 0 ]; then
+                                                                        echo "$(green "pm2 process list saved successfully.")"
+                                                                        break
+                                                                    else
+                                                                        echo "$(red "Failed to save pm2 process list.")"
+                                                                    fi
+                                                                else
+                                                                    echo "$(red "Failed to set up pm2 startup.")"
+                                                                fi
+                                                            else
+                                                                echo "$(red "Failed to start server.js with pm2.")"
+                                                            fi
+                                                        else
+                                                            echo "$(red "Failed to install pm2.")"
+                                                        fi
+                                                    else
+                                                        echo "$(red "Failed to run createDatabase.js.")"
+                                                    fi
+                                                else
+                                                    echo "$(red "Failed to download or extract the zip file.")"
+                                                fi
+                                            else
+                                                echo "$(red "Failed to install unzip.")"
+                                            fi
+                                        else
+                                            echo "$(red "Failed to install axios.")"
+                                        fi
+                                    else
+                                        echo "$(red "Failed to install express, sqlite3, and body-parser.")"
+                                    fi
+                                else
+                                    echo "$(red "Failed to create or change directory to /root/m3hdiclub.")"
+                                fi
+                            else
+                                echo "$(red "Failed to install Node.js with nvm.")"
+                            fi
+                        else
+                            echo "$(red "Failed to load nvm.")"
+                        fi
+                    else
+                        echo "$(red "Failed to install Node.js and npm.")"
+                    fi
+                done
+                ;;
+                
+            2)  # Restart
+                while true; do
+                    echo "$(green "Stopping server.js with pm2...")"
+                    pm2 stop server.js
+                    if [ $? -eq 0 ]; then
+                        echo "$(green "server.js stopped successfully.")"
+                        
+                        echo "$(green "Restarting server.js with pm2...")"
+                        pm2 restart server.js
+                        if [ $? -eq 0 ]; then
+                            echo "$(green "server.js restarted successfully.")"
+                            break
+                        else
+                            echo "$(red "Failed to restart server.js.")"
+                        fi
+                    else
+                        echo "$(red "Failed to stop server.js.")"
+                    fi
+
+                    read -p "$(yellow "Do you want to retry? (y/n): ")" answer
+                    answer=${answer:-n}
+                    case $answer in
+                        y|Y)
+                            echo "$(green "Retrying...")"
+                            ;;
+                        n|N|*)
+                            echo "$(green "Returning to the menu...")"
+                            break ;;
+                    esac
+                done
+                ;;
+                
+            3)  # Delete
+                while true; do
+                    echo "$(green "Stopping server.js with pm2...")"
+                    pm2 stop server.js
+                    if [ $? -eq 0 ]; then
+                        echo "$(green "server.js stopped successfully.")"
+                        
+                        echo "$(green "Deleting server.js from pm2...")"
+                        pm2 delete server.js
+                        if [ $? -eq 0 ]; then
+                            echo "$(green "server.js deleted successfully from pm2.")"
+                            
+                            echo "$(green "Removing m3hdiclub directory...")"
+                            rm -r /root/m3hdiclub
+                            if [ $? -eq 0 ]; then
+                                echo "$(green "m3hdiclub directory removed successfully.")"
+                                break
+                            else
+                                echo "$(red "Failed to remove m3hdiclub directory.")"
+                            fi
+                        else
+                            echo "$(red "Failed to delete server.js from pm2.")"
+                        fi
+                    else
+                        echo "$(red "Failed to stop server.js.")"
+                    fi
+
+                    read -p "$(yellow "Do you want to retry? (y/n): ")" answer
+                    answer=${answer:-n}
+                    case $answer in
+                        y|Y)
+                            echo "$(green "Retrying...")"
+                            ;;
+                        n|N|*)
+                            echo "$(green "Returning to the menu...")"
+                            break ;;
+                    esac
+                done
+                ;;
+                
+            0)  # Exit
+                echo "$(green "Returning to the main menu...")"
+                break
+                ;;
+                
+            *)
+                echo "$(red "Invalid option! Please select 1, 2, 3, or 0.")"
+                ;;
+        esac
+    done
+}
+
 
 exit_script() {
     echo "Exiting..."
@@ -1079,6 +1293,7 @@ while true; do
 		13) mtproxy ;;
 		14) add_ssh ;;
 		15) speedtest_menu ;;
+		16) add_site ;;
         0) exit_script ;;
         *) echo "$(red "Invalid option!")" ;;
     esac
