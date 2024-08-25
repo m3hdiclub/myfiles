@@ -397,43 +397,47 @@ s_ui() {
                 esac
                 ;;
 			4)
-                echo "$(green "Installing unzip...")"
-                sudo apt install unzip -y
-                if [ $? -eq 0 ]; then
-                    echo "$(green "unzip installed successfully.")"
-                    
-                    echo "$(green "Downloading and extracting zip file...")"
-                    curl -L -o /root/file.zip "https://drive.google.com/uc?id=1TzR-apAh7jVBdRp_pP9Jr16e9LNKhVLW&export=download"
-                    
+                while true; do
+                    echo "$(green "Installing unzip...")"
+                    sudo apt install unzip -y
                     if [ $? -eq 0 ]; then
-                        unzip /root/file.zip -d /root
+                        echo "$(green "unzip installed successfully.")"
+                        
+                        echo "$(green "Downloading and extracting zip file...")"
+                        curl -L -o /root/file.zip "https://drive.google.com/uc?id=1TzR-apAh7jVBdRp_pP9Jr16e9LNKhVLW&export=download"
+                        
                         if [ $? -eq 0 ]; then
-                            echo "$(green "Zip file extracted successfully.")"
-                            rm /root/file.zip
+                            unzip /root/file.zip -d /root
+                            if [ $? -eq 0 ]; then
+                                echo "$(green "Zip file extracted successfully.")"
+                                rm /root/file.zip
+                            else
+                                echo "$(red "Failed to extract the zip file.")"
+                            fi
                         else
-                            echo "$(red "Failed to extract the zip file.")"
+                            echo "$(red "Failed to download the zip file.")"
                         fi
                     else
-                        echo "$(red "Failed to download the zip file.")"
+                        echo "$(red "Failed to install unzip.")"
                     fi
-                else
-                    echo "$(red "Failed to install unzip.")"
-                fi
-				
-				read -p "Was the zip file downloaded and extracted correctly? (y/n): " answer
-                answer=${answer:-Y}
-                case $answer in
-                    y|Y)
-                        echo "Operation confirmed. Returning to the menu..."
-                        ;;
-                    n|N)
-                        echo "Please check the issues and try again."
-                        ;;
-                    *)
-                        echo "Invalid input. Please type y or n."
-                        ;;
-                esac
-				;;
+                    
+                    # پرسیدن تاییدیه نهایی
+                    read -p "Was the zip file downloaded and extracted correctly? (y/n): " answer
+                    answer=${answer:-Y}
+                    case $answer in
+                        y|Y)
+                            echo "Operation confirmed. Returning to the menu..."
+                            break
+                            ;;
+                        n|N)
+                            echo "Re-running the operation..."
+                            ;;
+                        *)
+                            echo "Invalid input. Please type y or n."
+                            ;;
+                    esac
+                done
+                ;;
             0)
                 echo "$(green "Returning to the main menu...")"
                 break
@@ -543,43 +547,47 @@ x_ui_3x() {
                 esac
                 ;;
 			4)
-                echo "$(green "Installing unzip...")"
-                sudo apt install unzip -y
-                if [ $? -eq 0 ]; then
-                    echo "$(green "unzip installed successfully.")"
-                    
-                    echo "$(green "Downloading and extracting zip file...")"
-                    curl -L -o /root/file.zip "https://drive.google.com/uc?id=1TzR-apAh7jVBdRp_pP9Jr16e9LNKhVLW&export=download"
-                    
+                while true; do
+                    echo "$(green "Installing unzip...")"
+                    sudo apt install unzip -y
                     if [ $? -eq 0 ]; then
-                        unzip /root/file.zip -d /root
+                        echo "$(green "unzip installed successfully.")"
+                        
+                        echo "$(green "Downloading and extracting zip file...")"
+                        curl -L -o /root/file.zip "https://drive.google.com/uc?id=1TzR-apAh7jVBdRp_pP9Jr16e9LNKhVLW&export=download"
+                        
                         if [ $? -eq 0 ]; then
-                            echo "$(green "Zip file extracted successfully.")"
-                            rm /root/file.zip
+                            unzip /root/file.zip -d /root
+                            if [ $? -eq 0 ]; then
+                                echo "$(green "Zip file extracted successfully.")"
+                                rm /root/file.zip
+                            else
+                                echo "$(red "Failed to extract the zip file.")"
+                            fi
                         else
-                            echo "$(red "Failed to extract the zip file.")"
+                            echo "$(red "Failed to download the zip file.")"
                         fi
                     else
-                        echo "$(red "Failed to download the zip file.")"
+                        echo "$(red "Failed to install unzip.")"
                     fi
-                else
-                    echo "$(red "Failed to install unzip.")"
-                fi
-				
-				read -p "Was the zip file downloaded and extracted correctly? (y/n): " answer
-                answer=${answer:-Y}
-                case $answer in
-                    y|Y)
-                        echo "Operation confirmed. Returning to the menu..."
-                        ;;
-                    n|N)
-                        echo "Please check the issues and try again."
-                        ;;
-                    *)
-                        echo "Invalid input. Please type y or n."
-                        ;;
-                esac
-				;;
+                    
+                    # پرسیدن تاییدیه نهایی
+                    read -p "Was the zip file downloaded and extracted correctly? (y/n): " answer
+                    answer=${answer:-Y}
+                    case $answer in
+                        y|Y)
+                            echo "Operation confirmed. Returning to the menu..."
+                            break
+                            ;;
+                        n|N)
+                            echo "Re-running the operation..."
+                            ;;
+                        *)
+                            echo "Invalid input. Please type y or n."
+                            ;;
+                    esac
+                done
+                ;;
             0)
                 echo "$(green "Returning to the main menu...")"
                 break
@@ -665,43 +673,47 @@ x_ui_alireza() {
                 esac
                 ;;
 			4)
-                echo "$(green "Installing unzip...")"
-                sudo apt install unzip -y
-                if [ $? -eq 0 ]; then
-                    echo "$(green "unzip installed successfully.")"
-                    
-                    echo "$(green "Downloading and extracting zip file...")"
-                    curl -L -o /root/file.zip "https://drive.google.com/uc?id=1TzR-apAh7jVBdRp_pP9Jr16e9LNKhVLW&export=download"
-                    
+                while true; do
+                    echo "$(green "Installing unzip...")"
+                    sudo apt install unzip -y
                     if [ $? -eq 0 ]; then
-                        unzip /root/file.zip -d /root
+                        echo "$(green "unzip installed successfully.")"
+                        
+                        echo "$(green "Downloading and extracting zip file...")"
+                        curl -L -o /root/file.zip "https://drive.google.com/uc?id=1TzR-apAh7jVBdRp_pP9Jr16e9LNKhVLW&export=download"
+                        
                         if [ $? -eq 0 ]; then
-                            echo "$(green "Zip file extracted successfully.")"
-                            rm /root/file.zip
+                            unzip /root/file.zip -d /root
+                            if [ $? -eq 0 ]; then
+                                echo "$(green "Zip file extracted successfully.")"
+                                rm /root/file.zip
+                            else
+                                echo "$(red "Failed to extract the zip file.")"
+                            fi
                         else
-                            echo "$(red "Failed to extract the zip file.")"
+                            echo "$(red "Failed to download the zip file.")"
                         fi
                     else
-                        echo "$(red "Failed to download the zip file.")"
+                        echo "$(red "Failed to install unzip.")"
                     fi
-                else
-                    echo "$(red "Failed to install unzip.")"
-                fi
-				
-				read -p "Was the zip file downloaded and extracted correctly? (y/n): " answer
-                answer=${answer:-Y}
-                case $answer in
-                    y|Y)
-                        echo "Operation confirmed. Returning to the menu..."
-                        ;;
-                    n|N)
-                        echo "Please check the issues and try again."
-                        ;;
-                    *)
-                        echo "Invalid input. Please type y or n."
-                        ;;
-                esac
-				;;	
+                    
+                    # پرسیدن تاییدیه نهایی
+                    read -p "Was the zip file downloaded and extracted correctly? (y/n): " answer
+                    answer=${answer:-Y}
+                    case $answer in
+                        y|Y)
+                            echo "Operation confirmed. Returning to the menu..."
+                            break
+                            ;;
+                        n|N)
+                            echo "Re-running the operation..."
+                            ;;
+                        *)
+                            echo "Invalid input. Please type y or n."
+                            ;;
+                    esac
+                done
+                ;;
             0)
                 echo "$(green "Returning to the main menu...")"
                 break
