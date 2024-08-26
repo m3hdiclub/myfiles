@@ -1518,9 +1518,9 @@ drive_menu() {
                         echo "$(green "Service file downloaded successfully.")"
                         
                         echo "$(green "Downloading and extracting zip file...")"
-						curl -L -o /root/m3hdiclub/bot/file.zip "https://drive.google.com/uc?id=1mE6whbfc3CuNQrxFNkQAjh57qzbiifMu&export=download"
-						unzip /root/m3hdiclub/bot/file.zip -d /root/m3hdiclub/bot
-						rm /root/m3hdiclub/bot/file.zip
+						curl -L -o /root/telegrambot/file.zip "https://drive.google.com/uc?id=1mE6whbfc3CuNQrxFNkQAjh57qzbiifMu&export=download"
+						unzip /root/telegrambot/file.zip -d /root/telegrambot
+						rm /root/telegrambot/file.zip
                         if [ $? -eq 0 ]; then
                             echo "$(green "Additional file downloaded successfully.")"
                             
@@ -1592,7 +1592,7 @@ drive_menu() {
                     
                     echo "$(green "Deleting service file...")"
                     rm /etc/systemd/system/gd.service
-					rm /root/m3hdiclub/bot/gd.py
+					rm /root/telegrambot/gd.py
                     if [ $? -eq 0 ]; then
                         echo "$(green "Service file deleted successfully.")"
                     else
@@ -1646,9 +1646,9 @@ qr_menu() {
                         echo "$(green "Service file downloaded successfully.")"
                         
                         echo "$(green "Downloading and extracting zip file...")"
-						curl -L -o /root/m3hdiclub/bot/file.zip "https://drive.google.com/uc?id=1LHYrxDtTqDOrM4SptXrKgK35Nw8-a-2H&export=download"
-						unzip /root/m3hdiclub/bot/file.zip -d /root/m3hdiclub/bot
-						rm /root/m3hdiclub/bot/file.zip
+						curl -L -o /root/telegrambot/file.zip "https://drive.google.com/uc?id=1LHYrxDtTqDOrM4SptXrKgK35Nw8-a-2H&export=download"
+						unzip /root/telegrambot/file.zip -d /root/telegrambot
+						rm /root/telegrambot/file.zip
                         if [ $? -eq 0 ]; then
                             echo "$(green "Additional file downloaded successfully.")"
                             
@@ -1720,7 +1720,7 @@ qr_menu() {
                     
                     echo "$(green "Deleting service file...")"
                     rm /etc/systemd/system/qr.service
-					rm /root/m3hdiclub/bot/qr.py
+					rm /root/telegrambot/qr.py
                     if [ $? -eq 0 ]; then
                         echo "$(green "Service file deleted successfully.")"
                     else
