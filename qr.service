@@ -3,7 +3,7 @@ Description=My QR Service
 After=network.target
 
 [Service]
-ExecStart=/usr/bin/python3 /root/m3hdiclub/bot/qr.py
+ExecStart=/usr/bin/python3 /root/telegrambot/qr.py
 Restart=always
 RestartSec=10
 User=root
