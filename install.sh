@@ -1,6 +1,5 @@
 #!/bin/bash
 
-sudo apt-get update
 # بررسی نصب بودن curl و نصب در صورت نیاز
 if ! command -v curl &> /dev/null; then
     echo "curl is not installed. Installing curl..."
