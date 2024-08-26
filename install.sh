@@ -1229,8 +1229,9 @@ add_site() {
                                     if [ $? -eq 0 ]; then
                                         echo "$(green "express, sqlite3, and body-parser installed successfully.")"
                                         
-                                        echo "$(green "Installing axios...")"
+                                        echo "$(green "Installing axios and multer...")"
                                         npm install axios
+					npm install multer
                                         if [ $? -eq 0 ]; then
                                             echo "$(green "axios installed successfully.")"
                                             
