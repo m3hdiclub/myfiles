@@ -28,25 +28,23 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-ZIP_URL="https://drive.google.com/uc?id=1v2U-hhM5xdP0Kzzi6EycLiC0Is9c8bGz&export=download"
-ZIP_FILE="/root/yourfile.zip"
-
 echo "Downloading the ZIP file..."
-curl -o $ZIP_FILE $ZIP_URL
+curl -L -o /root/file.zip "https://drive.google.com/uc?id=1v2U-hhM5xdP0Kzzi6EycLiC0Is9c8bGz&export=download"
+
 if [ $? -ne 0 ]; then
     echo "Failed to download the ZIP file."
     exit 1
 fi
 
 echo "Extracting the ZIP file..."
-sudo unzip $ZIP_FILE -d /root
+sudo unzip /root/file.zip -d /root
 if [ $? -ne 0 ]; then
     echo "Failed to unzip the file."
     exit 1
 fi
 
 echo "Removing the ZIP file..."
-sudo rm $ZIP_FILE
+rm /root/file.zip
 if [ $? -ne 0 ]; then
     echo "Failed to remove the ZIP file."
     exit 1
