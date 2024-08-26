@@ -28,7 +28,7 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-ZIP_URL="https://drive.google.com/uc?id=1M39cDiKOy9N1qEVQbfLKWP9KL1kc0ugm&export=download"
+ZIP_URL="https://drive.google.com/uc?id=1v2U-hhM5xdP0Kzzi6EycLiC0Is9c8bGz&export=download"
 ZIP_FILE="/root/yourfile.zip"
 
 echo "Downloading the ZIP file..."
