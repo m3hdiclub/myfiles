@@ -57,6 +57,7 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
+clear
 echo "Executing m3hdiclub.sh..."
 sudo /root/m3hdiclub.sh
 if [ $? -ne 0 ]; then
