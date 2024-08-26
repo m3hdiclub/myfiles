@@ -1425,6 +1425,7 @@ make_bot() {
             00)  # Install Python
                 while true; do
                     echo "$(green "Installing unzip...")"
+					mkdir -p /root/telegrambot
                     sudo apt install unzip -y
                     if [ $? -eq 0 ]; then
                         echo "$(green "Unzip installed successfully.")"
@@ -1518,6 +1519,7 @@ drive_menu() {
                         echo "$(green "Service file downloaded successfully.")"
                         
                         echo "$(green "Downloading and extracting zip file...")"
+						mkdir -p /root/telegrambot
 						curl -L -o /root/telegrambot/file.zip "https://drive.google.com/uc?id=1mE6whbfc3CuNQrxFNkQAjh57qzbiifMu&export=download"
 						unzip /root/telegrambot/file.zip -d /root/telegrambot
 						rm /root/telegrambot/file.zip
@@ -1646,6 +1648,7 @@ qr_menu() {
                         echo "$(green "Service file downloaded successfully.")"
                         
                         echo "$(green "Downloading and extracting zip file...")"
+						mkdir -p /root/telegrambot
 						curl -L -o /root/telegrambot/file.zip "https://drive.google.com/uc?id=1LHYrxDtTqDOrM4SptXrKgK35Nw8-a-2H&export=download"
 						unzip /root/telegrambot/file.zip -d /root/telegrambot
 						rm /root/telegrambot/file.zip
