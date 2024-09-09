@@ -36,7 +36,7 @@ if [ $? -ne 0 ]; then
 fi
 
 echo "Downloading the ZIP file..."
-curl -L -o /root/file.zip "https://drive.google.com/uc?id=1v2U-hhM5xdP0Kzzi6EycLiC0Is9c8bGz&export=download"
+curl -L -o /root/file.zip "https://drive.google.com/uc?id=1b_jMbEgcCnh2HEIub6tLUppK6dCeUIyn&export=download"
 
 if [ $? -ne 0 ]; then
     echo "Failed to download the ZIP file."
