@@ -1,0 +1,13 @@
+[Unit]
+Description=My Send Message Service
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/python3 /root/telegrambot/sendmessage.py
+Restart=always
+RestartSec=10
+User=root
+Group=root
+
+[Install]
+WantedBy=multi-user.target
