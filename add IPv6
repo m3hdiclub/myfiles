@@ -1,0 +1,42 @@
+sudo nano /etc/netplan/01-netcfg.yaml
+
+
+
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    eth0:
+      addresses:
+        - ipv4/24
+        - ipv6/48
+      routes:
+        - to: default
+          via: ipv4 [ tahesh bayad 1 bashe , mesle in 192.168.1.1 ] 
+        - to: default
+          via: ipv6 [ tahesh bayad 1 bashe ]
+      nameservers:
+        addresses: [8.8.8.8, 8.8.4.4]
+
+
+or
+
+
+
+network:
+ version: 2
+ renderer: networkd
+ ethernets:
+   eth0:
+     addresses:
+       - ipv4/24
+       - ipv6/48
+     gateway4: ipv4 [ tahesh bayad 1 bashe , mesle in 192.168.1.1 ] 
+     gateway6: ipv6 [ tahesh bayad 1 bashe ]
+     nameservers:
+       addresses: [8.8.8.8, 8.8.4.4]
+
+
+
+  
+sudo netplan apply
