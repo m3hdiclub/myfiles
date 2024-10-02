@@ -1,0 +1,13 @@
+[Unit]
+Description=My Upload File Service
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/python3 /root/telegrambot/uploadfile.py
+Restart=always
+RestartSec=10
+User=root
+Group=root
+
+[Install]
+WantedBy=multi-user.target
