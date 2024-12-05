@@ -84,3 +84,6 @@ https://github.com/seriyps/mtproto_proxy
 ```
 curl -L -o mtp_install.sh https://git.io/fj5ru && bash mtp_install.sh
 ```
+
+**Enteqale File**
+scp -P 7710 file_path root@IP:/maqsad_path/
