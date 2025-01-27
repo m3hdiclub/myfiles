@@ -8,3 +8,4 @@ pillow==10.2.0
 jdatetime
 PyGithub
 Flask
+pytz
