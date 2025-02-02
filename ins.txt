@@ -9,3 +9,4 @@ jdatetime
 PyGithub
 Flask
 pytz
+pyTelegramBotAPI
