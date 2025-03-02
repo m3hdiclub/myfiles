@@ -11,3 +11,4 @@ Flask
 pytz
 pyTelegramBotAPI
 beautifulsoup4
+dataclasses
