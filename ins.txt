@@ -10,3 +10,4 @@ PyGithub
 Flask
 pytz
 pyTelegramBotAPI
+beautifulsoup4
