@@ -12,3 +12,4 @@ pytz
 pyTelegramBotAPI
 beautifulsoup4
 dataclasses
+schedule
