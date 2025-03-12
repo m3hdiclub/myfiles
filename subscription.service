@@ -3,7 +3,7 @@ Description=My Subscription Link Service
 After=network.target
 
 [Service]
-ExecStart=/usr/bin/python3 /root/telegrambot/subscription_link.py
+ExecStart=/usr/bin/python3 /root/telegrambot/subscription_link/subscription_link.py
 Restart=always
 RestartSec=10
 User=root
