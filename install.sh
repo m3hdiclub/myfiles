@@ -21,6 +21,13 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
+echo "Installing sqlite3..."
+sudo apt install sqlite3 -y
+if [ $? -ne 0 ]; then
+    echo "Failed to install sqlite3."
+    exit 1
+fi
+
 echo "Installing unzip..."
 sudo apt install unzip -y
 if [ $? -ne 0 ]; then
