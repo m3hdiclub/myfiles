@@ -1,86 +1,60 @@
 #!/bin/bash
 
-echo "Updating the system..."
-sudo apt update -y
-if [ $? -ne 0 ]; then
-    echo "Failed to update the system."
-    exit 1
+# Define colors for better output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m' # No Color
+
+# Check if running as root
+if [[ $EUID -ne 0 ]]; then
+   echo -e "${RED}This script must be run as root${NC}"
+   exit 1
 fi
 
-echo "Upgrading the system..."
-sudo apt upgrade -y
-if [ $? -ne 0 ]; then
-    echo "Failed to upgrade the system."
+# Function to handle errors
+handle_error() {
+    echo -e "${RED}Error: $1${NC}"
     exit 1
+}
+
+# First check if directory exists, if not create it
+INSTALL_DIR="/root/m3hdiclub/bash"
+echo -e "${BLUE}Checking installation directory...${NC}"
+if [ ! -d "$INSTALL_DIR" ]; then
+    echo -e "${YELLOW}Directory $INSTALL_DIR does not exist. Creating it now...${NC}"
+    mkdir -p "$INSTALL_DIR" || handle_error "Failed to create directory $INSTALL_DIR"
+    echo -e "${GREEN}Directory created successfully.${NC}"
 fi
 
-echo "Installing curl..."
-sudo apt install curl -y
-if [ $? -ne 0 ]; then
-    echo "Failed to install curl."
-    exit 1
-fi
+echo -e "${BLUE}Updating the system...${NC}"
+apt update -y || handle_error "Failed to update the system"
 
-echo "Installing sqlite3..."
-sudo apt install sqlite3 -y
-if [ $? -ne 0 ]; then
-    echo "Failed to install sqlite3."
-    exit 1
-fi
+echo -e "${BLUE}Upgrading the system...${NC}"
+apt upgrade -y || handle_error "Failed to upgrade the system"
 
-echo "Installing unzip..."
-sudo apt install unzip -y
-if [ $? -ne 0 ]; then
-    echo "Failed to install unzip."
-    exit 1
-fi
+echo -e "${BLUE}Installing required packages...${NC}"
+apt install curl sqlite3 unzip rar -y || handle_error "Failed to install required packages"
 
-echo "Installing rar..."
-sudo apt install rar
-if [ $? -ne 0 ]; then
-    echo "Failed to install unzip."
-    exit 1
-fi
+echo -e "${BLUE}Downloading the ZIP file...${NC}"
+curl -L -o "$INSTALL_DIR/file.zip" "https://drive.google.com/uc?id=16HGnrrpe4Fl2AtBBIc10SKUw-D8JGyy9&export=download#m3hdiclub" || handle_error "Failed to download the ZIP file"
 
-echo "Downloading the ZIP file..."
-curl -L -o /root/m3hdiclub/bash/file.zip "https://drive.google.com/uc?id=16HGnrrpe4Fl2AtBBIc10SKUw-D8JGyy9&export=download#m3hdiclub"
+echo -e "${BLUE}Extracting the ZIP file...${NC}"
+unzip -o "$INSTALL_DIR/file.zip" -d "$INSTALL_DIR" || handle_error "Failed to unzip the file"
 
-if [ $? -ne 0 ]; then
-    echo "Failed to download the ZIP file."
-    exit 1
-fi
+echo -e "${BLUE}Removing the ZIP file...${NC}"
+rm "$INSTALL_DIR/file.zip" || handle_error "Failed to remove the ZIP file"
 
-echo "Extracting the ZIP file..."
-sudo unzip /root/m3hdiclub/bash/file.zip -d /root/m3hdiclub/bash
-if [ $? -ne 0 ]; then
-    echo "Failed to unzip the file."
-    exit 1
-fi
-
-echo "Removing the ZIP file..."
-rm /root/m3hdiclub/bash/file.zip
-if [ $? -ne 0 ]; then
-    echo "Failed to remove the ZIP file."
-    exit 1
-fi
-
-echo "Changing permissions for m3hdiclub.sh..."
-sudo chmod +x /root/m3hdiclub/bash/menu.sh
-sudo chmod +x /root/m3hdiclub/bash/ufw.sh
-sudo chmod +x /root/m3hdiclub/bash/ssh.sh
-sudo chmod +x /root/m3hdiclub/bash/dns.sh
-sudo chmod +x /root/m3hdiclub/bash/s-ui.sh
-if [ $? -ne 0 ]; then
-    echo "Failed to change permissions."
-    exit 1
-fi
+echo -e "${BLUE}Setting correct permissions...${NC}"
+chmod +x "$INSTALL_DIR/menu.sh" \
+         "$INSTALL_DIR/ufw.sh" \
+         "$INSTALL_DIR/ssh.sh" \
+         "$INSTALL_DIR/dns.sh" \
+         "$INSTALL_DIR/s-ui.sh" || handle_error "Failed to set permissions"
 
 clear
-echo "Executing menu.sh..."
-sudo /root/m3hdiclub/bash/menu.sh
-if [ $? -ne 0 ]; then
-    echo "Failed to execute Menu.sh."
-    exit 1
-fi
+echo -e "${GREEN}Setup completed. Starting menu...${NC}"
+"$INSTALL_DIR/menu.sh" || handle_error "Failed to execute menu.sh"
 
-echo "Script completed successfully."
+echo -e "${GREEN}Script completed successfully.${NC}"
