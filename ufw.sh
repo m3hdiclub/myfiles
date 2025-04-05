@@ -1,13 +1,11 @@
 #!/bin/bash
 
-# Colors
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 NC='\033[0m'
 
-# Function to install required packages
 install_packages() {
     if ! command -v ufw &> /dev/null; then
         echo -e "${YELLOW}UFW not found, installing...${NC}"
@@ -20,24 +18,19 @@ install_packages() {
     fi
 }
 
-# Check root
 if [[ $EUID -ne 0 ]]; then
    echo -e "${RED}This script must be run as root${NC}"
    exit 1
 fi
 
-# Install required packages
 install_packages
 
-# Function to show ports and rules
 show_ports() {
     clear
-    # Create a temporary file
     temp_file=$(mktemp)
     echo -e "${YELLOW}Active System Ports:${NC}"
     echo "--------------------------------"
     
-    # Get all ports and their programs, remove duplicates
     netstat -tulpn | grep LISTEN | while read -r line; do
         addr=$(echo "$line" | awk '{print $4}')
         prog=$(echo "$line" | awk '{print $7}')
@@ -54,11 +47,9 @@ show_ports() {
         prog=$(echo "$line" | cut -d' ' -f2-)
         printf "Port: ${BLUE}%-6s${NC} Program: ${YELLOW}%s${NC}\n" "$port" "$prog"
     done
-    # Show UFW rules
     echo -e "\n${YELLOW}UFW Rules:${NC}"
     echo "--------------------------------"
     
-    # Process UFW rules
     counter=1
     ufw status | grep -v "(v6)" | grep ALLOW | while read -r line; do
         port=$(echo "$line" | awk '{print $1}')
@@ -67,7 +58,6 @@ show_ports() {
             ((counter++))
         fi
     done
-    # Show UFW status
     if ufw status | grep -q "Status: active"; then
         echo -e "\nFirewall Status: ${GREEN}Active${NC}"
     else
@@ -75,7 +65,6 @@ show_ports() {
     fi
 }
 
-# Function to add port
 add_port() {
     clear
     echo -e "${YELLOW}Add New Port${NC}"
@@ -98,12 +87,10 @@ add_port() {
     fi
 }
 
-# Function to update ports
 update_ports() {
     clear
     echo -e "${YELLOW}Updating firewall ports...${NC}"
     
-    # Create temp file for unique ports
     temp_file=$(mktemp)
     netstat -tulpn | grep LISTEN | while read -r line; do
         addr=$(echo "$line" | awk '{print $4}')
@@ -114,19 +101,16 @@ update_ports() {
             fi
         fi
     done | sort -n | uniq > "$temp_file"
-    # Add each unique port if not already in UFW rules
     while read -r port; do
         if ! ufw status | grep -q "$port"; then
             echo -e "Adding port ${BLUE}$port${NC}"
             ufw allow "$port"
         fi
     done < "$temp_file"
-    # Clean up
     rm -f "$temp_file"
     echo -e "${GREEN}Port update complete${NC}"
 }
 
-# Function to delete rules
 delete_rules() {
     clear
     echo -e "${RED}WARNING: This will delete all UFW rules!${NC}"
@@ -140,7 +124,6 @@ delete_rules() {
     fi
 }
 
-# Function to toggle UFW
 toggle_ufw() {
     if ufw status | grep -q "Status: active"; then
         echo -e "${YELLOW}Stopping UFW...${NC}"
@@ -153,7 +136,6 @@ toggle_ufw() {
     fi
 }
 
-# Main menu loop
 while true; do
     clear
     echo -e "${BLUE}=== UFW Manager ===${NC}"
