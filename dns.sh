@@ -1,5 +1,5 @@
 #!/bin/bash
-# رنگ‌ها
+# Colors
 GREEN="\033[1;32m"
 CYAN="\033[1;36m"
 RED="\033[1;31m"
@@ -7,58 +7,58 @@ YELLOW="\033[1;33m"
 RESET="\033[0m"
 
 echo -e "${CYAN}┌──────────────────────────────────┐${RESET}"
-echo -e "${CYAN}│       تنظیم DNS سرور اوبونتو       │${RESET}"
+echo -e "${CYAN}│      Ubuntu DNS Server Setup      │${RESET}"
 echo -e "${CYAN}└──────────────────────────────────┘${RESET}"
 echo
 
-# بررسی دسترسی روت
+# Check root access
 if [[ $EUID -ne 0 ]]; then
-    echo -e "${RED}خطا: این اسکریپت باید با دسترسی روت اجرا شود${RESET}"
-    echo -e "لطفا با دستور ${YELLOW}sudo bash dns.sh${RESET} اجرا کنید"
+    echo -e "${RED}Error: This script must be run as root${RESET}"
+    echo -e "Please run with ${YELLOW}sudo bash dns.sh${RESET}"
     exit 1
 fi
 
-# تنظیم مقادیر DNS
-echo -e "${CYAN}در حال تنظیم سرورهای DNS...${RESET}"
+# Set DNS values
+echo -e "${CYAN}Setting up DNS servers...${RESET}"
 PRIMARY_DNS="8.8.8.8 8.8.4.4"
 FALLBACK_DNS="1.1.1.1 1.0.0.1"
 
-# بررسی و اصلاح فایل resolved.conf
+# Check and modify resolved.conf file
 CONFIG_FILE="/etc/systemd/resolved.conf"
 
-# اگر خط DNS وجود داشته باشد (با یا بدون کامنت)، آن را با مقدار جدید جایگزین کنید
+# If DNS line exists (with or without comment), replace it with new value
 if grep -q "^#*DNS=" "$CONFIG_FILE"; then
-    # جایگزینی خط موجود با مقدار جدید (کامنت شده یا نشده)
+    # Replace existing line with new value (commented or not)
     sudo sed -i "s/^#*DNS=.*/DNS=$PRIMARY_DNS/" "$CONFIG_FILE"
-    echo -e "${GREEN}DNS به ${YELLOW}$PRIMARY_DNS${GREEN} تنظیم شد${RESET}"
+    echo -e "${GREEN}DNS set to ${YELLOW}$PRIMARY_DNS${RESET}"
 else
-    # اضافه کردن خط DNS در صورت عدم وجود
+    # Add DNS line if it doesn't exist
     echo "DNS=$PRIMARY_DNS" | sudo tee -a "$CONFIG_FILE" > /dev/null
-    echo -e "${GREEN}DNS به ${YELLOW}$PRIMARY_DNS${GREEN} اضافه شد${RESET}"
+    echo -e "${GREEN}DNS added as ${YELLOW}$PRIMARY_DNS${RESET}"
 fi
 
-# اگر خط FallbackDNS وجود داشته باشد (با یا بدون کامنت)، آن را با مقدار جدید جایگزین کنید
+# If FallbackDNS line exists (with or without comment), replace it with new value
 if grep -q "^#*FallbackDNS=" "$CONFIG_FILE"; then
-    # جایگزینی خط موجود با مقدار جدید (کامنت شده یا نشده)
+    # Replace existing line with new value (commented or not)
     sudo sed -i "s/^#*FallbackDNS=.*/FallbackDNS=$FALLBACK_DNS/" "$CONFIG_FILE"
-    echo -e "${GREEN}FallbackDNS به ${YELLOW}$FALLBACK_DNS${GREEN} تنظیم شد${RESET}"
+    echo -e "${GREEN}FallbackDNS set to ${YELLOW}$FALLBACK_DNS${RESET}"
 else
-    # اضافه کردن خط FallbackDNS در صورت عدم وجود
+    # Add FallbackDNS line if it doesn't exist
     echo "FallbackDNS=$FALLBACK_DNS" | sudo tee -a "$CONFIG_FILE" > /dev/null
-    echo -e "${GREEN}FallbackDNS به ${YELLOW}$FALLBACK_DNS${GREEN} اضافه شد${RESET}"
+    echo -e "${GREEN}FallbackDNS added as ${YELLOW}$FALLBACK_DNS${RESET}"
 fi
 
-# راه‌اندازی مجدد سرویس resolved
-echo -e "${CYAN}در حال راه‌اندازی مجدد سرویس systemd-resolved...${RESET}"
+# Restart resolved service
+echo -e "${CYAN}Restarting systemd-resolved service...${RESET}"
 if sudo systemctl restart systemd-resolved; then
-    echo -e "${GREEN}سرویس systemd-resolved با موفقیت راه‌اندازی مجدد شد!${RESET}"
+    echo -e "${GREEN}systemd-resolved service restarted successfully!${RESET}"
 else
-    echo -e "${RED}خطا: راه‌اندازی مجدد سرویس systemd-resolved با شکست مواجه شد!${RESET}"
+    echo -e "${RED}Error: Failed to restart systemd-resolved service!${RESET}"
     exit 1
 fi
 
-# نمایش اطلاعات فعلی DNS
-echo -e "\n${CYAN}اطلاعات DNS سیستم بعد از تغییرات:${RESET}"
+# Display current DNS information
+echo -e "\n${CYAN}System DNS information after changes:${RESET}"
 echo -e "${YELLOW}$(systemd-resolve --status | grep -A 2 'DNS Servers')${RESET}"
 
-echo -e "\n${GREEN}تنظیمات DNS با موفقیت انجام شد!${RESET}"
+echo -e "\n${GREEN}DNS settings successfully configured!${RESET}"
