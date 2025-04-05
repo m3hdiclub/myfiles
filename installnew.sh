@@ -79,7 +79,7 @@ clear
 echo "Executing menu.sh..."
 sudo /root/m3hdiclub/bash/menu.sh
 if [ $? -ne 0 ]; then
-    echo "Failed to execute m3hdiclub.sh."
+    echo "Failed to execute Menu.sh."
     exit 1
 fi
 
