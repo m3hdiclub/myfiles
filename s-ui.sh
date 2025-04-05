@@ -61,7 +61,7 @@ delete_sui() {
     
     if [[ "$confirm" == [yY] ]]; then
         echo -e "${YELLOW}Deleting S-UI Panel...${NC}"
-        s-ui delete
+        s-ui uninstall
         
         if [ $? -eq 0 ]; then
             echo -e "${GREEN}S-UI Panel has been deleted successfully${NC}"
