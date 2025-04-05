@@ -1,25 +1,21 @@
 #!/bin/bash
 
-# Define colors for better output
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
-# Check if running as root
 if [[ $EUID -ne 0 ]]; then
    echo -e "${RED}This script must be run as root${NC}"
    exit 1
 fi
 
-# Function to handle errors
 handle_error() {
     echo -e "${RED}Error: $1${NC}"
     exit 1
 }
 
-# First check if directory exists, if not create it
 INSTALL_DIR="/root/m3hdiclub/bash"
 echo -e "${BLUE}Checking installation directory...${NC}"
 if [ ! -d "$INSTALL_DIR" ]; then
@@ -51,7 +47,14 @@ chmod +x "$INSTALL_DIR/menu.sh" \
          "$INSTALL_DIR/ufw.sh" \
          "$INSTALL_DIR/ssh.sh" \
          "$INSTALL_DIR/dns.sh" \
-         "$INSTALL_DIR/s-ui.sh" || handle_error "Failed to set permissions"
+         "$INSTALL_DIR/s-ui.sh" \
+         "$INSTALL_DIR/3x-ui.sh" \
+         "$INSTALL_DIR/telegrambot.sh" \
+         "$INSTALL_DIR/telegrambot_googledrive.sh" \
+         "$INSTALL_DIR/telegrambot_qrcode.sh" \
+         "$INSTALL_DIR/telegrambot_sui.sh" \
+         "$INSTALL_DIR/telegrambot_serverdetail.sh" \
+         "$INSTALL_DIR/telegrambot_backup.sh" || handle_error "Failed to set permissions"
 
 clear
 echo -e "${GREEN}Setup completed. Starting menu...${NC}"
