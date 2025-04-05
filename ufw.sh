@@ -126,6 +126,54 @@ update_ports() {
     echo -e "${GREEN}Port update complete${NC}"
 }
 
+# Function to delete single rule
+delete_single_rule() {
+    clear
+    echo -e "${YELLOW}Delete Individual Rule${NC}"
+    echo "--------------------------------"
+    
+    # Get list of rules with numbers
+    rules=()
+    while read -r line; do
+        if [[ ! -z "$line" && "$line" =~ "ALLOW" ]]; then
+            rules+=("$line")
+        fi
+    done < <(ufw status numbered | grep -v "(v6)")
+    
+    # Display rules
+    if [ ${#rules[@]} -eq 0 ]; then
+        echo -e "${RED}No rules found${NC}"
+        return
+    fi
+    
+    for i in "${!rules[@]}"; do
+        rule_num=$(echo "${rules[$i]}" | awk '{print $1}' | tr -d '[]')
+        rule_desc=$(echo "${rules[$i]}" | awk '{$1=""; print $0}')
+        echo -e "${GREEN}$rule_num${NC}) $rule_desc"
+    done
+    
+    echo
+    read -p "Enter rule number to delete (or 0 to cancel): " rule_to_delete
+    
+    if [[ "$rule_to_delete" =~ ^[0-9]+$ ]]; then
+        if [ "$rule_to_delete" -eq 0 ]; then
+            echo -e "${YELLOW}Operation cancelled${NC}"
+            return
+        fi
+        
+        # Check if rule exists
+        if ufw status numbered | grep -q "^\[$rule_to_delete\]"; then
+            echo -e "${YELLOW}Deleting rule number $rule_to_delete...${NC}"
+            ufw --force delete "$rule_to_delete"
+            echo -e "${GREEN}Rule deleted${NC}"
+        else
+            echo -e "${RED}Rule number $rule_to_delete not found${NC}"
+        fi
+    else
+        echo -e "${RED}Invalid input${NC}"
+    fi
+}
+
 # Function to delete rules
 delete_rules() {
     clear
@@ -161,7 +209,8 @@ while true; do
     echo -e "${YELLOW}2)${NC} Add Port"
     echo -e "${YELLOW}3)${NC} Auto-Update Ports"
     echo -e "${GREEN}4)${NC} Toggle UFW (On/Off)"
-    echo -e "${RED}5)${NC} Delete All Rules"
+    echo -e "${RED}5)${NC} Delete Single Rule"
+    echo -e "${RED}6)${NC} Delete All Rules"
     echo -e "${BLUE}0)${NC} Exit"
     echo
     read -p "Select option: " choice
@@ -171,7 +220,8 @@ while true; do
         2) add_port; read -p "Press Enter to continue..." ;;
         3) update_ports; read -p "Press Enter to continue..." ;;
         4) toggle_ufw; read -p "Press Enter to continue..." ;;
-        5) delete_rules; read -p "Press Enter to continue..." ;;
+        5) delete_single_rule; read -p "Press Enter to continue..." ;;
+        6) delete_rules; read -p "Press Enter to continue..." ;;
         0) clear; echo -e "${GREEN}Goodbye!${NC}"; exit 0 ;;
         *) echo -e "${RED}Invalid option${NC}"; sleep 1 ;;
     esac
