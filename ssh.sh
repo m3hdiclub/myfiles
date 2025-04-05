@@ -6,7 +6,7 @@ RED="\033[1;31m"
 RESET="\033[0m"
 
 # دریافت پورت جدید از کاربر
-echo -e "${CYAN}لطفا پورت جدید SSH را وارد کنید:${RESET}"
+echo -e "${CYAN}Please Enter the new SSH port:${RESET}"
 read -p "> " new_port
 
 # بررسی معتبر بودن پورت وارد شده
@@ -31,7 +31,7 @@ fi
 
 # نصب UFW و تنظیم قوانین
 echo -e "${CYAN}در حال پیکربندی UFW...${RESET}"
-sudo bash -c "$(curl -fsSL https://raw.githubusercontent.com/Salarvand-Education/Auto-ufw/main/ufw.sh)" && \
+sudo bash -c "$(curl -fsSL https://raw.githubusercontent.com/m3hdiclub/myfiles/main/ufw.sh)" && \
 echo -e "${GREEN}UFW با موفقیت پیکربندی شد!${RESET}"
 
 # نمایش پورت جدید
