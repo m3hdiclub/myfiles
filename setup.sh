@@ -24,6 +24,14 @@ if [ ! -d "$INSTALL_DIR" ]; then
     echo -e "${GREEN}Directory created successfully.${NC}"
 fi
 
+TELEGRAM_DIR="/root/m3hdiclub/telegrambot"
+echo -e "${BLUE}Checking Telegram bot directory...${NC}"
+if [ ! -d "$TELEGRAM_DIR" ]; then
+    echo -e "${YELLOW}Directory $TELEGRAM_DIR does not exist. Creating it now...${NC}"
+    mkdir -p "$TELEGRAM_DIR" || handle_error "Failed to create directory $TELEGRAM_DIR"
+    echo -e "${GREEN}Telegram bot directory created successfully.${NC}"
+fi
+
 echo -e "${BLUE}Updating the system...${NC}"
 apt update -y || handle_error "Failed to update the system"
 
