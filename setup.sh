@@ -49,6 +49,7 @@ chmod +x "$INSTALL_DIR/menu.sh" \
          "$INSTALL_DIR/dns.sh" \
          "$INSTALL_DIR/s-ui.sh" \
          "$INSTALL_DIR/3x-ui.sh" \
+         "$INSTALL_DIR/reality-ezpz.sh" \
          "$INSTALL_DIR/telegrambot.sh" \
          "$INSTALL_DIR/telegrambot_googledrive.sh" \
          "$INSTALL_DIR/telegrambot_qrcode.sh" \
