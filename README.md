@@ -9,6 +9,11 @@ or
 bash <(curl -Ls https://bit.ly/m3hdiclub-install)
 ```
 
+**NEW**
+```
+bash <(curl -Ls https://raw.githubusercontent.com/m3hdiclub/myfiles/master/setup.sh)
+```
+
 
 **Update**
 ```
