@@ -3,7 +3,7 @@ Description=My Google Drive Service
 After=network.target
 
 [Service]
-ExecStart=/usr/bin/python3 /root/telegrambot/gd.py
+ExecStart=/usr/bin/python3 /root/m3hdiclub/telegrambot/gd.py
 Restart=always
 RestartSec=10
 User=root
