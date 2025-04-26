@@ -13,3 +13,4 @@ pyTelegramBotAPI
 beautifulsoup4
 dataclasses
 schedule
+python-dotenv
