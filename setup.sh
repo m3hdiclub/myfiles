@@ -66,6 +66,12 @@ chmod +x "$INSTALL_DIR/menu.sh" \
          "$INSTALL_DIR/telegrambot_backup.sh" || handle_error "Failed to set permissions"
 
 clear
+
+echo -e "${BLUE}Closing VPS Ping...${NC}"
+echo 1 > /proc/sys/net/ipv4/icmp_echo_ignore_all
+
+clear
+
 echo -e "${GREEN}Setup completed. Starting menu...${NC}"
 "$INSTALL_DIR/menu.sh" || handle_error "Failed to execute menu.sh"
 
