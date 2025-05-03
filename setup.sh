@@ -52,6 +52,7 @@ rm "$INSTALL_DIR/file.zip" || handle_error "Failed to remove the ZIP file"
 
 echo -e "${BLUE}Setting correct permissions...${NC}"
 chmod +x "$INSTALL_DIR/menu.sh" \
+         "$INSTALL_DIR/all.sh" \
          "$INSTALL_DIR/ufw.sh" \
          "$INSTALL_DIR/ssh.sh" \
          "$INSTALL_DIR/dns.sh" \
