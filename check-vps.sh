@@ -20,15 +20,27 @@ fi
 check_requirements() {
     echo -e "${BLUE}[INFO]${NC} Verifying required dependencies..."
     local missing_tools=()
+    local missing_packages=()
     
-    for tool in curl wget jq host dig; do
+    for tool in curl wget jq; do
         if ! command -v $tool &> /dev/null; then
             missing_tools+=("$tool")
         fi
     done
     
+    if ! command -v host &> /dev/null || ! command -v dig &> /dev/null; then
+        if command -v apt-get &> /dev/null; then
+            missing_packages+=("dnsutils")
+        elif command -v yum &> /dev/null || command -v dnf &> /dev/null; then
+            missing_packages+=("bind-utils")
+        else
+            echo -e "${RED}[ERROR]${NC} Could not detect package manager for DNS tools. Please install 'host' and 'dig' manually."
+            exit 1
+        fi
+    fi
+    
     if [ ${#missing_tools[@]} -ne 0 ]; then
-        echo -e "${YELLOW}[SETUP]${NC} Installing missing dependencies: ${missing_tools[*]}"
+        echo -e "${YELLOW}[SETUP]${NC} Installing missing tools: ${missing_tools[*]}"
         
         if command -v apt-get &> /dev/null; then
             apt-get update &> /dev/null
@@ -48,6 +60,29 @@ check_requirements() {
                 exit 1
             fi
         done
+    fi
+    
+    if [ ${#missing_packages[@]} -ne 0 ]; then
+        echo -e "${YELLOW}[SETUP]${NC} Installing DNS tools package: ${missing_packages[*]}"
+        
+        if command -v apt-get &> /dev/null; then
+            apt-get update &> /dev/null
+            apt-get install -y ${missing_packages[@]} &> /dev/null
+        elif command -v yum &> /dev/null; then
+            yum install -y ${missing_packages[@]} &> /dev/null
+        elif command -v dnf &> /dev/null; then
+            dnf install -y ${missing_packages[@]} &> /dev/null
+        fi
+        
+        if ! command -v host &> /dev/null; then
+            echo -e "${RED}[ERROR]${NC} Failed to install 'host'. Please install manually with 'sudo apt-get install -y dnsutils'."
+            exit 1
+        fi
+        
+        if ! command -v dig &> /dev/null; then
+            echo -e "${RED}[ERROR]${NC} Failed to install 'dig'. Please install manually with 'sudo apt-get install -y dnsutils'."
+            exit 1
+        fi
     fi
     
     echo -e "${GREEN}[SUCCESS]${NC} All dependencies are available\n"
