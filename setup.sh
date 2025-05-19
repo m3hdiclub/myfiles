@@ -59,6 +59,7 @@ chmod +x "$INSTALL_DIR/menu.sh" \
          "$INSTALL_DIR/s-ui.sh" \
          "$INSTALL_DIR/3x-ui.sh" \
          "$INSTALL_DIR/reality_ezpz.sh" \
+         "$INSTALL_DIR/speedtest.sh" \
          "$INSTALL_DIR/telegrambot.sh" \
          "$INSTALL_DIR/telegrambot_googledrive.sh" \
          "$INSTALL_DIR/telegrambot_qrcode.sh" \
@@ -68,13 +69,15 @@ chmod +x "$INSTALL_DIR/menu.sh" \
          "$INSTALL_DIR/telegrambot_backup.sh" || handle_error "Failed to set permissions"
 
 clear
-
 echo -e "${BLUE}Closing VPS Ping...${NC}"
 echo 1 > /proc/sys/net/ipv4/icmp_echo_ignore_all
-
 clear
+
+echo -e "${BLUE}Creating global menu command...${NC}"
+echo '#!/bin/bash' > /usr/local/bin/menu
+echo '/root/m3hdiclub/bash/menu.sh "$@"' >> /usr/local/bin/menu
+chmod +x /usr/local/bin/menu
 
 echo -e "${GREEN}Setup completed. Starting menu...${NC}"
 "$INSTALL_DIR/menu.sh" || handle_error "Failed to execute menu.sh"
-
 echo -e "${GREEN}Script completed successfully.${NC}"
