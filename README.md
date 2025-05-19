@@ -17,6 +17,11 @@ bash <(curl -Ls https://raw.githubusercontent.com/m3hdiclub/myfiles/master/setup
 bash <(curl -Ls https://bit.ly/m3hdiclubnew)
 ```
 
+**Check VPS**
+```
+curl -s https://raw.githubusercontent.com/m3hdiclub/myfiles/main/check-vps.sh | sudo bash
+```
+
 
 **Update**
 ```
