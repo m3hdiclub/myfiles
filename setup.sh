@@ -73,10 +73,10 @@ echo -e "${BLUE}Closing VPS Ping...${NC}"
 echo 1 > /proc/sys/net/ipv4/icmp_echo_ignore_all
 clear
 
-echo -e "${BLUE}Creating global menu command...${NC}"
-echo '#!/bin/bash' > /usr/local/bin/menu
-echo '/root/m3hdiclub/bash/menu.sh "$@"' >> /usr/local/bin/menu
-chmod +x /usr/local/bin/menu
+echo -e "${BLUE}Creating global m3hdiclub command...${NC}"
+echo '#!/bin/bash' > /usr/local/bin/m3hdiclub
+echo '/root/m3hdiclub/bash/menu.sh "$@"' >> /usr/local/bin/m3hdiclub
+chmod +x /usr/local/bin/m3hdiclub
 
 echo -e "${GREEN}Setup completed. Starting menu...${NC}"
 "$INSTALL_DIR/menu.sh" || handle_error "Failed to execute menu.sh"
