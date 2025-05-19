@@ -60,6 +60,7 @@ chmod +x "$INSTALL_DIR/menu.sh" \
          "$INSTALL_DIR/3x-ui.sh" \
          "$INSTALL_DIR/reality_ezpz.sh" \
          "$INSTALL_DIR/speedtest.sh" \
+         "$INSTALL_DIR/mtproxy.sh" \
          "$INSTALL_DIR/telegrambot.sh" \
          "$INSTALL_DIR/telegrambot_googledrive.sh" \
          "$INSTALL_DIR/telegrambot_qrcode.sh" \
