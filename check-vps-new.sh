@@ -9,7 +9,7 @@ BOLD='\033[1m'
 NC='\033[0m'
 
 echo -e "\n${CYAN}${BOLD}╔════════════════════════════════════════════════════════════════╗${NC}"
-echo -e "${CYAN}${BOLD}║           ADVANCED SERVICE AVAILABILITY CHECK            ║${NC}"
+echo -e "${CYAN}${BOLD}║           ADVANCED SERVICE AVAILABILITY CHECK          ║${NC}"
 echo -e "${CYAN}${BOLD}╚════════════════════════════════════════════════════════════════╝${NC}\n"
 
 if [ "$(id -u)" != "0" ]; then
@@ -186,7 +186,7 @@ check_service() {
             print_result "$name" "failed" ""
         fi
         return
-    elif [[ "$special" == "spotify" ]]; then
+    elif [[ "$special" == "spotify_premium" ]]; then
         local response=$(curl -s -m $timeout "$url" 2>&1)
         if [[ $? -eq 0 && "$response" =~ "$pattern" ]]; then
             local premium_response=$(curl -s -m $timeout "https://open.spotify.com/premium" 2>&1)
@@ -199,7 +199,15 @@ check_service() {
             print_result "$name" "failed" ""
         fi
         return
-    elif [[ "$special" == "youtube" ]]; then
+    elif [[ "$special" == "spotify_register" ]]; then
+        local response=$(curl -s -m $timeout "$url" 2>&1)
+        if [[ $? -eq 0 && "$response" =~ "$pattern" ]]; then
+            print_result "$name" "success" "(Registration page accessible)"
+        else
+            print_result "$name" "failed" ""
+        fi
+        return
+    elif [[ "$special" == "youtube_premium" ]]; then
         local response=$(curl -s -m $timeout "$url" 2>&1)
         if [[ $? -eq 0 && "$response" =~ "$pattern" ]]; then
             local premium_response=$(curl -s -m $timeout "https://www.youtube.com/premium" 2>&1)
@@ -208,6 +216,22 @@ check_service() {
             else
                 print_result "$name" "success" ""
             fi
+        else
+            print_result "$name" "failed" ""
+        fi
+        return
+    elif [[ "$special" == "instagram_music" ]]; then
+        local response=$(curl -s -m $timeout "$url" 2>&1)
+        if [[ $? -eq 0 && "$response" =~ "$pattern" ]]; then
+            print_result "$name" "success" "(Music content likely accessible)"
+        else
+            print_result "$name" "failed" ""
+        fi
+        return
+    elif [[ "$special" == "instagram_reels" ]]; then
+        local response=$(curl -s -m $timeout "$url" 2>&1)
+        if [[ $? -eq 0 && "$response" =~ "$pattern" ]]; then
+            print_result "$name" "success" "(Reels content likely accessible)"
         else
             print_result "$name" "failed" ""
         fi
@@ -240,17 +264,22 @@ check_ip_geo_info() {
     print_title "🛰 IP & Geo Info"
     local ip_json=$(curl -s http://ip-api.com/json)
     echo "$ip_json" | jq -r '
-      "IP Address         : \(.query)\n" +
-      "ISP                : \(.isp)\n" +
-      "Organization       : \(.org)\n" +
-      "AS Name            : \(.as)\n" +
-      "Country            : \(.country)\n" +
-      "Region             : \(.regionName)\n" +
-      "City               : \(.city)\n" +
-      "Latitude           : \(.lat)\n" +
-      "Longitude          : \(.lon)\n" +
-      "Timezone           : \(.timezone)\n"'
+      "IP Address           : \(.query)\n" +
+      "ISP                  : \(.isp)\n" +
+      "Organization         : \(.org)\n" +
+      "AS Name              : \(.as)\n" +
+      "Country              : \(.country)\n" +
+      "Region               : \(.regionName)\n" +
+      "City                 : \(.city)\n" +
+      "Latitude             : \(.lat)\n" +
+      "Longitude            : \(.lon)\n" +
+      "Timezone             : \(.timezone)\n"'
+    
+    if [[ "$ip_json" =~ "hosting" || "$ip_json" =~ "datacenter" || "$(echo "$ip_json" | jq -r '.isp')" =~ (VPN|Proxy|Cloud|Host|Data) ]]; then
+        echo -e "${YELLOW}[NOTICE]${NC} This appears to be a datacenter/VPN IP address"
+    fi
 }
+
 
 check_internet_connectivity() {
     print_title "🌐 Internet Connectivity"
@@ -359,46 +388,6 @@ test_network_performance() {
     fi
 }
 
-check_ip_info() {
-    echo -e "\n${CYAN}${BOLD}[ IP GEOLOCATION & NETWORK INFO ]${NC}"
-    
-    local services=(
-        "https://ipinfo.io"
-        "https://ifconfig.co/json"
-        "https://api.ipify.org?format=json"
-    )
-    
-    local ip_info=""
-    
-    for service in "${services[@]}"; do
-        ip_info=$(curl -s "$service")
-        if [[ $? -eq 0 && ! -z "$ip_info" && "$ip_info" =~ "ip" ]]; then
-            break
-        fi
-    done
-    
-    if [[ ! -z "$ip_info" ]]; then
-        local ip=$(echo "$ip_info" | jq -r '.ip // "Unknown"')
-        local country=$(echo "$ip_info" | jq -r '.country // .country_code // "Unknown"')
-        local region=$(echo "$ip_info" | jq -r '.region // .region_name // "Unknown"')
-        local city=$(echo "$ip_info" | jq -r '.city // "Unknown"')
-        local isp=$(echo "$ip_info" | jq -r '.org // .asn_org // "Unknown"')
-        local asn=$(echo "$ip_info" | jq -r '.asn // "Unknown"')
-        local timezone=$(echo "$ip_info" | jq -r '.timezone // "Unknown"')
-        
-        echo -e "${BLUE}[INFO]${NC} Current IP address: ${BOLD}$ip${NC}"
-        echo -e "${BLUE}[INFO]${NC} Geographic location: $city, $region, $country"
-        echo -e "${BLUE}[INFO]${NC} Network provider: $isp $asn"
-        echo -e "${BLUE}[INFO]${NC} Timezone: $timezone"
-        
-        if [[ "$ip_info" =~ "hosting" || "$ip_info" =~ "datacenter" || "$isp" =~ (VPN|Proxy|Cloud|Host|Data) ]]; then
-            echo -e "${YELLOW}[NOTICE]${NC} This appears to be a datacenter/VPN IP address"
-        fi
-    else
-        echo -e "${RED}[ERROR]${NC} Could not retrieve IP information"
-    fi
-}
-
 check_virtualization() {
     echo -e "\n${CYAN}${BOLD}[ SYSTEM ENVIRONMENT ]${NC}"
     
@@ -465,9 +454,11 @@ check_streaming_services() {
     echo -e "\n${CYAN}${BOLD}[ STREAMING SERVICES AVAILABILITY ]${NC}"
     
     check_service "Netflix" "https://www.netflix.com" "Netflix" "netflix"
-    check_service "YouTube" "https://www.youtube.com" "YouTube" "youtube"
-    check_service "YouTube Premium" "https://www.youtube.com/premium" "YouTube Premium"
-    check_service "Spotify" "https://open.spotify.com" "Spotify" "spotify"
+    check_service "YouTube" "https://www.youtube.com" "YouTube"
+    check_service "YouTube Premium" "https://www.youtube.com/premium" "YouTube Premium" "youtube_premium"
+    check_service "Spotify (Web)" "https://www.spotify.com" "Spotify"
+    check_service "Spotify (Register)" "https://www.spotify.com/signup" "Sign up for free" "spotify_register"
+    check_service "Spotify Premium" "https://www.spotify.com/premium" "Go Premium" "spotify_premium"
     check_service "Disney+" "https://www.disneyplus.com" "Disney+"
     check_service "Prime Video" "https://www.primevideo.com" "Prime Video"
     check_service "HBO Max" "https://www.hbomax.com" "HBO Max"
@@ -480,6 +471,8 @@ check_social_services() {
     echo -e "\n${CYAN}${BOLD}[ SOCIAL & COMMUNICATION SERVICES ]${NC}"
     
     check_service "Instagram" "https://www.instagram.com" "Instagram"
+    check_service "Instagram Music" "https://www.instagram.com/explore/tags/instamusic/" "Music" "instagram_music"
+    check_service "Instagram Reels" "https://www.instagram.com/reels/" "Reels" "instagram_reels"
     check_service "Facebook" "https://www.facebook.com" "Facebook"
     check_service "Twitter/X" "https://twitter.com" "Twitter"
     check_service "TikTok" "https://www.tiktok.com" "TikTok"
@@ -515,10 +508,9 @@ main() {
     echo -e "${BLUE}[INFO]${NC} Starting comprehensive service availability check\n"
     
     check_virtualization
-    check_ip_info
+    check_ip_geo_info
     test_network_performance
 
-    check_ip_geo_info
     check_internet_connectivity
     check_city_ping_status
     check_server_uptime
@@ -528,7 +520,7 @@ main() {
     check_productivity_services
     
     echo -e "\n${CYAN}${BOLD}╔════════════════════════════════════════════════════════════════╗${NC}"
-    echo -e "${CYAN}${BOLD}║                           CHECK COMPLETED                            ║${NC}"
+    echo -e "${CYAN}${BOLD}║                           CHECK COMPLETED                        ║${NC}"
     echo -e "${CYAN}${BOLD}╚════════════════════════════════════════════════════════════════╝${NC}\n"
 }
 
