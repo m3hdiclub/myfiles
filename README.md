@@ -21,6 +21,9 @@ bash <(curl -Ls https://bit.ly/m3hdiclubnew)
 ```
 curl -s https://raw.githubusercontent.com/m3hdiclub/myfiles/main/check-vps.sh | sudo bash
 ```
+```
+curl -s https://raw.githubusercontent.com/m3hdiclub/myfiles/main/check-vps-new.sh | sudo bash
+```
 **مشاهده نسخه ی ابونتو**
 ```
 lsb_release -a
