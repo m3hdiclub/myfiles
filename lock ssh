@@ -1,0 +1,6 @@
+Waiting for cache lock: Could not get lock /var/lib/dpkg/lock-frontend. It is held by process 59738 (apt) 
+
+
+ps -p 59738
+
+sudo kill -9 59738
