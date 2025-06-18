@@ -1,0 +1,13 @@
+[Unit]
+Description=My XUI Bot Service
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/python3 /root/m3hdiclub/telegrambot/xuibot.py
+Restart=always
+RestartSec=10
+User=root
+Group=root
+
+[Install]
+WantedBy=multi-user.target
