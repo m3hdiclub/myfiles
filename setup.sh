@@ -55,6 +55,7 @@ chmod +x "$INSTALL_DIR/menu.sh" \
          "$INSTALL_DIR/all.sh" \
          "$INSTALL_DIR/ufw.sh" \
          "$INSTALL_DIR/ssh.sh" \
+         "$INSTALL_DIR/change_hostname.sh" \
          "$INSTALL_DIR/dns.sh" \
          "$INSTALL_DIR/s-ui.sh" \
          "$INSTALL_DIR/3x-ui.sh" \
