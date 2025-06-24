@@ -32,12 +32,6 @@ if [ ! -d "$TELEGRAM_DIR" ]; then
     echo -e "${GREEN}Telegram bot directory created successfully.${NC}"
 fi
 
-echo -e "${BLUE}Updating the system...${NC}"
-apt update -y || handle_error "Failed to update the system"
-
-echo -e "${BLUE}Upgrading the system...${NC}"
-apt upgrade -y || handle_error "Failed to upgrade the system"
-
 echo -e "${BLUE}Installing required packages...${NC}"
 apt install curl sqlite3 unzip rar -y || handle_error "Failed to install required packages"
 
