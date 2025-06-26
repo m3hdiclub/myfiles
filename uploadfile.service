@@ -3,7 +3,7 @@ Description=My Upload File Service
 After=network.target
 
 [Service]
-ExecStart=/usr/bin/python3 /root/telegrambot/uploadfile.py
+ExecStart=/usr/bin/python3 /root/telegrambot/uploadfilebot.py
 Restart=always
 RestartSec=10
 User=root
