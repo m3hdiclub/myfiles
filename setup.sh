@@ -59,6 +59,7 @@ chmod +x "$INSTALL_DIR/menu.sh" \
          "$INSTALL_DIR/telegrambot.sh" \
          "$INSTALL_DIR/telegrambot_googledrive.sh" \
          "$INSTALL_DIR/telegrambot_qrcode.sh" \
+         "$INSTALL_DIR/telegrambot_uploadfilebot.sh" \
          "$INSTALL_DIR/telegrambot_maakbot.sh" \
          "$INSTALL_DIR/telegrambot_sui.sh" \
          "$INSTALL_DIR/telegrambot_xui.sh" \
