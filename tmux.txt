@@ -1,0 +1,15 @@
+apt install tmux
+
+tmux
+
+
+baraye biron omadan tmux:
+ctrl + B , bad D
+
+
+baraye bargashtan:
+tmux attach
+
+age chandta tmux bod baraye bargashtan:
+tmux ls
+tmux attach -t number
