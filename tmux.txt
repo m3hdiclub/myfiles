@@ -12,4 +12,9 @@ tmux attach
 
 age chandta tmux bod baraye bargashtan:
 tmux ls
+
 tmux attach -t number
+
+
+baraye bastan e tmux:
+exit
