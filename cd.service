@@ -1,9 +1,9 @@
 [Unit]
-Description=My Change Domain Service
+Description=My Cloudflare Manager Service
 After=network.target
 
 [Service]
-ExecStart=/usr/bin/python3 /root/telegrambot/cd.py
+ExecStart=/usr/bin/python3 /root/m3hdiclub/telegrambot/cdmanager.py
 Restart=always
 RestartSec=10
 User=root
