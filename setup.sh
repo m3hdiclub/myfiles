@@ -93,4 +93,5 @@ chmod +x /usr/local/bin/restart
 echo -e "${GREEN}Setup completed. Starting menu...${NC}"
 "$INSTALL_DIR/menu.sh" || handle_error "Failed to execute menu.sh"
 
+
 echo -e "${GREEN}Script completed successfully.${NC}"
