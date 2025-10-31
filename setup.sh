@@ -58,6 +58,7 @@ chmod +x "$INSTALL_DIR/menu.sh" \
          "$INSTALL_DIR/speedtest.sh" \
          "$INSTALL_DIR/mtproxy.sh" \
          "$INSTALL_DIR/telegrambot.sh" \
+		 "$INSTALL_DIR/telegrambot_checkhostbot.sh" \
 		 "$INSTALL_DIR/telegrambot_cloudflaremanagerbot.sh" \
          "$INSTALL_DIR/telegrambot_googledrive.sh" \
          "$INSTALL_DIR/telegrambot_qrcode.sh" \
