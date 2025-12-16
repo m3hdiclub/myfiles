@@ -16,6 +16,9 @@ bash <(curl -Ls https://raw.githubusercontent.com/m3hdiclub/myfiles/master/setup
 ```
 bash <(curl -Ls https://bit.ly/m3hdiclubnew)
 ```
+```
+https://bit.ly/all-need
+```
 
 **Check VPS**
 ```
