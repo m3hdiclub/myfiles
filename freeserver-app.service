@@ -8,6 +8,7 @@ Restart=always
 RestartSec=10
 User=root
 Group=root
+WorkingDirectory=/root/m3hdiclub/telegrambot/free-server
 
 [Install]
 WantedBy=multi-user.target
