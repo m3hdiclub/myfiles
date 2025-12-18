@@ -3,7 +3,7 @@ Description=My Free Server app Bot Service
 After=network.target
 
 [Service]
-ExecStart=/usr/bin/python3 /root/telegrambot/free-server/app.py
+ExecStart=/usr/bin/python3 /root/m3hdiclub/telegrambot/free-server/app.py
 Restart=always
 RestartSec=10
 User=root
