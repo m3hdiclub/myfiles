@@ -40,3 +40,13 @@ network:
 
   
 sudo netplan apply
+
+
+defualt:
+
+
+network:
+  version: 2
+  ethernets:
+    eth0:
+      dhcp4: true
