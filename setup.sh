@@ -72,6 +72,7 @@ chmod +x "$INSTALL_DIR/menu.sh" \
          "$INSTALL_DIR/telegrambot_serverdetail.sh" \
          "$INSTALL_DIR/telegrambot_allbot_sui.sh" \
          "$INSTALL_DIR/telegrambot_allbot_xui.sh" \
+		 "$INSTALL_DIR/telegrambot_backupvpsbot.sh" \
          "$INSTALL_DIR/telegrambot_backup.sh" || handle_error "Failed to set permissions"
 
 clear
