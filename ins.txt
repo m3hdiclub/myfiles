@@ -19,3 +19,5 @@ google-auth-httplib2
 python-crontab
 pycountry
 matplotlib
+arabic-reshaper
+python-bidi
